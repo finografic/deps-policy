@@ -1,4 +1,4 @@
-import type { DependencyGroup } from '../types.js'
+import type { DependencyGroup } from '../types.js';
 
 /**
  * Baseline devDependencies applied to every @finografic package,
@@ -31,4 +31,4 @@ export const base: DependencyGroup = {
     '@commitlint/cli': '^20.2.0',
     '@commitlint/config-conventional': '^20.2.0',
   },
-}
+};

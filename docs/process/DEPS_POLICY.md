@@ -66,12 +66,12 @@ devDependencies: {
 
 Decide which policy file owns it:
 
-| Applies to      | File               |
-| --------------- | ------------------ |
-| All packages    | `src/policy/base.ts`    |
-| CLI only        | `src/policy/cli.ts`     |
-| Library only    | `src/policy/library.ts` |
-| Config only     | `src/policy/config.ts`  |
+| Applies to   | File                    |
+| ------------ | ----------------------- |
+| All packages | `src/policy/base.ts`    |
+| CLI only     | `src/policy/cli.ts`     |
+| Library only | `src/policy/library.ts` |
+| Config only  | `src/policy/config.ts`  |
 
 Add the entry, build, commit, release.
 
@@ -82,14 +82,14 @@ Then in `genx`, add a matching entry to `src/config/dependencies.rules.ts` refer
 ## ## Consuming the policy (for reference)
 
 ```ts
-import { policy, resolvePolicy } from '@finografic/deps-policy'
+import { policy, resolvePolicy } from '@finografic/deps-policy';
 
 // Full policy object
-policy.base.devDependencies['typescript']   // '^5.9.3'
-policy.cli.dependencies['picocolors']       // '^1.1.1'
+policy.base.devDependencies['typescript']; // '^5.9.3'
+policy.cli.dependencies['picocolors']; // '^1.1.1'
 
 // Merged effective policy for a given package type
-const effective = resolvePolicy('cli')
+const effective = resolvePolicy('cli');
 // → { dependencies: { picocolors }, devDependencies: { ...base, ...cli.devDeps } }
 ```
 
@@ -97,7 +97,7 @@ const effective = resolvePolicy('cli')
 
 ## ## Related documentation
 
-| Doc                                                 | Purpose                              |
-| --------------------------------------------------- | ------------------------------------ |
-| [Release Process](./RELEASE_PROCESS.md)             | Versioning and publishing            |
-| [GitHub Packages Setup](./GITHUB_PACKAGES_SETUP.md) | Registry and token setup             |
+| Doc                                                 | Purpose                   |
+| --------------------------------------------------- | ------------------------- |
+| [Release Process](./RELEASE_PROCESS.md)             | Versioning and publishing |
+| [GitHub Packages Setup](./GITHUB_PACKAGES_SETUP.md) | Registry and token setup  |

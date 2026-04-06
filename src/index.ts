@@ -1,18 +1,19 @@
-import { base } from './policy/base.js'
-import { cli } from './policy/cli.js'
-import { config } from './policy/config.js'
-import { library } from './policy/library.js'
-import type { DependencyGroup, DependencyPolicy, PackageType } from './types.js'
+import type { DependencyGroup, DependencyPolicy, PackageType } from './types.js';
 
-export type { DependencyGroup, DependencyPolicy, PackageType } from './types.js'
-export { base, cli, config, library } from './policy/index.js'
+import { base } from './policy/base.js';
+import { cli } from './policy/cli.js';
+import { config } from './policy/config.js';
+import { library } from './policy/library.js';
+
+export type { DependencyGroup, DependencyPolicy, PackageType } from './types.js';
+export { base, cli, config, library } from './policy/index.js';
 
 export const policy: DependencyPolicy = {
   base,
   cli,
   library,
   config,
-}
+};
 
 /**
  * Merge `policy.base` with the type-specific policy to produce the effective
@@ -25,7 +26,7 @@ export const policy: DependencyPolicy = {
  * ```
  */
 export function resolvePolicy(type: PackageType): DependencyGroup {
-  const typePolicy = policy[type]
+  const typePolicy = policy[type];
   return {
     dependencies: {
       ...policy.base.dependencies,
@@ -39,5 +40,5 @@ export function resolvePolicy(type: PackageType): DependencyGroup {
       ...policy.base.peerDependencies,
       ...typePolicy.peerDependencies,
     },
-  }
+  };
 }

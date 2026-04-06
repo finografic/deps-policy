@@ -42,3 +42,5 @@ jobs:
 
       - name: Format check
         run: pnpm format:check
+      - name: Format check
+        run: pnpm format.check

@@ -1,4 +1,4 @@
-import type { DependencyGroup } from '../types.js'
+import type { DependencyGroup } from '../types.js';
 
 /** Additional deps for `genx:type:library` packages. */
-export const library: DependencyGroup = {}
+export const library: DependencyGroup = {};
