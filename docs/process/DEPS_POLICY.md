@@ -5,7 +5,7 @@ Edit versions here. Consumers (e.g. `genx`) pick them up automatically on the ne
 
 ---
 
-## ## Getting started
+## Getting started
 
 ### Prerequisites
 
@@ -21,7 +21,7 @@ pnpm build
 
 ---
 
-## ## Policy structure
+## Policy structure
 
 ```
 src/
@@ -42,7 +42,7 @@ src/
 
 ---
 
-## ## Ongoing: updating a version
+## Ongoing: updating a version
 
 1. Edit the version string in `src/policy/base.ts` (or the relevant type file).
 2. Run `pnpm build && pnpm typecheck` — must pass clean.
@@ -62,7 +62,7 @@ devDependencies: {
 
 ---
 
-## ## Ongoing: adding a package to the policy
+## Ongoing: adding a package to the policy
 
 Decide which policy file owns it:
 
@@ -79,7 +79,7 @@ Then in `genx`, add a matching entry to `src/config/dependencies.rules.ts` refer
 
 ---
 
-## ## Consuming the policy (for reference)
+## Consuming the policy (for reference)
 
 ```ts
 import { policy, resolvePolicy } from '@finografic/deps-policy';
@@ -95,7 +95,7 @@ const effective = resolvePolicy('cli');
 
 ---
 
-## ## Related documentation
+## Related documentation
 
 | Doc                                                 | Purpose                   |
 | --------------------------------------------------- | ------------------------- |
