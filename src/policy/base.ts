@@ -2,7 +2,7 @@ import type { DependencyGroup } from '../types.js';
 
 const build: Record<string, string> = {
   'typescript': '^5.9.3',
-  'tsdown': '^0.20.3',
+  'tsdown': '^0.21.7',
   '@types/node': '^24.0.0',
 };
 
