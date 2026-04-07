@@ -28,7 +28,7 @@ const formatting: Record<string, string> = {
 };
 
 const hooks: Record<string, string> = {
-  'simple-git-hooks': '^2.13.1',
+  husky: '^9.1.7',
   'lint-staged': '^16.2.7',
   '@commitlint/cli': '^20.2.0',
   '@commitlint/config-conventional': '^20.2.0',
