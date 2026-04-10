@@ -64,12 +64,10 @@ pnpm lint
 
 ## Documentation
 
-| Doc                                                                | Purpose                   |
-| ------------------------------------------------------------------ | ------------------------- |
-| [Dependency Policy Authoring Guide](./docs/process/DEPS_POLICY.md) | How to update the policy  |
-| [Release Process](./docs/process/RELEASE_PROCESS.md)               | Versioning and publishing |
-| [GitHub Packages Setup](./docs/process/GITHUB_PACKAGES_SETUP.md)   | Registry and token setup  |
-| [Developer Workflow](./docs/process/DEVELOPER_WORKFLOW.md)         | Day-to-day workflow       |
+| Doc                                            | Purpose                                           |
+| ---------------------------------------------- | ------------------------------------------------- |
+| [Manual](./docs/MANUAL.md)                     | Full reference: authoring, updater, release, auth |
+| [Updater Plan](./docs/process/UPDATER_PLAN.md) | Design doc for the `policy:*` updater scripts     |
 
 ## License
 

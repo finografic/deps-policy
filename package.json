@@ -72,12 +72,17 @@
     "update:oxfmt-config": "pnpm update @finografic/oxfmt-config --latest && pnpm update oxfmt --latest",
     "update:project-scripts": "pnpm update @finografic/project-scripts --latest",
     "upgrade:deps:all": "pnpm update --latest",
+    "·········· POLICY UPDATER": "············································",
+    "policy:outdated": "tsx src/updater/index.ts outdated",
+    "policy:update": "tsx src/updater/index.ts update",
+    "policy:audit": "tsx src/updater/index.ts audit",
     "·········· UTILS": "·····················································",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
+    "@clack/prompts": "^1.2.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^9.39.2",
@@ -92,8 +97,10 @@
     "globals": "^17.4.0",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.44.0",
+    "picocolors": "^1.1.1",
     "simple-git-hooks": "^2.13.1",
     "tsdown": "^0.21.7",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.0"
   },

@@ -2,9 +2,9 @@ import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: {
-    index: 'src/index.ts',
+    'index': 'src/index.ts',
     'policy/index': 'src/policy/index.ts',
-    types: 'src/types.ts',
+    'types': 'src/types.ts',
   },
   format: ['esm'],
   dts: true,
