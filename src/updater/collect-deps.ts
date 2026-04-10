@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises';
-import { basename, dirname, resolve } from 'node:path';
+import { basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { DepEntry, DepKind } from './updater.types.js';
+import type { DependencyKind } from '../types.js';
+
+import type { DepEntry } from './types/deps.types.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const POLICY_DIR = resolve(__dirname, '../policy');
@@ -37,13 +39,13 @@ function extractGroupBlocks(src: string): Map<string, Map<string, string>> {
   return groups;
 }
 
-// Returns Map<groupName, DepKind> — derived from spreads inside depKind sections
-function extractGroupKinds(src: string): Map<string, DepKind> {
-  const kindMap = new Map<string, DepKind>();
+// Returns Map<groupName, DependencyKind> — derived from spreads inside depKind sections
+function extractGroupKinds(src: string): Map<string, DependencyKind> {
+  const kindMap = new Map<string, DependencyKind>();
   const sectionRe = /\b(dependencies|devDependencies|peerDependencies)\s*:\s*\{([^}]+)\}/g;
   let m: RegExpExecArray | null;
   while ((m = sectionRe.exec(src)) !== null) {
-    const kind = m[1] as DepKind;
+    const kind = m[1] as DependencyKind;
     const spreadRe = /\.\.\.([\w]+)/g;
     let s: RegExpExecArray | null;
     while ((s = spreadRe.exec(m[2]!)) !== null) {
@@ -58,12 +60,12 @@ function extractInlineEntries(
   src: string,
   capturedNames: Set<string>,
   fallbackGroup: string,
-): Array<{ name: string; version: string; depKind: DepKind }> {
-  const inline: Array<{ name: string; version: string; depKind: DepKind }> = [];
+): Array<{ name: string; version: string; depKind: DependencyKind }> {
+  const inline: Array<{ name: string; version: string; depKind: DependencyKind }> = [];
   const sectionRe = /\b(dependencies|devDependencies|peerDependencies)\s*:\s*\{([^}]+)\}/g;
   let m: RegExpExecArray | null;
   while ((m = sectionRe.exec(src)) !== null) {
-    const kind = m[1] as DepKind;
+    const kind = m[1] as DependencyKind;
     const content = m[2]!;
     const lineRe = /^\s*(?:['"]([^'"]+)['"]|([a-z_$][\w$]*))\s*:\s*['"]([^'"]+)['"]/gm;
     let p: RegExpExecArray | null;
@@ -136,9 +138,4 @@ export async function collectDeps(): Promise<DepEntry[]> {
   }
 
   return all;
-}
-
-export function relPath(absPath: string): string {
-  const root = resolve(dirname(__dirname), '..');
-  return absPath.replace(root + '/', '');
 }

@@ -1,7 +1,9 @@
-import type { AuditEntry, DepEntry, OsvVulnerability } from './updater.types.js';
+import type { OsvVulnerability } from '../../types/audit.types.js';
+import type { AuditEntry } from '../../types/audit.types.js';
+import type { DepEntry } from '../../types/deps.types.js';
 
-const OSV_BATCH_URL = 'https://api.osv.dev/v1/querybatch';
-const BATCH_SIZE = 50; // OSV supports up to 1000 queries per batch
+import { OSV_BATCH_URL } from './audit.constants.js';
+import { BATCH_SIZE } from './audit.constants.js';
 
 interface OsvQuery {
   package: { name: string; ecosystem: 'npm' };
@@ -42,17 +44,4 @@ export async function auditDeps(entries: DepEntry[]): Promise<AuditEntry[]> {
   }
 
   return results;
-}
-
-export function severityRank(vuln: OsvVulnerability): number {
-  const scoreStr = vuln.severity?.find((s) => s.type === 'CVSS_V3')?.score ?? '';
-  const score = parseFloat(scoreStr.split('/')[0]?.replace(/[^0-9.]/g, '') ?? '0');
-  if (score >= 9) return 4; // critical
-  if (score >= 7) return 3; // high
-  if (score >= 4) return 2; // moderate
-  return 1; // low
-}
-
-export function severityLabel(rank: number): string {
-  return ['', 'low', 'moderate', 'high', 'critical'][rank] ?? 'low';
 }

@@ -35,8 +35,8 @@
       "default": "./dist/index.mjs"
     },
     "./policy": {
-      "types": "./dist/policy/index.d.mts",
-      "default": "./dist/policy/index.mjs"
+      "types": "./dist/policy/cli.d.mts",
+      "default": "./dist/policy/cli.mjs"
     },
     "./types": {
       "types": "./dist/types.d.mts",
@@ -73,9 +73,9 @@
     "update:project-scripts": "pnpm update @finografic/project-scripts --latest",
     "upgrade:deps:all": "pnpm update --latest",
     "·········· POLICY UPDATER": "············································",
-    "policy:outdated": "tsx src/updater/index.ts outdated",
-    "policy:update": "tsx src/updater/index.ts update",
-    "policy:audit": "tsx src/updater/index.ts audit",
+    "policy:outdated": "tsx src/updater/cli.ts outdated",
+    "policy:update": "tsx src/updater/cli.ts update",
+    "policy:audit": "tsx src/updater/cli.ts audit",
     "·········· UTILS": "·····················································",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",

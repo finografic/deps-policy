@@ -16,12 +16,13 @@ export const policy: DependencyPolicy = {
 };
 
 /**
- * Merge `policy.base` with the type-specific policy to produce the effective
- * set of dependencies for a given package type.
+ * Merge `policy.base` with the type-specific policy to produce the effective set of dependencies for a given
+ * package type.
  *
- * genx usage:
+ * Genx usage:
+ *
  * ```ts
- * const effective = resolvePolicy('cli')
+ * const effective = resolvePolicy('cli');
  * // apply effective.dependencies + effective.devDependencies to package.json
  * ```
  */

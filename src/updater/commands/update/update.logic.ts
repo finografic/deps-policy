@@ -5,7 +5,7 @@ export interface PatchResult {
   count: number;
 }
 
-export async function patchVersionInFile(
+export async function applyVersionPatch(
   filePath: string,
   name: string,
   newVersion: string,
@@ -37,7 +37,7 @@ export async function applyPatches(
   const counts = new Map<string, number>();
 
   for (const { filePath, name, newVersion } of patches) {
-    const changed = await patchVersionInFile(filePath, name, newVersion);
+    const changed = await applyVersionPatch(filePath, name, newVersion);
     if (changed) counts.set(filePath, (counts.get(filePath) ?? 0) + 1);
   }
 

@@ -10,6 +10,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "paths": {
+      "policy/*": ["./src/policy/*"],
+      "updater/commands": ["./src/updater/commands/index.ts"],
+      "updater/commands/*": ["./src/updater/commands/*"],
+      "types/*": ["./src/types/*"]
+    },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true

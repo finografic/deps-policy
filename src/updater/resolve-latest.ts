@@ -1,11 +1,11 @@
-import type { DepEntry, DepEntryWithLatest } from './updater.types.js';
+import type { DepEntry, DepEntryWithLatest } from './types/deps.types.js';
 
 const NPM_REGISTRY = 'https://registry.npmjs.org';
 const GH_REGISTRY = 'https://npm.pkg.github.com';
 const CONCURRENCY = 10;
 const TIMEOUT_MS = 10_000;
 
-function semverIsNewer(latest: string, bare: string): boolean {
+function isVersionNewer(latest: string, bare: string): boolean {
   const toTuple = (v: string): number[] => v.split('.').map(Number);
   const a = toTuple(latest);
   const b = toTuple(bare);
@@ -57,11 +57,11 @@ async function batchProcess<T, R>(items: T[], fn: (item: T) => Promise<R>, size:
   return results;
 }
 
-export async function fetchLatestVersions(entries: DepEntry[]): Promise<DepEntryWithLatest[]> {
+export async function resolveLatestVersions(entries: DepEntry[]): Promise<DepEntryWithLatest[]> {
   const latests = await batchProcess(entries, (e) => fetchLatest(e.name), CONCURRENCY);
   return entries.map((entry, i) => {
     const latest = latests[i] ?? null;
-    const outdated = latest !== null && semverIsNewer(latest, entry.bare);
+    const outdated = latest !== null && isVersionNewer(latest, entry.bare);
     return { ...entry, latest, outdated, pinned: entry.prefix === '' };
   });
 }

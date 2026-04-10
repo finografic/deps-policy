@@ -4,6 +4,8 @@ export interface DependencyGroup {
   peerDependencies?: Record<string, string>;
 }
 
+export type DependencyKind = keyof DependencyGroup;
+
 /** The package types recognised by the @finografic ecosystem. */
 export type PackageType = 'cli' | 'library' | 'config';
 
