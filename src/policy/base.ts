@@ -24,7 +24,7 @@ const eslint: Record<string, string> = {
 
 const formatting: Record<string, string> = {
   'oxfmt': '^0.43.0',
-  '@finografic/oxfmt-config': '^1.0.3',
+  '@finografic/oxfmt-config': '^1.5.0',
 };
 
 const hooks: Record<string, string> = {
