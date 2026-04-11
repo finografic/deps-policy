@@ -1,5 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
+export type PatchInput = { filePath: string; name: string; newVersion: string };
+
 export interface PatchResult {
   filePath: string;
   count: number;
@@ -31,9 +33,7 @@ export async function applyVersionPatch(
   return true;
 }
 
-export async function applyPatches(
-  patches: Array<{ filePath: string; name: string; newVersion: string }>,
-): Promise<PatchResult[]> {
+export async function applyPatches(patches: PatchInput[]): Promise<PatchResult[]> {
   const counts = new Map<string, number>();
 
   for (const { filePath, name, newVersion } of patches) {

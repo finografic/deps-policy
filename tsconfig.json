@@ -12,8 +12,9 @@
     "rootDir": "./src",
     "paths": {
       "policy/*": ["./src/policy/*"],
-      "updater/commands": ["./src/updater/commands/index.ts"],
-      "updater/commands/*": ["./src/updater/commands/*"],
+      "deps-cli/*": ["./src/deps-cli/*"],
+      "deps-cli/commands": ["./src/deps-cli/commands/index.ts"],
+      "deps-cli/commands/*": ["./src/deps-cli/commands/*"],
       "types/*": ["./src/types/*"]
     },
     "esModuleInterop": true,

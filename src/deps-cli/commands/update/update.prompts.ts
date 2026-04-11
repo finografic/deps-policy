@@ -1,38 +1,15 @@
 import * as clack from '@clack/prompts';
+import { createRangeSelectOptions } from 'deps-cli/prompts/select-packages.prompt.js';
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from '../../types/deps.types.js';
+import type { PatchInput } from './update.logic.js';
+import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
 
-import { collectDeps } from '../../collect-deps.js';
-import { printOutdated } from '../../output/outdated.output.js';
-import { createRangeSelectOptions } from '../../prompts/select-packages.prompt.js';
-import { resolveLatestVersions } from '../../resolve-latest.js';
-import { toProjectRelativePath } from '../../utils/path.utils.js';
-import { applyPatches } from './update.logic.js';
-
-export async function runUpdate(): Promise<void> {
-  clack.intro(pc.bold('deps-policy › update'));
-
-  const spin = clack.spinner();
-  spin.start('Collecting policy packages…');
-
-  const deps = await collectDeps();
-  spin.message(`Fetching latest from npm registry… (${deps.length} packages)`);
-
-  const entries = await resolveLatestVersions(deps);
-  const outdatedCount = entries.filter((e) => e.outdated).length;
-  spin.stop(`${outdatedCount} of ${entries.length} packages outdated`);
-
-  if (outdatedCount === 0) {
-    clack.outro(pc.green('All packages are up to date.'));
-    return;
-  }
-
-  printOutdated(entries);
+export async function selectUpdatePatches(entries: DepEntryWithLatest[]): Promise<PatchInput[]> {
+  const patches: PatchInput[] = [];
 
   // ─ Batch: range-prefixed outdated packages ─────────────────────────────────
 
   const rangeOptions = createRangeSelectOptions(entries);
-  const patches: Array<{ filePath: string; name: string; newVersion: string }> = [];
 
   if (rangeOptions.length > 0) {
     const selected = await clack.multiselect<DepEntryWithLatest>({
@@ -58,6 +35,7 @@ export async function runUpdate(): Promise<void> {
   // ─ Individual: pinned outdated packages ────────────────────────────────────
 
   const pinnedOutdated = entries.filter((e) => e.outdated && e.pinned);
+
   for (const entry of pinnedOutdated) {
     const choice = await clack.select<string>({
       message: `${pc.bold(entry.name)} is pinned at ${pc.dim(entry.bare)} — latest is ${pc.green(entry.latest!)}. Update?`,
@@ -85,20 +63,5 @@ export async function runUpdate(): Promise<void> {
     }
   }
 
-  if (patches.length === 0) {
-    clack.outro('No changes applied.');
-    return;
-  }
-
-  // ─ Apply patches ───────────────────────────────────────────────────────────
-
-  const results = await applyPatches(patches);
-  for (const { filePath, count } of results) {
-    clack.log.success(
-      `Patched ${toProjectRelativePath(filePath)} (${count} change${count === 1 ? '' : 's'})`,
-    );
-  }
-
-  const names = patches.map((p) => p.name).join(', ');
-  clack.outro(`Suggested commit: ${pc.dim(`deps: bump ${names}`)}`);
+  return patches;
 }

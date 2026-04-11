@@ -1,9 +1,8 @@
 import * as clack from '@clack/prompts';
+import { collectDeps } from 'deps-cli/collect-deps.js';
+import { printOutdated } from 'deps-cli/output/outdated.output.js';
+import { resolveLatestVersions } from 'deps-cli/resolve-latest.js';
 import pc from 'picocolors';
-
-import { collectDeps } from '../../collect-deps.js';
-import { printOutdated } from '../../output/outdated.output.js';
-import { resolveLatestVersions } from '../../resolve-latest.js';
 
 export async function runOutdated(): Promise<void> {
   clack.intro(pc.bold('deps-policy › outdated'));

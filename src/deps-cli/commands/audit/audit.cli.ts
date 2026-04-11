@@ -1,8 +1,8 @@
 import * as clack from '@clack/prompts';
+import { collectDeps } from 'deps-cli/collect-deps.js';
+import { printAudit } from 'deps-cli/output/audit.output.js';
 import pc from 'picocolors';
 
-import { collectDeps } from '../../collect-deps.js';
-import { printAudit } from '../../output/audit.output.js';
 import { auditDeps } from './audit.logic.js';
 
 export async function runAudit(): Promise<void> {
