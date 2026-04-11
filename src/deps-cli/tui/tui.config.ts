@@ -1,7 +1,34 @@
 /**
- * Minimum column widths — used as floor values when computing from live data.
+ * TUI layout constants — adjust here to tune column widths and padding across the outdated table and the
+ * multiselect update prompt.
  */
 export const TUI_DEFAULTS = {
-  name: { min: 28 },
-  version: { min: 8 },
+  name: {
+    /**
+     * Minimum name-column width (chars) when the live data is narrower.
+     */
+    min: 28,
+    /**
+     * Extra padding added to the longest name in the outdated table.
+     */
+    extraPad: 6,
+  },
+  version: {
+    /**
+     * Minimum version-column width (chars) when the live data is narrower.
+     */
+    min: 8,
+    /**
+     * Extra padding added to the longest version string.
+     */
+    extraPad: 1,
+  },
+  multiselect: {
+    /**
+     * Extra padding added to the longest name among the selectable rows. Sized independently from the table
+     * so the column fits the visible subset. Increase to push version numbers further right; decrease to pull
+     * them left.
+     */
+    nameExtraPad: 2,
+  },
 } as const;

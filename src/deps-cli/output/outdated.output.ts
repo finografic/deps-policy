@@ -2,7 +2,13 @@ import { basename } from 'node:path';
 import pc from 'picocolors';
 import type { DepEntryWithLatest } from '../types/deps.types.js';
 
-import { computeNameWidth, computeVersionWidth, createDivider, padRight } from '../tui/format.tui.js';
+import {
+  computeNameWidth,
+  computeVersionWidth,
+  createDivider,
+  padLeft,
+  padRight,
+} from '../tui/format.tui.js';
 
 // ─── Grouping ────────────────────────────────────────────────────────────────
 
@@ -33,15 +39,19 @@ function renderOutdatedEntry(e: DepEntryWithLatest, col: ColWidths): string {
   const name = padRight(e.name, col.name);
 
   if (e.latest === null) {
-    return `  ${pc.dim(name)}${padRight(e.current, col.version)}  ${pc.dim('(private)')}`;
+    return `  ${pc.dim(name)}${padLeft(e.current, col.version)}  ${pc.dim('(private)')}`;
   }
 
   if (!e.outdated) {
-    return `  ${pc.dim(name)}${pc.dim(padRight(e.current, col.version))}  ${pc.dim('✓')}`;
+    return `  ${pc.dim(name)}${pc.dim(padLeft(e.current, col.version))}  ${pc.dim('✓')}`;
   }
 
   const next = `${e.prefix}${e.latest}`;
-  const arrow = `${pc.dim(padRight(e.current, col.version))}  ${pc.dim('→')}  ${pc.green(padRight(next, col.version))}`;
+
+  const current = padLeft(e.current, col.version);
+  const nextAligned = padLeft(next, col.version);
+
+  const arrow = `${pc.dim(current)}  ${pc.dim('→')}${pc.green(nextAligned)}`;
   const tag = e.pinned ? pc.yellow('  ✦ pinned') : pc.yellow('  ✦');
 
   return `  ${pc.bold(name)}${arrow}${tag}`;
@@ -66,7 +76,7 @@ export function printOutdated(entries: DepEntryWithLatest[]): void {
     name: computeNameWidth(entries),
     version: computeVersionWidth(entries),
   };
-  const tableWidth = col.name + col.version * 2 + 10;
+  const tableWidth = col.name + col.version * 2 + 14;
 
   for (const { sourceFile, groups } of groupByFile(entries)) {
     const hasOutdated = [...groups.values()].flat().some((e) => e.outdated);
@@ -78,8 +88,8 @@ export function printOutdated(entries: DepEntryWithLatest[]): void {
       const groupHasOutdated = groupEntries.some((e) => e.outdated);
       if (!groupHasOutdated) continue;
 
-      console.log(`    ${pc.dim(groupName)}`);
-      console.log(createDivider(tableWidth));
+      console.log(`  ${pc.dim(pc.cyan(groupName))}`);
+      console.log(pc.cyan(createDivider(tableWidth)));
       for (const e of groupEntries) {
         console.log(renderOutdatedEntry(e, col));
       }
