@@ -14,7 +14,7 @@ const eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '^9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  'eslint-plugin-markdownlint': '^0.9.0',
+  '@finografic/md-lint': '^0.4.3',
   '@stylistic/eslint-plugin': '^5.6.1',
   '@typescript-eslint/eslint-plugin': '^8.51.0',
   '@typescript-eslint/parser': '^8.51.0',
