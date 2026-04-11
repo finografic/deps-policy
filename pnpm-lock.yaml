@@ -24,8 +24,8 @@ importers:
         specifier: ^9.18.4
         version: 9.18.4(@eslint-react/eslint-plugin@1.53.1(eslint@9.39.2(jiti@2.6.1))(ts-api-utils@2.5.0(typescript@5.9.3))(typescript@5.9.3))(@prettier/plugin-xml@3.4.2(prettier@3.8.2))(@types/node@24.0.0)(@typescript-eslint/parser@8.58.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/rule-tester@8.58.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.58.1(typescript@5.9.3))(@unocss/eslint-plugin@66.6.7(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.32)(astro-eslint-parser@1.4.0)(eslint-import-resolver-node@0.3.10)(eslint-plugin-astro@1.6.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-format@2.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-hooks@5.2.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-vuejs-accessibility@2.5.0(eslint@9.39.2(jiti@2.6.1))(globals@17.4.0))(eslint@9.39.2(jiti@2.6.1))(prettier-plugin-astro@0.14.1)(typescript@5.9.3)
       '@finografic/oxfmt-config':
-        specifier: ^1.5.0
-        version: 1.5.0(oxfmt@0.44.0)
+        specifier: ^1.7.3
+        version: 1.7.3(oxfmt@0.44.0)
       '@stylistic/eslint-plugin':
         specifier: ^5.6.1
         version: 5.10.0(eslint@9.39.2(jiti@2.6.1))
@@ -559,8 +559,8 @@ packages:
       prettier-plugin-astro:
         optional: true
 
-  '@finografic/oxfmt-config@1.5.0':
-    resolution: {integrity: sha512-oh0JcsA56jg2dR+pRaEqRi/VChAIa1f9lqc3Gzm6xvqzr0Mj+kxfalXrQcjJUXZnUhY9c9y5MNhMezJN/Hm48w==, tarball: https://npm.pkg.github.com/download/@finografic/oxfmt-config/1.5.0/4780317c1c2ebabdbc71ee0676238fe036e56353}
+  '@finografic/oxfmt-config@1.7.3':
+    resolution: {integrity: sha512-VOwG/tmBxMCdbkeMjBIXJD3IbftaWt46MM0eY/OdBfyXykl7n1bKLmtKDGp/N3lOVR/rPc/XeRzYllGPTfY0gA==, tarball: https://npm.pkg.github.com/download/@finografic/oxfmt-config/1.7.3/dcdd901c8829205585e103e7337983847d999181}
     peerDependencies:
       oxfmt: '>=0.41.0'
 
@@ -4424,7 +4424,7 @@ snapshots:
       - typescript
       - vitest
 
-  '@finografic/oxfmt-config@1.5.0(oxfmt@0.44.0)':
+  '@finografic/oxfmt-config@1.7.3(oxfmt@0.44.0)':
     dependencies:
       oxfmt: 0.44.0
 

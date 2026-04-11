@@ -6,7 +6,9 @@ export interface DependencyGroup {
 
 export type DependencyKind = keyof DependencyGroup;
 
-/** The package types recognised by the @finografic ecosystem. */
+/**
+ * The package types recognised by the @finografic ecosystem.
+ */
 export type PackageType = 'cli' | 'library' | 'config';
 
 export interface DependencyPolicy {

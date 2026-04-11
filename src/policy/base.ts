@@ -39,8 +39,7 @@ const ecosystem: Record<string, string> = {
 };
 
 /**
- * Baseline devDependencies applied to every @finografic package,
- * regardless of type.
+ * Baseline devDependencies applied to every @finografic package, regardless of type.
  */
 export const base: DependencyGroup = {
   devDependencies: {

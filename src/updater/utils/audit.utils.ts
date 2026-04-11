@@ -9,6 +9,7 @@ export function severityRank(vuln: OsvVulnerability): number {
   return 1; // low
 }
 
+// TODO: move to a constants file ??
 export function severityLabel(rank: number): string {
   return ['', 'low', 'moderate', 'high', 'critical'][rank] ?? 'low';
 }
