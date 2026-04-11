@@ -79,7 +79,7 @@
     "·········· UTILS": "·····················································",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "prepare": "husky"
   },
   "devDependencies": {
     "@clack/core": "1.2.0",
@@ -96,10 +96,10 @@
     "eslint": "9.39.2",
     "eslint-plugin-markdownlint": "^0.9.0",
     "globals": "^17.4.0",
+    "husky": "latest",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.44.0",
     "picocolors": "^1.1.1",
-    "simple-git-hooks": "^2.13.1",
     "tsdown": "^0.21.7",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
@@ -121,13 +121,5 @@
     "*.{json,jsonc,md,yml,yaml,toml}": [
       "oxfmt --no-error-on-unmatched-pattern"
     ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged --allow-empty"
   }
 }
