@@ -1,8 +1,9 @@
 import * as clack from '@clack/prompts';
-import { createRangeSelectOptions } from 'deps-cli/prompts/select-packages.prompt.js';
 import pc from 'picocolors';
 import type { PatchInput } from './update.logic.js';
 import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
+
+import { createRangeSelectOptions } from './update.options.js';
 
 export async function selectUpdatePatches(entries: DepEntryWithLatest[]): Promise<PatchInput[]> {
   const patches: PatchInput[] = [];
