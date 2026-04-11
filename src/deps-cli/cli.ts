@@ -12,7 +12,7 @@ import { cliHelp } from './cli.help.js';
 const require = createRequire(import.meta.url);
 const { version } = require('../../package.json') as { version: string };
 
-// Load .env (NPM_TOKEN for GitHub Packages auth)
+// Load .env (NPM_TOKEN for @finografic packages auth)
 try {
   process.loadEnvFile('.env');
 } catch {

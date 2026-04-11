@@ -5,16 +5,11 @@ import { printOutdated } from 'deps-cli/output/outdated.output.js';
 import { resolveLatestVersions } from 'deps-cli/resolve-latest.js';
 import pc from 'picocolors';
 
+import { help } from './outdated.help.js';
+
 export async function runOutdated(argv: string[] = []): Promise<void> {
   if (argv.includes('--help') || argv.includes('-h')) {
-    renderCommandHelp({
-      command: 'policy outdated',
-      description: 'Show which policy packages have newer versions available',
-      usage: 'policy outdated',
-      examples: [
-        { command: 'policy outdated', description: 'List all outdated packages across policy files' },
-      ],
-    });
+    renderCommandHelp(help);
     return;
   }
 
