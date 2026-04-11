@@ -58,8 +58,8 @@ coverage/
 *.tmp.*
 
 # OS
-.DS_Store
-Thumbs.db
+**/.DS_Store
+**/.Thumbs.db
 Icon?
 ehthumbs.db
 Desktop.ini
