@@ -1,10 +1,8 @@
 @AGENTS.md
 
-# Claude-specific Instructions
+## Rules — Claude
 
-## Project-Specific
-
-- When adding a command, update the `commands` array in `src/gli.help.ts` and add a matching entry to the `EXAMPLES` section.
+- IMPORTANT: NEVER include `Co-Authored-By` lines in commit messages. Not ever, not for any reason.
 
 ## Session Memory
 
@@ -23,3 +21,19 @@ Update the checklist as work progresses (check off items, add new ones if scope 
 **On session end (or after significant work):** Collapse the `## Current Session` block into a normal `## <date>` entry (a 2-4 line summary), and move it below the previous sessions. Keep only the **last 5 session entries** (delete older ones when appending).
 
 Keep only the **last 5 sessions** in the file (delete older entries when appending). Each entry should be 2-4 lines max — this is a breadcrumb trail, not a journal.
+
+## Handoff Document
+
+Claude Code maintains a handoff document at `.claude/handoff.md` (gitignored).
+
+Bridges context between Claude Code (local) and Claude.ai (no repo access). The developer
+uploads it manually to Claude.ai for continuity.
+
+**When to update:** After any session that changes architecture, adds/removes commands/features,
+resolves open questions, or shifts priorities. Not every session.
+
+**Rules:**
+
+- Update only the sections that changed. Keep the file under 150 lines.
+- Write in present tense. No code snippets — describe what exists, not how.
+- `memory.md` = session work log. `handoff.md` = project state snapshot. Don't duplicate.
