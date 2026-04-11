@@ -1,13 +1,8 @@
-/// <reference path="./src/declarations.d.ts" />
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
-import markdownlintPlugin from 'eslint-plugin-markdownlint';
-import markdownlintParser from 'eslint-plugin-markdownlint/parser.js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import type { Linter } from 'eslint';
-
 export default defineConfig([
   globalIgnores([
     '**/node_modules/**',
@@ -81,46 +76,6 @@ export default defineConfig([
         { overrides: { '?': 'ignore', ':': 'ignore', '|': 'ignore' } },
       ],
       '@stylistic/multiline-ternary': ['warn', 'always-multiline'],
-    },
-  },
-
-  {
-    files: ['**/*.md'],
-    ignores: [
-      'node_modules/**',
-      'dist/**',
-      '.cursor/hooks/**',
-      '.cursor/chats/**',
-      '.github/instructions/**',
-      '_templates/**/*.md',
-    ],
-    languageOptions: {
-      parser: markdownlintParser,
-    },
-    plugins: {
-      'markdownlint': markdownlintPlugin as Linter.Processor,
-      '@stylistic': stylistic,
-    },
-    rules: {
-      ...markdownlintPlugin.configs.recommended.rules,
-      'markdownlint/md001': 'off', // heading increment
-      'markdownlint/md004': 'off', // Unordered list style
-      'markdownlint/md012': 'off', // Multiple consecutive blank lines
-      'markdownlint/md013': 'off', // Line length
-      'markdownlint/md024': 'off', // Duplicate headings
-      'markdownlint/md025': 'off', // Single h1
-      'markdownlint/md026': 'off', // Trailing punctuation in heading
-      'markdownlint/md029': 'off', // List style
-      'markdownlint/md036': 'off', // No emphasis as heading
-      'markdownlint/md040': 'off', // Fenced code language
-      'markdownlint/md041': 'off', // First line heading
-      'markdownlint/md043': 'off', // Required heading structure
-      'markdownlint/md045': 'off', // images require alt text
-
-      // Formatting consistency
-      '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 1 }],
-      '@stylistic/no-trailing-spaces': 'error',
-      '@stylistic/no-multi-spaces': ['error', { exceptions: { Property: true } }],
     },
   },
 ]);

@@ -12,7 +12,7 @@
   "eslint.format.enable": true,
   "eslint.enable": true,
   "eslint.useFlatConfig": true,
-  "eslint.validate": ["javascript", "typescript", "css", "markdown"],
+  "eslint.validate": ["javascript", "typescript", "css"],
   "oxc.typeAware": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSaveMode": "file",
@@ -51,8 +51,5 @@
     "MD041": false, // Don't require first line to be a top-level heading
     "MD060": { "style": "aligned" } // Allow heading indentation
   },
-  "markdown.styles": [
-    // ".vscode/markdown-github-light.css"
-    "https://gist.githubusercontent.com/finografic/22d3a21bcae1624628312d98ebe7c3d8/raw/markdown-github-light.css"
-  ]
+  "markdown.styles": ["node_modules/@finografic/md-lint/styles/markdown-github-light.css"]
 }
