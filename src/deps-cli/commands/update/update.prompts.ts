@@ -1,4 +1,5 @@
 import * as clack from '@clack/prompts';
+import { multiselectLineBreak } from 'deps-cli/tui/multiselect.tui.js';
 import pc from 'picocolors';
 import type { PatchInput } from './update.logic.js';
 import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
@@ -13,7 +14,7 @@ export async function selectUpdatePatches(entries: DepEntryWithLatest[]): Promis
   const rangeOptions = createRangeSelectOptions(entries);
 
   if (rangeOptions.length > 0) {
-    const selected = await clack.multiselect<DepEntryWithLatest>({
+    const selected = await multiselectLineBreak<DepEntryWithLatest>({
       message: 'Select packages to update',
       options: rangeOptions,
       required: false,

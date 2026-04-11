@@ -82,6 +82,7 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
+    "@clack/core": "1.2.0",
     "@clack/prompts": "^1.2.0",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",

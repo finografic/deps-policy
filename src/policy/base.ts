@@ -7,7 +7,7 @@ const build: Record<string, string> = {
 };
 
 const testing: Record<string, string> = {
-  vitest: '^4.0.18',
+  vitest: '^4.1.4',
 };
 
 const eslint: Record<string, string> = {
@@ -19,19 +19,19 @@ const eslint: Record<string, string> = {
   '@typescript-eslint/eslint-plugin': '^8.51.0',
   '@typescript-eslint/parser': '^8.51.0',
   'typescript-eslint': '^8.51.0',
-  'globals': '^17.3.0',
+  'globals': '^17.4.0',
 };
 
 const formatting: Record<string, string> = {
-  'oxfmt': '^0.43.0',
-  '@finografic/oxfmt-config': '^1.5.0',
+  'oxfmt': '^0.44.0',
+  '@finografic/oxfmt-config': '^1.7.4',
 };
 
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
-  'lint-staged': '^16.2.7',
-  '@commitlint/cli': '^20.2.0',
-  '@commitlint/config-conventional': '^20.2.0',
+  'lint-staged': '^16.4.0',
+  '@commitlint/cli': '^20.5.0',
+  '@commitlint/config-conventional': '^20.5.0',
 };
 
 const ecosystem: Record<string, string> = {
