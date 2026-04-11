@@ -12,6 +12,7 @@
     "rootDir": "./src",
     "paths": {
       "policy/*": ["./src/policy/*"],
+      "core/*": ["./src/deps-cli/core/*"],
       "deps-cli/*": ["./src/deps-cli/*"],
       "deps-cli/commands": ["./src/deps-cli/commands/index.ts"],
       "deps-cli/commands/*": ["./src/deps-cli/commands/*"],

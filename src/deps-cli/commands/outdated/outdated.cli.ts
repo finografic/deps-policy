@@ -1,10 +1,23 @@
 import * as clack from '@clack/prompts';
+import { renderCommandHelp } from 'core/render-help/index.js';
 import { collectDeps } from 'deps-cli/collect-deps.js';
 import { printOutdated } from 'deps-cli/output/outdated.output.js';
 import { resolveLatestVersions } from 'deps-cli/resolve-latest.js';
 import pc from 'picocolors';
 
-export async function runOutdated(): Promise<void> {
+export async function runOutdated(argv: string[] = []): Promise<void> {
+  if (argv.includes('--help') || argv.includes('-h')) {
+    renderCommandHelp({
+      command: 'policy outdated',
+      description: 'Show which policy packages have newer versions available',
+      usage: 'policy outdated',
+      examples: [
+        { command: 'policy outdated', description: 'List all outdated packages across policy files' },
+      ],
+    });
+    return;
+  }
+
   clack.intro(pc.bold('deps-policy › outdated'));
 
   const spin = clack.spinner();

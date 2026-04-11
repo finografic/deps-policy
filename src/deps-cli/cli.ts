@@ -2,9 +2,12 @@
 
 import { createRequire } from 'node:module';
 import process from 'node:process';
+import { renderHelp } from 'core/render-help/index.js';
 import { runAudit } from 'deps-cli/commands/audit/audit.cli.js';
 import { runOutdated } from 'deps-cli/commands/outdated/outdated.cli.js';
 import { runUpdate } from 'deps-cli/commands/update/update.cli.js';
+
+import { cliHelp } from './cli.help.js';
 
 const require = createRequire(import.meta.url);
 const { version } = require('../../package.json') as { version: string };
@@ -16,19 +19,18 @@ try {
   // .env not present — continue with existing env vars
 }
 
-type CommandHandler = () => Promise<void> | void;
+type CommandHandler = (argv: string[]) => Promise<void> | void;
 
 async function main(): Promise<void> {
   const [, , ...argv] = process.argv;
-  const [command] = argv;
+  const [command = '', ...args] = argv;
 
   /* ────────────────────────────────────────────────────────── */
   /* Root help / version                                        */
   /* ────────────────────────────────────────────────────────── */
 
   if (!command || command === '--help' || command === '-h') {
-    console.log(`Usage: policy:<command>\n`);
-    console.log(`Commands: outdated | update | audit`);
+    renderHelp(cliHelp);
     return;
   }
 
@@ -42,14 +44,17 @@ async function main(): Promise<void> {
   /* ────────────────────────────────────────────────────────── */
 
   const commands: Record<string, CommandHandler> = {
-    outdated: async () => {
-      await runOutdated();
+    outdated: async (a) => {
+      await runOutdated(a);
     },
-    update: async () => {
-      await runUpdate();
+    update: async (a) => {
+      await runUpdate(a);
     },
-    audit: async () => {
-      await runAudit();
+    audit: async (a) => {
+      await runAudit(a);
+    },
+    help: () => {
+      renderHelp(cliHelp);
     },
   };
 
@@ -59,7 +64,7 @@ async function main(): Promise<void> {
 
   if (!commands[command]) {
     console.error(`Unknown command: ${command}`);
-    console.error(`Commands: outdated | update | audit`);
+    renderHelp(cliHelp);
     process.exit(1);
     return;
   }
@@ -68,7 +73,7 @@ async function main(): Promise<void> {
   /* Execute                                                    */
   /* ────────────────────────────────────────────────────────── */
 
-  await commands[command]();
+  await commands[command](args);
 }
 
 /* ────────────────────────────────────────────────────────── */

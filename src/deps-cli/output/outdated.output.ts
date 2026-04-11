@@ -2,7 +2,7 @@ import { basename } from 'node:path';
 import pc from 'picocolors';
 import type { DepEntryWithLatest } from '../types/deps.types.js';
 
-import { padRight, createDivider } from '../tui/format.tui.js';
+import { computeNameWidth, computeVersionWidth, createDivider, padRight } from '../tui/format.tui.js';
 
 // ─── Grouping ────────────────────────────────────────────────────────────────
 
@@ -22,30 +22,32 @@ function groupByFile(entries: DepEntryWithLatest[]): GroupedFile[] {
   return [...fileMap.entries()].map(([sourceFile, groups]) => ({ sourceFile, groups }));
 }
 
-// ─── Layout constants ─────────────────────────────────
+// ─── Row renderer ─────────────────────────────────────────────────────────────
 
-const COL = { name: 32, version: 12 } as const;
-const TABLE_WIDTH = COL.name + COL.version * 2 + 10;
+interface ColWidths {
+  name: number;
+  version: number;
+}
 
-// ─── Row renderer (domain-specific) ──────────────────
-
-function renderOutdatedEntry(e: DepEntryWithLatest): string {
-  const name = padRight(e.name, COL.name);
+function renderOutdatedEntry(e: DepEntryWithLatest, col: ColWidths): string {
+  const name = padRight(e.name, col.name);
 
   if (e.latest === null) {
-    return `  ${pc.dim(name)}${padRight(e.current, COL.version)}  ${pc.dim('(private)')}`;
+    return `  ${pc.dim(name)}${padRight(e.current, col.version)}  ${pc.dim('(private)')}`;
   }
 
   if (!e.outdated) {
-    return `  ${pc.dim(name)}${pc.dim(padRight(e.current, COL.version))}  ${pc.dim('✓')}`;
+    return `  ${pc.dim(name)}${pc.dim(padRight(e.current, col.version))}  ${pc.dim('✓')}`;
   }
 
   const next = `${e.prefix}${e.latest}`;
-  const arrow = `${pc.dim(padRight(e.current, COL.version))}  ${pc.dim('→')}  ${pc.green(padRight(next, COL.version))}`;
+  const arrow = `${pc.dim(padRight(e.current, col.version))}  ${pc.dim('→')}  ${pc.green(padRight(next, col.version))}`;
   const tag = e.pinned ? pc.yellow('  ✦ pinned') : pc.yellow('  ✦');
 
   return `  ${pc.bold(name)}${arrow}${tag}`;
 }
+
+// ─── Public ───────────────────────────────────────────────────────────────────
 
 export function printOutdated(entries: DepEntryWithLatest[]): void {
   const outdatedCount = entries.filter((e) => e.outdated).length;
@@ -60,6 +62,12 @@ export function printOutdated(entries: DepEntryWithLatest[]): void {
     `\n  ${pc.yellow(`${outdatedCount} of ${entries.length} packages outdated`)}${skipped > 0 ? pc.dim(`  (${skipped} skipped)`) : ''}\n`,
   );
 
+  const col: ColWidths = {
+    name: computeNameWidth(entries),
+    version: computeVersionWidth(entries),
+  };
+  const tableWidth = col.name + col.version * 2 + 10;
+
   for (const { sourceFile, groups } of groupByFile(entries)) {
     const hasOutdated = [...groups.values()].flat().some((e) => e.outdated);
     if (!hasOutdated) continue;
@@ -71,9 +79,9 @@ export function printOutdated(entries: DepEntryWithLatest[]): void {
       if (!groupHasOutdated) continue;
 
       console.log(`    ${pc.dim(groupName)}`);
-      console.log(createDivider(TABLE_WIDTH));
+      console.log(createDivider(tableWidth));
       for (const e of groupEntries) {
-        console.log(renderOutdatedEntry(e));
+        console.log(renderOutdatedEntry(e, col));
       }
       console.log();
     }
