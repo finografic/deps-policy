@@ -11,6 +11,7 @@ export const help: CommandHelpConfig = {
     'Shows a table of outdated packages',
     'Prompts to select which outdated packages to update (nothing pre-selected)',
     'For each selected pinned package: skip / pin to latest / add range prefix',
-    'Patches the version strings in the source files',
+    'Patches the version strings in the policy source files',
+    'Optionally applies the same bumps to this project package.json when those deps are declared there',
   ],
 };

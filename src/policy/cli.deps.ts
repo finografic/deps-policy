@@ -5,6 +5,8 @@ import type { DependencyGroup } from 'deps.types';
  */
 export const cli: DependencyGroup = {
   dependencies: {
-    picocolors: '^1.1.1',
+    '@clack/core': '1.2.0',
+    '@clack/prompts': '^1.2.0',
+    'picocolors': '^1.1.1',
   },
 };

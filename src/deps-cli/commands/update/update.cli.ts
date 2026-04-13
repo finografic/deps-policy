@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+import process from 'node:process';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
 import { renderCommandHelp } from 'core/render-help/index.js';
@@ -8,7 +10,7 @@ import { resolveLatestVersions } from 'resolve-latest.js';
 import { toProjectRelativePath } from 'utils/path.utils.js';
 
 import { help } from './update.help.js';
-import { applyPatches } from './update.logic.js';
+import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
 
 export async function runUpdate(argv: string[] = []): Promise<void> {
@@ -48,6 +50,35 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     clack.log.success(
       `Patched ${toProjectRelativePath(filePath)} (${count} change${count === 1 ? '' : 's'})`,
     );
+  }
+
+  const packageJsonPath = resolve(process.cwd(), 'package.json');
+  const pkgApplicable = await getApplicablePatchesForPackageJson(packageJsonPath, patches);
+
+  if (pkgApplicable.length > 0) {
+    const syncPkg = await clack.confirm({
+      message: `Apply the same ${pkgApplicable.length} version bump${pkgApplicable.length === 1 ? '' : 's'} to ${pc.bold('package.json')}?`,
+      initialValue: true,
+    });
+
+    if (clack.isCancel(syncPkg)) {
+      clack.cancel('Cancelled.');
+      process.exit(0);
+    }
+
+    if (syncPkg) {
+      const pkgPatches = pkgApplicable.map((p) => ({
+        filePath: packageJsonPath,
+        name: p.name,
+        newVersion: p.newVersion,
+      }));
+      const pkgResults = await applyPatches(pkgPatches);
+      for (const { filePath, count } of pkgResults) {
+        clack.log.success(
+          `Patched ${toProjectRelativePath(filePath)} (${count} change${count === 1 ? '' : 's'})`,
+        );
+      }
+    }
   }
 
   const names = patches.map((p) => p.name).join(', ');
