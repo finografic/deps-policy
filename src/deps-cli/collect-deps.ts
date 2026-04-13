@@ -9,10 +9,10 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const POLICY_DIR = resolve(__dirname, '../policy');
 
 const POLICY_FILES = [
-  resolve(POLICY_DIR, 'base.ts'),
-  resolve(POLICY_DIR, 'cli.ts'),
-  resolve(POLICY_DIR, 'library.ts'),
-  resolve(POLICY_DIR, 'config.ts'),
+  resolve(POLICY_DIR, 'base.deps.ts'),
+  resolve(POLICY_DIR, 'cli.deps.ts'),
+  resolve(POLICY_DIR, 'library.deps.ts'),
+  resolve(POLICY_DIR, 'config.deps.ts'),
 ];
 
 function parsePrefix(version: string): string {

@@ -82,7 +82,7 @@ src/deps-cli/
       update.cli.ts               # runUpdate() — interactive update orchestrator
       update.logic.ts             # applyPatches() — file patching
       update.prompts.ts           # selectUpdatePatches() — clack prompt flow
-      update.options.ts           # createRangeSelectOptions() — multiselect option builders
+      update.options.ts           # createOutdatedSelectOptions() — multiselect option builders
   output/
     audit.output.ts               # printAudit() — terminal table renderer
     outdated.output.ts            # printOutdated() — dynamic-width column table

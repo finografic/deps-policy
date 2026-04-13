@@ -49,6 +49,7 @@
   "scripts": {
     "---------- DEV_AND_BUILD": "---------------------------------------------",
     "dev": "tsdown --watch",
+    "update": "pnpm policy:update && tsdown",
     "link": "pnpm build && pnpm link --global",
     "unlink": "pnpm unlink --global",
     "build": "tsdown",

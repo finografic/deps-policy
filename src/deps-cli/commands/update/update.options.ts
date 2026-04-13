@@ -26,13 +26,20 @@ function renderSelectLabel(e: DepEntryWithLatest, col: ColWidths): string {
   const name = padRight(e.name, col.name);
   const current = pc.dim(padLeft(e.current, col.version));
   const next = pc.green(padLeft(`${e.prefix}${e.latest}`, col.version));
-  return ` ${name}${current}  ${pc.dim('→')}${next}`;
+  const pinnedTag = e.pinned ? pc.yellow('  pinned') : '';
+  return ` ${name}${current}  ${pc.dim('→')}${next}${pinnedTag}`;
 }
 
 // ─── Multiselect option builders ─────────────────────────────────────────────
 
-export function createRangeSelectOptions(entries: DepEntryWithLatest[]): SelectOption<DepEntryWithLatest>[] {
-  const filtered = entries.filter((e) => e.outdated && !e.pinned);
+/**
+ * One row per outdated package (range-prefixed and pinned). Nothing is pre-selected; callers pass
+ * `initialValues` (from each option's `initialValue`) into `multiselectLineBreak`.
+ */
+export function createOutdatedSelectOptions(
+  entries: DepEntryWithLatest[],
+): SelectOption<DepEntryWithLatest>[] {
+  const filtered = entries.filter((e) => e.outdated);
 
   const col: ColWidths = {
     // Sized to the visible (filtered) rows so versions don't drift right to match
@@ -46,6 +53,6 @@ export function createRangeSelectOptions(entries: DepEntryWithLatest[]): SelectO
     value: e,
     label: renderSelectLabel(e, col),
     hint: toProjectRelativePath(e.sourceFile),
-    initialValue: true,
+    initialValue: false,
   }));
 }

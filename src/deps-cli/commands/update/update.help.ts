@@ -9,8 +9,8 @@ export const help: CommandHelpConfig = {
     'Collects all packages from policy source files (base.ts, cli.ts, library.ts, config.ts)',
     'Fetches the latest version of each package from the npm registry',
     'Shows a table of outdated packages',
-    'Prompts to select range-prefixed packages to bump (multi-select)',
-    'Prompts individually for pinned packages: skip / pin to latest / add range prefix',
+    'Prompts to select which outdated packages to update (nothing pre-selected)',
+    'For each selected pinned package: skip / pin to latest / add range prefix',
     'Patches the version strings in the source files',
   ],
 };

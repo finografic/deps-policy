@@ -1,9 +1,9 @@
 import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
-  'typescript': '^5.9.3',
-  'tsdown': '^0.21.7',
-  '@types/node': '^24.0.0',
+  'typescript': '6.0.2',
+  'tsdown': '^0.21.8',
+  '@types/node': '24.0.0',
 };
 
 const testing: Record<string, string> = {
@@ -12,18 +12,18 @@ const testing: Record<string, string> = {
 
 const eslint: Record<string, string> = {
   'eslint': '9.39.2',
-  '@eslint/js': '^9.39.2',
+  '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  '@finografic/md-lint': '^0.4.5',
-  '@stylistic/eslint-plugin': '^5.6.1',
-  '@typescript-eslint/eslint-plugin': '^8.51.0',
-  '@typescript-eslint/parser': '^8.51.0',
-  'typescript-eslint': '^8.51.0',
-  'globals': '^17.4.0',
+  '@finografic/md-lint': '^0.6.1',
+  '@stylistic/eslint-plugin': '^5.10.0',
+  '@typescript-eslint/eslint-plugin': '^8.58.2',
+  '@typescript-eslint/parser': '^8.58.2',
+  'typescript-eslint': '^8.58.2',
+  'globals': '^17.5.0',
 };
 
 const formatting: Record<string, string> = {
-  'oxfmt': '^0.44.0',
+  'oxfmt': '^0.45.0',
   '@finografic/oxfmt-config': '^1.7.4',
 };
 
