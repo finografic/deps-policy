@@ -1,4 +1,4 @@
-import type { DepEntry, DepEntryWithLatest } from './types/deps.types.js';
+import type { DepEntry, DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 const NPM_REGISTRY = 'https://registry.npmjs.org';
 const GH_REGISTRY = 'https://npm.pkg.github.com';

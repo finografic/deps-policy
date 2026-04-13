@@ -1,13 +1,8 @@
 import { basename } from 'node:path';
-import {
-  computeNameWidth,
-  computeVersionWidth,
-  createDivider,
-  padLeft,
-  padRight,
-} from 'deps-cli/tui/format.tui.js';
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
+import { computeNameWidth, computeVersionWidth, createDivider, padLeft, padRight } from 'tui/format.tui.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 // ─── Grouping ────────────────────────────────────────────────────────────────
 

@@ -1,12 +1,11 @@
-import type { DependencyGroup, DependencyPolicy, PackageType } from './types.js';
+import { base } from 'policy/base.deps.js';
+import { cli } from 'policy/cli.deps.js';
+import { config } from 'policy/config.deps.js';
+import { library } from 'policy/library.deps.js';
+import type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
 
-import { base } from './policy/base.js';
-import { cli } from './policy/cli.js';
-import { config } from './policy/config.js';
-import { library } from './policy/library.js';
-
-export type { DependencyGroup, DependencyPolicy, PackageType } from './types.js';
-export { base, cli, config, library } from './policy/index.js';
+export type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
+export { base, cli, config, library } from 'policy/index.js';
 
 export const policy: DependencyPolicy = {
   base,

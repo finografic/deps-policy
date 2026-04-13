@@ -1,6 +1,6 @@
-import type { OsvVulnerability } from 'deps-cli/types/audit.types.js';
-import type { AuditEntry } from 'deps-cli/types/audit.types.js';
-import type { DepEntry } from 'deps-cli/types/deps.types.js';
+import type { OsvVulnerability } from 'types/audit.types.js';
+import type { AuditEntry } from 'types/audit.types.js';
+import type { DepEntry } from 'types/dep-metadata.types.js';
 
 import { OSV_BATCH_URL } from './audit.constants.js';
 import { BATCH_SIZE } from './audit.constants.js';

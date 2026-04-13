@@ -1,4 +1,4 @@
-import type { DependencyGroup } from '../types.js';
+import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
   'typescript': '^5.9.3',

@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { DependencyKind } from '../types.js';
+import type { DependencyKind } from 'deps.types';
 
-import type { DepEntry } from './types/deps.types.js';
+import type { DepEntry } from 'types/dep-metadata.types.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const POLICY_DIR = resolve(__dirname, '../policy');

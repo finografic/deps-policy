@@ -1,8 +1,9 @@
 import * as clack from '@clack/prompts';
-import { multiselectLineBreak } from 'deps-cli/tui/multiselect.tui.js';
 import pc from 'picocolors';
+import { multiselectLineBreak } from 'tui/multiselect.tui.js';
 import type { PatchInput } from './update.logic.js';
-import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 import { createRangeSelectOptions } from './update.options.js';
 

@@ -1,4 +1,4 @@
-import type { DependencyKind } from '../../types.js';
+import type { DependencyKind } from 'deps.types';
 
 export interface DepEntry {
   name: string;

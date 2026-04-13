@@ -38,9 +38,9 @@
       "types": "./dist/policy/cli.d.mts",
       "default": "./dist/policy/cli.mjs"
     },
-    "./types": {
-      "types": "./dist/types.d.mts",
-      "default": "./dist/types.mjs"
+    "./deps.types": {
+      "types": "./dist/deps.types.d.mts",
+      "default": "./dist/deps.types.mjs"
     }
   },
   "publishConfig": {

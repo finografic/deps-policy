@@ -1,7 +1,7 @@
 import * as clack from '@clack/prompts';
+import { collectDeps } from 'collect-deps.js';
 import { renderCommandHelp } from 'core/render-help/index.js';
-import { collectDeps } from 'deps-cli/collect-deps.js';
-import { printAudit } from 'deps-cli/output/audit.output.js';
+import { printAudit } from 'output/audit.output.js';
 import pc from 'picocolors';
 
 import { help } from './audit.help.js';

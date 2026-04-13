@@ -1,10 +1,11 @@
 import * as clack from '@clack/prompts';
+import { collectDeps } from 'collect-deps.js';
 import { renderCommandHelp } from 'core/render-help/index.js';
-import { collectDeps } from 'deps-cli/collect-deps.js';
-import { printOutdated } from 'deps-cli/output/outdated.output.js';
-import { resolveLatestVersions } from 'deps-cli/resolve-latest.js';
-import { toProjectRelativePath } from 'deps-cli/utils/path.utils.js';
+import { printOutdated } from 'output/outdated.output.js';
 import pc from 'picocolors';
+import { resolveLatestVersions } from 'resolve-latest.js';
+
+import { toProjectRelativePath } from 'utils/path.utils.js';
 
 import { help } from './update.help.js';
 import { applyPatches } from './update.logic.js';

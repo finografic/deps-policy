@@ -1,8 +1,10 @@
-import { computeNameWidth, computeVersionWidth, padLeft, padRight } from 'deps-cli/tui/format.tui.js';
-import { TUI_DEFAULTS } from 'deps-cli/tui/tui.config.js';
-import { toProjectRelativePath } from 'deps-cli/utils/path.utils.js';
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
+import { computeNameWidth, computeVersionWidth, padLeft, padRight } from 'tui/format.tui.js';
+import { TUI_DEFAULTS } from 'tui/tui.config.js';
+
+import { toProjectRelativePath } from 'utils/path.utils.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,6 @@
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from 'deps-cli/types/deps.types.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 import { TUI_DEFAULTS } from './tui.config.js';
 

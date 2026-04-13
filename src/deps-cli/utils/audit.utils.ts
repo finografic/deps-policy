@@ -1,4 +1,4 @@
-import type { OsvVulnerability } from '../types/audit.types.js';
+import type { OsvVulnerability } from 'types/audit.types.js';
 
 export function severityRank(vuln: OsvVulnerability): number {
   const scoreStr = vuln.severity?.find((s) => s.type === 'CVSS_V3')?.score ?? '';

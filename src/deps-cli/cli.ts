@@ -2,15 +2,15 @@
 
 import { createRequire } from 'node:module';
 import process from 'node:process';
+import { runAudit } from 'commands/audit/audit.cli.js';
+import { runOutdated } from 'commands/outdated/outdated.cli.js';
+import { runUpdate } from 'commands/update/update.cli.js';
 import { renderHelp } from 'core/render-help/index.js';
-import { runAudit } from 'deps-cli/commands/audit/audit.cli.js';
-import { runOutdated } from 'deps-cli/commands/outdated/outdated.cli.js';
-import { runUpdate } from 'deps-cli/commands/update/update.cli.js';
 
 import { cliHelp } from './cli.help.js';
 
 const require = createRequire(import.meta.url);
-const { version } = require('deps-cli/package.json') as { version: string };
+const { version } = require('../../package.json') as { version: string };
 
 // Load .env (NPM_TOKEN for @finografic packages auth)
 try {

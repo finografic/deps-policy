@@ -1,4 +1,4 @@
-import type { DependencyGroup } from '../types.js';
+import type { DependencyGroup } from 'deps.types';
 
 /**
  * Additional deps for `genx:type:cli` packages.
