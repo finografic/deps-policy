@@ -10,7 +10,7 @@ import { runUpdate } from 'deps-cli/commands/update/update.cli.js';
 import { cliHelp } from './cli.help.js';
 
 const require = createRequire(import.meta.url);
-const { version } = require('../../package.json') as { version: string };
+const { version } = require('deps-cli/package.json') as { version: string };
 
 // Load .env (NPM_TOKEN for @finografic packages auth)
 try {

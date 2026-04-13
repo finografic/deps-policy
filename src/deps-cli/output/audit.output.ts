@@ -1,7 +1,6 @@
+import { severityLabel, severityRank } from 'deps-cli/utils/audit.utils.js';
 import pc from 'picocolors';
-import type { AuditEntry } from '../types/audit.types.js';
-
-import { severityLabel, severityRank } from '../utils/audit.utils.js';
+import type { AuditEntry } from 'deps-cli/types/audit.types.js';
 
 const SEVERITY_COLORS: Record<string, (s: string) => string> = {
   critical: pc.red,
