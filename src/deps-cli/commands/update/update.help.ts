@@ -13,5 +13,6 @@ export const help: CommandHelpConfig = {
     'For each selected pinned package: skip / pin to latest / add range prefix',
     'Patches the version strings in the policy source files',
     'Optionally applies the same bumps to this project package.json when those deps are declared there',
+    'Optionally runs pnpm install after package.json changes',
   ],
 };

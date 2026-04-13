@@ -1,3 +1,4 @@
+import { spawn } from 'node:child_process';
 import { resolve } from 'node:path';
 import process from 'node:process';
 import * as clack from '@clack/prompts';
@@ -12,6 +13,18 @@ import { toProjectRelativePath } from 'utils/path.utils.js';
 import { help } from './update.help.js';
 import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
+
+function runPnpmInstall(cwd: string): Promise<number | null> {
+  return new Promise((resolve, reject) => {
+    const child = spawn('pnpm', ['install'], {
+      cwd,
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
+    });
+    child.on('error', reject);
+    child.on('close', (code) => resolve(code));
+  });
+}
 
 export async function runUpdate(argv: string[] = []): Promise<void> {
   if (argv.includes('--help') || argv.includes('-h')) {
@@ -77,6 +90,28 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
         clack.log.success(
           `Patched ${toProjectRelativePath(filePath)} (${count} change${count === 1 ? '' : 's'})`,
         );
+      }
+
+      const packageJsonChanged = pkgResults.some((r) => r.count > 0);
+      if (packageJsonChanged) {
+        const runInstall = await clack.confirm({
+          message: `Run ${pc.bold('pnpm install')} now to refresh the lockfile and node_modules?`,
+          initialValue: true,
+        });
+
+        if (clack.isCancel(runInstall)) {
+          clack.cancel('Cancelled.');
+          process.exit(0);
+        }
+
+        if (runInstall) {
+          const code = await runPnpmInstall(process.cwd());
+          if (code !== 0) {
+            clack.log.error(`pnpm install exited with code ${code ?? 'unknown'}`);
+            process.exit(code ?? 1);
+          }
+          clack.log.success('pnpm install finished');
+        }
       }
     }
   }

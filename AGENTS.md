@@ -37,3 +37,15 @@ Rules are canonical in `.github/instructions/` and shared across Claude Code, Cu
 - `.github/instructions/10-git-policy.instructions.md` (see Commits and Releases sections)
 
 ---
+
+## Learned User Preferences
+
+- Interactive `deps update` multiselect: no packages should be pre-selected by default.
+
+## Learned Workspace Facts
+
+- After replacing `simple-git-hooks` with Husky (e.g. via generator tooling), set `scripts.prepare` to `husky`; a leftover `simple-git-hooks` prepare script breaks `pnpm install`.
+- The `deps update` command patches policy sources first, then may offer the same version bumps for `package.json` and optionally running `pnpm install`.
+- For VS Code/Cursor `markdown.styles`, prefer local workspace or package paths; remote raw/gist URLs are often unreliable for loading as CSS in the Markdown preview.
+
+---
