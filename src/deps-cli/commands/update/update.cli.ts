@@ -1,6 +1,6 @@
-import { spawn } from 'node:child_process';
 import { resolve } from 'node:path';
 import process from 'node:process';
+import { runPnpmInstall } from '@finografic/cli-kit/package-manager';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
 import { renderCommandHelp } from 'core/render-help/index.js';
@@ -13,18 +13,6 @@ import { toProjectRelativePath } from 'utils/path.utils.js';
 import { help } from './update.help.js';
 import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
-
-function runPnpmInstall(cwd: string): Promise<number | null> {
-  return new Promise((resolve, reject) => {
-    const child = spawn('pnpm', ['install'], {
-      cwd,
-      stdio: 'inherit',
-      shell: process.platform === 'win32',
-    });
-    child.on('error', reject);
-    child.on('close', (code) => resolve(code));
-  });
-}
 
 export async function runUpdate(argv: string[] = []): Promise<void> {
   if (argv.includes('--help') || argv.includes('-h')) {
