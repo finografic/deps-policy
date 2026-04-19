@@ -30,11 +30,11 @@ importers:
         specifier: ^9.18.4
         version: 9.18.4(@eslint-react/eslint-plugin@1.53.1(eslint@9.39.2(jiti@2.6.1))(ts-api-utils@2.5.0(typescript@5.9.3))(typescript@5.9.3))(@prettier/plugin-xml@3.4.2(prettier@3.8.3))(@types/node@24.0.0)(@typescript-eslint/parser@8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/rule-tester@8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.58.2(typescript@5.9.3))(@unocss/eslint-plugin@66.6.8(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.32)(astro-eslint-parser@1.4.0)(eslint-import-resolver-node@0.3.10)(eslint-plugin-astro@1.7.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-format@2.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-hooks@5.2.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-vuejs-accessibility@2.5.0(eslint@9.39.2(jiti@2.6.1))(globals@17.5.0))(eslint@9.39.2(jiti@2.6.1))(prettier-plugin-astro@0.14.1)(typescript@5.9.3)
       '@finografic/md-lint':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.8.0
+        version: 0.8.0
       '@finografic/oxfmt-config':
-        specifier: ^1.9.0
-        version: 1.9.0(oxfmt@0.44.0)
+        specifier: ^1.10.0
+        version: 1.10.0(oxfmt@0.44.0)
       '@stylistic/eslint-plugin':
         specifier: ^5.6.1
         version: 5.10.0(eslint@9.39.2(jiti@2.6.1))
@@ -568,12 +568,12 @@ packages:
       prettier-plugin-astro:
         optional: true
 
-  '@finografic/md-lint@0.7.0':
-    resolution: {integrity: sha512-Cp2vcTeyeT/XP4+8Hk5sm4DywY3O5rx7yFOGskwL6uLZsiOfKYLzrDR/V1x7RIBGxRn8xruT2Yw2K2843hOimA==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.7.0/5321d3da06ea27458357ad54724986fc52008a6e}
+  '@finografic/md-lint@0.8.0':
+    resolution: {integrity: sha512-xzid+2Hf5pPGSP2S/HrGjmgkeDW3Tli5NrQtPj70YozdsXFgcliSj28FsXAzls0Mt8GT6kyLUuxAoyFhBzWFWg==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.8.0/f5bc64580cd79a8ab483909120f577e319dafb39}
     hasBin: true
 
-  '@finografic/oxfmt-config@1.9.0':
-    resolution: {integrity: sha512-Rkutb/q++gNblc+2qyo6SP80bpkjcmss6hMbY0hTnicsYczlmOPnN+MIHEkLcSMAkJ/LTd1PErDJr6becNJziQ==, tarball: https://npm.pkg.github.com/download/@finografic/oxfmt-config/1.9.0/7fc8da60ec1e3d023291988fcbc9d54f0b9904d8}
+  '@finografic/oxfmt-config@1.10.0':
+    resolution: {integrity: sha512-k2gL28AX7Ik+oHz9bfXIqTrC3Mo9QUu9/HSWVBovhuTsg1O0AQJNd5Y18H08hiiQR2geGoHKtx1QPphr4BHIDA==, tarball: https://npm.pkg.github.com/download/@finografic/oxfmt-config/1.10.0/7a6c82a21941be8e4c8055bb3989294e972d98b8}
     peerDependencies:
       oxfmt: '>=0.41.0'
 
@@ -4410,7 +4410,7 @@ snapshots:
       - typescript
       - vitest
 
-  '@finografic/md-lint@0.7.0':
+  '@finografic/md-lint@0.8.0':
     dependencies:
       globby: 16.2.0
       ignore: 7.0.5
@@ -4421,7 +4421,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@finografic/oxfmt-config@1.9.0(oxfmt@0.44.0)':
+  '@finografic/oxfmt-config@1.10.0(oxfmt@0.44.0)':
     dependencies:
       oxfmt: 0.44.0
       type-fest: 5.6.0
