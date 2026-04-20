@@ -57,8 +57,11 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
   const pkgApplicable = await getApplicablePatchesForPackageJson(packageJsonPath, patches);
 
   if (pkgApplicable.length > 0) {
+    const thisProjectName = `@finografic/deps-policy/${pc.bold('package.json')}`;
     const syncPkg = await clack.confirm({
-      message: `Apply the same ${pkgApplicable.length} version bump${pkgApplicable.length === 1 ? '' : 's'} to ${pc.bold('package.json')}?`,
+      message: pc.cyan(
+        `Apply the same ${pc.bold(pkgApplicable.length)} version bump${pkgApplicable.length === 1 ? '' : 's'} to ${pc.white(`${thisProjectName}?`)}`,
+      ),
       initialValue: true,
     });
 
@@ -83,7 +86,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
       const packageJsonChanged = pkgResults.some((r) => r.count > 0);
       if (packageJsonChanged) {
         const runInstall = await clack.confirm({
-          message: `Run ${pc.bold('pnpm install')} now to refresh the lockfile and node_modules?`,
+          message: `Run ${pc.cyan('pnpm install')} now to refresh the ${pc.bold('lockfile')} and ${pc.bold('node_modules')}?`,
           initialValue: true,
         });
 

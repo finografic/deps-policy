@@ -10,7 +10,8 @@ const testing: Record<string, string> = {
   vitest: '^4.1.4',
 };
 
-const eslint: Record<string, string> = {
+// DEPRECATED: will be removed in the next major release
+const _eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
@@ -22,9 +23,16 @@ const eslint: Record<string, string> = {
   'globals': '^17.5.0',
 };
 
+const linting: Record<string, string> = {
+  'oxlint': '^1.61.0',
+  '@finografic/md-lint': '^0.8.0',
+  '@finografic/oxc-config': '^2.3.3',
+  'globals': '^17.5.0',
+};
+
 const formatting: Record<string, string> = {
-  'oxfmt': '^0.45.0',
-  '@finografic/oxfmt-config': '^1.10.0',
+  'oxfmt': '^0.46.0',
+  '@finografic/oxfmt-config': '^1.11.1',
 };
 
 const hooks: Record<string, string> = {
@@ -45,7 +53,7 @@ export const base: DependencyGroup = {
   devDependencies: {
     ...build,
     ...testing,
-    ...eslint,
+    ...linting,
     ...formatting,
     ...hooks,
     ...ecosystem,

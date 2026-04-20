@@ -90,6 +90,9 @@ async function parseSourceFile(filePath: string): Promise<DepEntry[]> {
   const kindMap = extractGroupKinds(src);
 
   for (const [groupName, pkgs] of groupBlocks) {
+    // Omit deprecated / internal Record blocks (e.g. `const _eslint = { ... }`) that are not spread into exports.
+    if (groupName.startsWith('_')) continue;
+
     const depKind = kindMap.get(groupName) ?? 'devDependencies';
     for (const [name, version] of pkgs) {
       const prefix = parsePrefix(version);
