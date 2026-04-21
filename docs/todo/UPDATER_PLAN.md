@@ -1,6 +1,6 @@
 # Policy Updater — Design Plan
 
-> **Status:** implemented — `src/updater/` (2026-04-10)
+> **Status:** implemented — `src/deps-cli/` (entry: `cli.ts`, run via `pnpm policy:*` + `tsx`)
 
 The policy source files (`src/policy/*.ts`) hold hardcoded version strings. This plan covers an interactive CLI tool that checks, updates, and audits those versions — without needing `pnpm outdated` to work on a fake install tree.
 
@@ -50,7 +50,7 @@ type DepEntry = {
   prefix: string; // '^' | '~' | '' (pinned)
   bare: string; // '5.9.3'
   group: string; // 'build' | 'eslint' | 'hooks' | ...
-  sourceFile: string; // 'src/policy/base.ts'
+  sourceFile: string; // e.g. 'src/policy/base.deps.ts'
   depKind: 'dependencies' | 'devDependencies' | 'peerDependencies';
 };
 ```
@@ -60,7 +60,7 @@ Groups are derived by parsing each policy file statically (or by convention: the
 **Outdated output — grouped:**
 
 ```
-  base.ts
+  base.deps.ts
 
     build
     ─────────────────────────────────────────────────────
@@ -79,28 +79,29 @@ Groups are derived by parsing each policy file statically (or by convention: the
 ## Where it lives
 
 ```
-src/
-  updater/
-    index.ts        # CLI entry point — dispatches to outdated / update / audit
-    collect.ts      # parse policy source files → DepEntry[]
-    fetch.ts        # npm registry fetch (latest version per package)
-    patch.ts        # regex-based source file rewrite
-    audit.ts        # OSV querybatch API wrapper
-    display.ts      # picocolors table + clack prompt helpers
+src/deps-cli/
+  cli.ts                 # CLI entry — registry, root --help / --version
+  cli.help.ts            # root HelpConfig
+  collect-deps.ts        # parse policy *.deps.ts → DepEntry[]
+  resolve-latest.ts      # registry fetch (latest version per package)
+  commands/              # audit, outdated, update (orchestration + logic + prompts + help)
+  output/                # audit.output.ts, outdated.output.ts
+  types/                 # dep-metadata.types.ts, audit.types.ts
+  utils/                 # audit.utils.ts, path.utils.ts
 ```
 
 Not exported — no entry in `package.json` `exports`. Dev-only scripts only.
 
-New devDependencies needed: `@clack/prompts`, `picocolors`.
+Uses **`@finografic/cli-kit`** for `render-help`, `tui`, and `package-manager` (`runPnpmInstall`). Other deps include `@clack/prompts`, `picocolors` (see root `package.json`).
 
 ---
 
 ## `policy:outdated`
 
-1. `collect.ts` — import the built policy (or run via `tsx`) and flatten to `DepEntry[]`.
-2. `fetch.ts` — `GET https://registry.npmjs.org/{name}/latest` per dep, batched ~10 concurrent. `@finografic/*` packages on GitHub Packages will return 404 from the public registry — log as "private, skipped" without error.
+1. `collect-deps.ts` — read policy `*.deps.ts` sources and flatten to `DepEntry[]`.
+2. `resolve-latest.ts` — `GET https://registry.npmjs.org/{name}/latest` per dep, batched ~10 concurrent. `@finografic/*` packages on GitHub Packages will return 404 from the public registry — log as "private, skipped" without error.
 3. Compare bare versions. Build outdated list.
-4. Render grouped table via picocolors.
+4. Render grouped table (picocolors + `@finografic/cli-kit/tui` column widths).
 
 ---
 
@@ -109,7 +110,7 @@ New devDependencies needed: `@clack/prompts`, `picocolors`.
 Extends outdated. After fetching, split deps into two buckets:
 
 **Bucket 1 — range-prefixed** (`^x.x.x`, `~x.x.x`):
-Present as `promptMultiSelect`. All outdated entries selected by default. On confirm, rewrite each chosen entry: `prefix + latestVersion`.
+Present as `multiselectLineBreak` (`@finografic/cli-kit/tui`). No rows pre-selected by default. On submit, rewrite each chosen entry: `prefix + latestVersion`.
 
 **Bucket 2 — pinned** (`x.x.x`, no prefix):
 For each pinned package where a newer version exists, prompt individually:
@@ -124,7 +125,7 @@ For each pinned package where a newer version exists, prompt individually:
 
 Default is **No**. Processed after the bulk multi-select, one at a time.
 
-**Patching** — `patch.ts` regex-replaces the version string in the source file:
+**Patching** — `update.logic.ts` regex-replaces the version string in the source file:
 
 ```ts
 // matches: 'package-name': 'x.x.x'  or  "package-name": "x.x.x"
@@ -169,11 +170,11 @@ Parse `results[].vulns[]`. If none → print clean bill. Otherwise display group
   │
   ◆  Select packages to update  (4 outdated)
   │
-  │  base.ts › build
+  │  base.deps.ts › build
   │  ◼  typescript         ^5.9.3  →  ^5.10.0
   │  ◻  tsdown             ^0.21.7  (current)
   │
-  │  base.ts › hooks
+  │  base.deps.ts › hooks
   │  ◼  husky              ^9.1.7  →  ^9.2.0
   │  ◼  lint-staged        ^16.2.7 →  ^16.3.0
   └
@@ -182,7 +183,7 @@ Parse `results[].vulns[]`. If none → print clean bill. Otherwise display group
   │  ○ Pin to 9.40.0
   │  ○ Add range prefix (^9.40.0)
   └
-  ◇  Patched src/policy/base.ts (3 changes)
+  ◇  Patched src/policy/base.deps.ts (3 changes)
   │
   └  Done. Suggested commit: deps: bump typescript, husky, lint-staged
 ```

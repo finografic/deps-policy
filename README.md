@@ -40,10 +40,11 @@ src/
   types.ts           # DependencyGroup, DependencyPolicy, PackageType
   index.ts           # exports: policy, resolvePolicy()
   policy/
-    base.ts          # devDeps shared by every @finografic package
-    cli.ts           # additional deps for genx:type:cli packages
-    library.ts       # additional deps for genx:type:library packages
-    config.ts        # additional deps for genx:type:config packages
+    index.ts         # re-exports base, cli, library, config
+    base.deps.ts     # devDeps shared by every @finografic package
+    cli.deps.ts      # additional deps for genx:type:cli packages
+    library.deps.ts  # additional deps for genx:type:library packages
+    config.deps.ts   # additional deps for genx:type:config packages
 ```
 
 ## Policy management CLI
@@ -66,37 +67,38 @@ pnpm policy:audit -- --help
 
 ### CLI structure
 
+The dev-only CLI lives under `src/deps-cli/`. Shared terminal primitives (`renderHelp`, `renderCommandHelp`, TUI column helpers, `multiselectLineBreak`, `runPnpmInstall`) come from **`@finografic/cli-kit`** — not from a local `src/core/` or `tui/` copy.
+
 ```
 src/deps-cli/
-  cli.ts                          # Entry point — command registry, --help, --version
-  cli.help.ts                     # Root HelpConfig
-  core/render-help/               # Shared help renderer (renderHelp, renderCommandHelp)
+  cli.ts                          # Entry point — command registry, root --help, --version
+  cli.help.ts                     # Root HelpConfig (@finografic/cli-kit/render-help types)
+  collect-deps.ts                 # Parse policy source files → DepEntry[]
+  resolve-latest.ts               # Fetch latest versions from npm / GitHub Packages
   commands/
     audit/
       audit.cli.ts                # runAudit() — OSV vulnerability scan
       audit.logic.ts              # auditDeps() — pure query logic
+      audit.help.ts               # CommandHelpConfig
       audit.constants.ts          # OSV API endpoint
     outdated/
       outdated.cli.ts             # runOutdated() — show version drift
+      outdated.help.ts
     update/
       update.cli.ts               # runUpdate() — interactive update orchestrator
       update.logic.ts             # applyPatches() — file patching
-      update.prompts.ts           # selectUpdatePatches() — clack prompt flow
-      update.options.ts           # createOutdatedSelectOptions() — multiselect option builders
+      update.prompts.ts           # selectUpdatePatches() — clack + multiselectLineBreak
+      update.options.ts           # createOutdatedSelectOptions() — multiselect rows
+      update.help.ts
   output/
     audit.output.ts               # printAudit() — terminal table renderer
     outdated.output.ts            # printOutdated() — dynamic-width column table
-  tui/
-    format.tui.ts                 # padRight, createDivider, computeNameWidth, computeVersionWidth
-    tui.config.ts                 # TUI_DEFAULTS (column width floors)
   types/
-    deps.types.ts                 # DepEntry, DepEntryWithLatest
+    dep-metadata.types.ts         # DepEntry, DepEntryWithLatest
     audit.types.ts                # AuditResult
   utils/
     path.utils.ts                 # toProjectRelativePath()
     audit.utils.ts                # OSV query helpers
-  collect-deps.ts                 # Parse policy source files → DepEntry[]
-  resolve-latest.ts               # Fetch latest versions from npm/GitHub registry
 ```
 
 ## Development
@@ -110,10 +112,10 @@ pnpm lint
 
 ## Documentation
 
-| Doc                                            | Purpose                                           |
-| ---------------------------------------------- | ------------------------------------------------- |
-| [Manual](./docs/MANUAL.md)                     | Full reference: authoring, updater, release, auth |
-| [Updater Plan](./docs/process/UPDATER_PLAN.md) | Design doc for the `policy:*` CLI scripts         |
+| Doc                                         | Purpose                                           |
+| ------------------------------------------- | ------------------------------------------------- |
+| [Manual](./docs/MANUAL.md)                  | Full reference: authoring, updater, release, auth |
+| [Updater Plan](./docs/todo/UPDATER_PLAN.md) | Design doc for the `policy:*` CLI scripts         |
 
 ## License
 

@@ -1,9 +1,10 @@
 # `@finografic/cli-kit` — Planning Document
 
-**Status:** Planning
-**Feeds into:** `CLI_CORE.md` (authoritative spec once kit ships)
-**Sources examined:** `@finografic-genx`, `@finografic-gli`, `@finografic-deps-policy/src/deps-cli/`
-**Last updated:** 2026-04-11
+**Status:** Historical design notes. **`@finografic/cli-kit` ships from the cli-kit repo** — use its README and `docs/spec/CLI_KIT.md` as the authoritative API. This file keeps early rationale and cross-repo migration checklists.
+
+**Sources examined:** `@finografic-genx`, `@finografic-gli`, `@finografic-deps-policy` (`src/deps-cli/`).
+
+**Last updated:** 2026-04-21
 
 The three existing CLI projects each solved the same problems independently. This document extracts the best decisions from each, resolves the conflicts, and defines what `@finografic/cli-kit` will export. The `deps-cli/` layer in `deps-policy` serves as the proving ground for new patterns before they move into the kit.
 
@@ -25,18 +26,21 @@ import { confirmFileWrite } from '@finografic/cli-kit/file-diff';
 
 ---
 
-## Status of Existing `core/` Modules
+## Status of existing `src/core/` modules (other repos)
 
-These are already implemented (in `src/core/` across genx/gli) and will move into the kit verbatim or near-verbatim.
+Consumer CLIs are migrating off per-repo `src/core/*` copies toward **`@finografic/cli-kit/*` subpaths**. Some repos may still carry local `src/core/` until migrated.
 
-| Module        | Status       | Source of truth                          |
-| ------------- | ------------ | ---------------------------------------- |
-| `flow`        | Ready        | `@finografic-genx/src/core/flow/`        |
-| `render-help` | Ready        | `@finografic-genx/src/core/render-help/` |
-| `file-diff`   | Ready        | `@finografic-genx/src/core/file-diff/`   |
-| `commands`    | Planned here | See section below                        |
-| `tui`         | Partial      | `deps-cli/tui/` — needs promotion        |
-| `paths`       | Partial      | `deps-cli/utils/path.utils.ts`           |
+| Module        | In cli-kit  | Typical legacy location                     |
+| ------------- | ----------- | ------------------------------------------- |
+| `flow`        | Yes         | `@finografic-genx/src/core/flow/`           |
+| `render-help` | Yes         | `@finografic-genx/src/core/render-help/`    |
+| `file-diff`   | Yes         | `@finografic-genx/src/core/file-diff/`      |
+| `commands`    | Yes (types) | Defined in this plan; implemented in kit    |
+| `tui`         | Yes         | Promoted from deps-policy `deps-cli` work   |
+| `paths`       | Yes         | New in kit (`tildeify`, `resolveTargetDir`) |
+| `xdg`         | Yes         | New in kit                                  |
+
+Project-specific helpers (for example `toProjectRelativePath` in deps-policy) stay in each repo — not kit modules.
 
 ---
 
@@ -408,25 +412,11 @@ export interface SelectOption<T> {
 
 ## Module: `tui`
 
-Proven in `deps-cli/tui/`. Two files with a clear separation that should carry into the kit:
+**Shipped** as `@finografic/cli-kit/tui` (`TUI_DEFAULTS`, column padding, `computeNameWidth` / `computeVersionWidth`, `createDivider`, `multiselectLineBreak`, …). The pattern (compute widths from live data, floor at defaults) was proven in **`@finografic/deps-policy`** before promotion — hardcoded column widths break on long package names.
 
-- **`tui.constants.ts`** — floor values and display defaults (`TUI_DEFAULTS`). No functions.
-- **`tui.utils.ts`** — utility functions that use those defaults (`padRight`, `createDivider`, `computeNameWidth`, `computeVersionWidth`).
+### Future idea — reusable “deps table” widget
 
-The pattern from `deps-cli` (compute widths from live data, floor at defaults) is the correct approach — hardcoded column widths break on long package names. All table renderers must use `computeNameWidth` / `computeVersionWidth` rather than constants.
-
-**Candidate exports:**
-
-```ts
-// @finografic/cli-kit/tui
-export function padRight(value: string, width: number): string
-export function padLeft(value: string, width: number): string
-export function createDivider(width: number): string
-export function computeNameWidth<T extends { name: string }>(entries: T[]): number
-export function computeVersionWidth<T extends { current: string; latest?: string | null; prefix: string }>(entries: T[]): number
-```
-
-The `compute*` functions should accept generic constraints rather than domain-specific types, so they work for any CLI's tabular data.
+A higher-level helper (optional multiselect + grouped sections like `policy:outdated`) would be useful across Finografic CLIs. It does **not** need to be fully generic on day one: a **`printDependencyTable`-style** helper or **“deps selector”** tuned to `{ name, current, latest?, prefix, group?, sourceFile? }` rows could ship in `cli-kit` and replace duplicated `output/*.ts` + `update.options.ts` glue over time.
 
 ---
 
@@ -461,28 +451,25 @@ Depends on the JSONC utility already in `@finografic-genx/src/utils/jsonc.utils.
 
 ## Migration Path for Existing Repos
 
-### `@finografic-deps-policy`
+### `@finografic/deps-policy`
 
-Most normalized as of 2026-04-11. The `deps-cli/` layer is the proving ground.
+The `src/deps-cli/` layer was the proving ground; it now **consumes `@finografic/cli-kit`** for `render-help`, `tui`, and `package-manager`. Local `deps-cli/core/` and `deps-cli/tui/` copies were removed (2026-04).
 
 **Done:**
 
-- [x] `updater/` → `deps-cli/`, `deps-cli/*` tsconfig alias, all `../../` imports replaced
-- [x] `cli.ts` rewritten to main()/registry pattern; `CommandHandler = (argv: string[]) => Promise<void>`
+- [x] `updater/` → `deps-cli/`, path aliases, imports normalized
+- [x] `cli.ts` rewritten to `main()` / registry pattern; `CommandHandler = (argv: string[]) => Promise<void>`
 - [x] `update.cli.ts` split into orchestrator + `update.logic.ts` + `update.prompts.ts` + `update.options.ts`
-- [x] `select-packages.prompt.ts` moved into `commands/update/` (was wrong location)
-- [x] `core/render-help/` added; `core/*` alias points to `./src/deps-cli/core/*`
-- [x] `--help` wired to all commands via argv passthrough
-- [x] TUI column widths computed from live data (`computeNameWidth`, `computeVersionWidth`)
-- [x] `tui.config.ts` converted from duplicate functions → `TUI_DEFAULTS` constants
-- [x] README updated
+- [x] `--help` wired per command via argv
+- [x] TUI column widths from live data via **`@finografic/cli-kit/tui`**
+- [x] **Migrate** inline `core/render-help` + local `tui/` → **`@finografic/cli-kit`** (no `core/*` tsconfig alias)
 
 **Remaining:**
 
 - [ ] Rename `{name}.cli.ts` → `{name}.command.ts` (naming alignment)
 - [ ] Add `index.ts` barrels to each command folder
 - [ ] Full `RunCommandParams { argv, cwd }` signature (currently just `argv: string[]`)
-- [ ] Add `-y` / flow support to `update` command (bring in `core/flow/`)
+- [ ] Add `-y` / flow support to `update` command (`@finografic/cli-kit/flow`)
 - [ ] Fix `path.utils.ts` — `toProjectRelativePath` uses `__dirname` (tsx polyfill); accept explicit `rootDir`
 
 ### `@finografic-gli`
@@ -490,7 +477,7 @@ Most normalized as of 2026-04-11. The `deps-cli/` layer is the proving ground.
 Already uses the folder-per-command structure and `{ argv }` params. Gaps:
 
 - [ ] Add `cwd` to `RunCommandParams` interface (currently missing)
-- [ ] Remove the ad-hoc `src/core/` once the kit ships (import from kit instead)
+- [ ] Remove local `src/core/` (import from `@finografic/cli-kit/*`)
 - [ ] Normalize `.command.ts` naming (already there — no change needed)
 
 ### `@finografic-genx`
@@ -499,7 +486,7 @@ Most diverged. Uses flat `commands/` with `.cli.ts` files and `(argv, context)` 
 
 - [ ] Rename `.cli.ts` → `.command.ts` and add `commands/{name}/` folder structure
 - [ ] Wrap `argv.includes('--write')` / `argv.includes('-y')` calls in `createFlowContext`
-- [ ] Remove `src/core/` once the kit ships
+- [ ] Remove local `src/core/` (use `@finografic/cli-kit/*`)
 
 ---
 
@@ -507,25 +494,20 @@ Most diverged. Uses flat `commands/` with `.cli.ts` files and `(argv, context)` 
 
 These were open questions; they are now settled by actual implementation.
 
-| Question                                                        | Decision                                         | Reason                                                                                                                  |
-| --------------------------------------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Pass `cwd` from `cli.ts`, or let commands call `process.cwd()`? | Pass from `cli.ts`                               | Testable, explicit, no hidden global reads                                                                              |
-| Where do command-specific constants go?                         | Inline in the file that uses them                | Extract only when shared by 2+ files                                                                                    |
-| `--help` in `cli.ts` or inside the command?                     | Inside the command                               | Commands own their help content                                                                                         |
-| `flow` created in `cli.ts` or in the command?                   | In the command                                   | `cli.ts` doesn't know each command's flag shape                                                                         |
-| `RunCommandParams.cwd` optional or required?                    | Required                                         | Callers always know it; avoids silent `process.cwd()` use                                                               |
-| Where do command-specific option builders go?                   | In the command folder (e.g. `update.options.ts`) | `prompts/` is only for shared cross-command utilities                                                                   |
-| Is `prompts/` a valid shared folder?                            | Only if genuinely cross-command                  | Don't create it preemptively; one-command files go in the command folder                                                |
-| Should `deps-cli` be executable from genx?                      | No                                               | Different subjects: deps-cli authors policy files; genx deps syncs projects to policy                                   |
-| Migration path for `core/` local copies → cli-kit?              | tsconfig alias only                              | `"core/*": ["./src/deps-cli/core/*"]` becomes `"core/*": ["./node_modules/@finografic/cli-kit/..."]`; zero code changes |
+| Question                                                        | Decision                                         | Reason                                                                                                               |
+| --------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| Pass `cwd` from `cli.ts`, or let commands call `process.cwd()`? | Pass from `cli.ts`                               | Testable, explicit, no hidden global reads                                                                           |
+| Where do command-specific constants go?                         | Inline in the file that uses them                | Extract only when shared by 2+ files                                                                                 |
+| `--help` in `cli.ts` or inside the command?                     | Inside the command                               | Commands own their help content                                                                                      |
+| `flow` created in `cli.ts` or in the command?                   | In the command                                   | `cli.ts` doesn't know each command's flag shape                                                                      |
+| `RunCommandParams.cwd` optional or required?                    | Required                                         | Callers always know it; avoids silent `process.cwd()` use                                                            |
+| Where do command-specific option builders go?                   | In the command folder (e.g. `update.options.ts`) | `prompts/` is only for shared cross-command utilities                                                                |
+| Is `prompts/` a valid shared folder?                            | Only if genuinely cross-command                  | Don't create it preemptively; one-command files go in the command folder                                             |
+| Should `deps-cli` be executable from genx?                      | No                                               | Different subjects: deps-cli authors policy files; genx deps syncs projects to policy                                |
+| Migration path for `core/` local copies → cli-kit?              | Direct package imports                           | Prefer `@finografic/cli-kit/render-help` (and other subpaths); remove `core/*` path aliases and delete local copies. |
 
 ---
 
-## Open Questions
+## Open questions (mostly settled in shipped kit)
 
-| Question                                                                                               | Leans toward                                                           |
-| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
-| Should `prompts` module use the same opts interface shape as `flow`?                                   | Yes — makes upgrade path from prompts → flow frictionless              |
-| Should `SelectOption<T>` live in `cli-kit/prompts` or `cli-kit/tui`?                                   | `cli-kit/prompts` — it's about what's selected, not how it's displayed |
-| Should `compute*Width` functions in `cli-kit/tui` accept generic constraints or concrete domain types? | Generic constraints — more reusable                                    |
-| Does `cli-kit/paths` get `tildeify` + `resolveTargetDir` as its first exports?                         | Yes — once a second repo needs them                                    |
+The shipped `@finografic/cli-kit` implements the earlier leanings: `prompts` opts align with `flow` for upgrade friction; `compute*Width` uses generic constraints; `paths` includes `tildeify` and `resolveTargetDir`; `SelectOption` / `createSelectOptions` live under `prompts`. Remaining product questions (for example a dedicated **deps table / selector** widget) belong in the cli-kit issue tracker or roadmap, not here.

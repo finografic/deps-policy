@@ -1,6 +1,6 @@
 # @finografic/deps-policy — Manual
 
-📅 Apr 10, 2026
+📅 Apr 21, 2026
 
 Single authoritative reference for the `@finografic/deps-policy` package: what it is, how it's structured, how to maintain it, and how to release it.
 
@@ -27,20 +27,23 @@ src/
   index.ts              # exports: policy, resolvePolicy()
   policy/
     index.ts            # re-exports base, cli, library, config
-    base.ts             # devDeps shared by every @finografic package
-    cli.ts              # additional deps for genx:type:cli packages
-    library.ts          # additional deps for genx:type:library packages
-    config.ts           # additional deps for genx:type:config packages
+    base.deps.ts        # devDeps shared by every @finografic package
+    cli.deps.ts         # additional deps for genx:type:cli packages
+    library.deps.ts     # additional deps for genx:type:library packages
+    config.deps.ts      # additional deps for genx:type:config packages
 
-src/updater/            # dev-only — not exported, not built
-  index.ts              # CLI entry point (policy:outdated | update | audit)
-  collect.ts            # parse policy source files → DepEntry[]
-  fetch.ts              # npm registry + GitHub Packages version fetch
-  patch.ts              # in-place version string rewriter
-  audit.ts              # OSV vulnerability API wrapper
-  display.ts            # picocolors table + clack prompt helpers
-  updater.types.ts      # shared types for updater internals
+src/deps-cli/           # dev-only — not exported, not built; run via tsx (see package.json scripts)
+  cli.ts                # CLI entry — command registry, root --help / --version
+  cli.help.ts           # root HelpConfig
+  collect-deps.ts       # parse policy *.deps.ts sources → DepEntry[]
+  resolve-latest.ts     # npm registry + GitHub Packages version fetch
+  commands/             # audit, outdated, update command modules
+  output/               # terminal renderers (uses @finografic/cli-kit/tui for tables)
+  types/                # DepEntry, DepEntryWithLatest, audit types
+  utils/                # path + OSV helpers
 ```
+
+Shared CLI primitives (`renderHelp`, `renderCommandHelp`, TUI layout helpers, `multiselectLineBreak`, `runPnpmInstall`) are imported from **`@finografic/cli-kit`**.
 
 ### Policy types
 
@@ -80,16 +83,16 @@ const effective = resolvePolicy('cli');
 
 ### Package types
 
-| Type      | File                | Used for                                     |
-| --------- | ------------------- | -------------------------------------------- |
-| `base`    | `policy/base.ts`    | devDeps on every `@finografic` package       |
-| `cli`     | `policy/cli.ts`     | additional deps for `genx:type:cli` packages |
-| `library` | `policy/library.ts` | additional deps for `genx:type:library`      |
-| `config`  | `policy/config.ts`  | additional deps for `genx:type:config`       |
+| Type      | File                     | Used for                                         |
+| --------- | ------------------------ | ------------------------------------------------ |
+| `base`    | `policy/base.deps.ts`    | devDeps on every `@finografic` package           |
+| `cli`     | `policy/cli.deps.ts`     | additional deps for `genx:type:cli` packages     |
+| `library` | `policy/library.deps.ts` | additional deps for `genx:type:library` packages |
+| `config`  | `policy/config.deps.ts`  | additional deps for `genx:type:config` packages  |
 
 ### Groups within `base`
 
-`base.ts` organises its `devDependencies` into named `const` groups. The updater and display use these group names as section headers.
+`base.deps.ts` organises its `devDependencies` into named `const` groups. The policy CLI (`src/deps-cli/`) uses these group names as section headers when printing tables.
 
 | Group        | Contents                                                                     |
 | ------------ | ---------------------------------------------------------------------------- |
@@ -138,16 +141,16 @@ Then commit: `deps: update deps-policy to <version>`.
 
 1. Decide which file owns it:
 
-   | Applies to   | File                    |
-   | ------------ | ----------------------- |
-   | All packages | `src/policy/base.ts`    |
-   | CLI only     | `src/policy/cli.ts`     |
-   | Library only | `src/policy/library.ts` |
-   | Config only  | `src/policy/config.ts`  |
+   | Applies to   | File                         |
+   | ------------ | ---------------------------- |
+   | All packages | `src/policy/base.deps.ts`    |
+   | CLI only     | `src/policy/cli.deps.ts`     |
+   | Library only | `src/policy/library.deps.ts` |
+   | Config only  | `src/policy/config.deps.ts`  |
 
-2. In `base.ts`, add to the appropriate `const` group block. If it doesn't fit an existing group, create a new one and spread it into the `DependencyGroup` export.
+2. In `base.deps.ts`, add to the appropriate `const` group block. If it doesn't fit an existing group, create a new one and spread it into the `DependencyGroup` export.
 
-3. In `cli.ts` / `library.ts` / `config.ts`, add directly to `dependencies` or `devDependencies` in the exported object.
+3. In `cli.deps.ts` / `library.deps.ts` / `config.deps.ts`, add directly to `dependencies` or `devDependencies` in the exported object.
 
 4. Build and typecheck: `pnpm build && pnpm typecheck`
 
@@ -179,11 +182,11 @@ Then release (see [Release workflow](#release-workflow)).
 
 ## Policy updater
 
-The updater is a dev-only CLI (`src/updater/`) that checks all policy deps against the npm registry and GitHub Packages, and patches version strings in place. It is never built or published.
+The updater is a dev-only CLI under `src/deps-cli/` (run via `pnpm policy:*`, which invokes `tsx src/deps-cli/cli.ts`). It checks all policy deps against the npm registry and GitHub Packages, and patches version strings in place. It is never built or published.
 
 ### Setup
 
-The updater reads GitHub Packages auth from `.env`:
+The CLI reads GitHub Packages auth from `.env`:
 
 ```bash
 # .env  (gitignored)
@@ -220,7 +223,7 @@ Runs the same fetch as `policy:outdated`, then opens interactive prompts.
 
 **Range-prefixed packages** (`^x.y.z`, `~x.y.z`):
 
-A multi-select list of all outdated range-prefixed packages is shown, with all entries pre-selected. Deselect any you want to skip, then confirm.
+A multi-select list of outdated range-prefixed packages is shown. Nothing is pre-selected by default — choose the rows you want, then submit.
 
 **Pinned packages** (no prefix, e.g. `9.39.2`):
 

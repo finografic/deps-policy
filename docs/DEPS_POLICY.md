@@ -10,7 +10,7 @@ Edit versions here. Consumers (e.g. `genx`) pick them up automatically on the ne
 ### Prerequisites
 
 - Node `>=24.3.0`, pnpm `>=10`
-- Auth to GitHub Packages — see [GitHub Packages Setup](./GITHUB_PACKAGES_SETUP.md)
+- Auth to GitHub Packages — see [GitHub Packages Setup](./process/GITHUB_PACKAGES_SETUP.md)
 
 ### First-time setup
 
@@ -28,10 +28,11 @@ src/
   types.ts          # DependencyGroup, DependencyPolicy, PackageType
   index.ts          # exports: policy, resolvePolicy()
   policy/
-    base.ts         # devDeps shared by every @finografic package
-    cli.ts          # additional deps for genx:type:cli packages
-    library.ts      # additional deps for genx:type:library packages
-    config.ts       # additional deps for genx:type:config packages
+    index.ts        # re-exports base, cli, library, config
+    base.deps.ts    # devDeps shared by every @finografic package
+    cli.deps.ts     # additional deps for genx:type:cli packages
+    library.deps.ts # additional deps for genx:type:library packages
+    config.deps.ts  # additional deps for genx:type:config packages
 ```
 
 ### Rules
@@ -44,16 +45,16 @@ src/
 
 ## Ongoing: updating a version
 
-1. Edit the version string in `src/policy/base.ts` (or the relevant type file).
+1. Edit the version string in `src/policy/base.deps.ts` (or the relevant `*.deps.ts` file).
 2. Run `pnpm build && pnpm typecheck` — must pass clean.
 3. Commit: `deps: bump <package> to <version>`
-4. Release — see [Release Process](./RELEASE_PROCESS.md).
+4. Release — see [Release Process](./process/RELEASE_PROCESS.md).
 5. In `genx`: `pnpm update @finografic/deps-policy` then commit `deps: update deps-policy to <version>`.
 
 ### Example — bumping TypeScript
 
 ```ts
-// src/policy/base.ts
+// src/policy/base.deps.ts
 devDependencies: {
   typescript: '^5.10.0',   // was '^5.9.3'
   // ...
@@ -66,12 +67,12 @@ devDependencies: {
 
 Decide which policy file owns it:
 
-| Applies to   | File                    |
-| ------------ | ----------------------- |
-| All packages | `src/policy/base.ts`    |
-| CLI only     | `src/policy/cli.ts`     |
-| Library only | `src/policy/library.ts` |
-| Config only  | `src/policy/config.ts`  |
+| Applies to   | File                         |
+| ------------ | ---------------------------- |
+| All packages | `src/policy/base.deps.ts`    |
+| CLI only     | `src/policy/cli.deps.ts`     |
+| Library only | `src/policy/library.deps.ts` |
+| Config only  | `src/policy/config.deps.ts`  |
 
 Add the entry, build, commit, release.
 
@@ -97,7 +98,7 @@ const effective = resolvePolicy('cli');
 
 ## Related documentation
 
-| Doc                                                 | Purpose                   |
-| --------------------------------------------------- | ------------------------- |
-| [Release Process](./RELEASE_PROCESS.md)             | Versioning and publishing |
-| [GitHub Packages Setup](./GITHUB_PACKAGES_SETUP.md) | Registry and token setup  |
+| Doc                                                         | Purpose                   |
+| ----------------------------------------------------------- | ------------------------- |
+| [Release Process](./process/RELEASE_PROCESS.md)             | Versioning and publishing |
+| [GitHub Packages Setup](./process/GITHUB_PACKAGES_SETUP.md) | Registry and token setup  |
