@@ -94,7 +94,7 @@
     "@eslint/js": "^9.39.2",
     "@finografic/cli-kit": "^0.2.2",
     "@finografic/eslint-config": "^9.18.4",
-    "@finografic/md-lint": "^0.8.1",
+    "@finografic/md-lint": "^0.8.2",
     "@finografic/oxfmt-config": "^1.11.1",
     "@stylistic/eslint-plugin": "^5.6.1",
     "@types/node": "24.0.0",
