@@ -1,6 +1,12 @@
 import { basename } from 'node:path';
+import {
+  computeNameWidth,
+  computeVersionWidth,
+  createDivider,
+  padLeft,
+  padRight,
+} from '@finografic/cli-kit/tui';
 import pc from 'picocolors';
-import { computeNameWidth, computeVersionWidth, createDivider, padLeft, padRight } from 'tui/format.tui.js';
 
 import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 

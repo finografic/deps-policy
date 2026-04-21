@@ -1,6 +1,6 @@
+import { multiselectLineBreak } from '@finografic/cli-kit/tui';
 import * as clack from '@clack/prompts';
 import pc from 'picocolors';
-import { multiselectLineBreak } from 'tui/multiselect.tui.js';
 import type { PatchInput } from './update.logic.js';
 
 import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';

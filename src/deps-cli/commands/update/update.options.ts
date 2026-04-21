@@ -1,6 +1,11 @@
+import {
+  computeNameWidth,
+  computeVersionWidth,
+  padLeft,
+  padRight,
+  TUI_DEFAULTS,
+} from '@finografic/cli-kit/tui';
 import pc from 'picocolors';
-import { computeNameWidth, computeVersionWidth, padLeft, padRight } from 'tui/format.tui.js';
-import { TUI_DEFAULTS } from 'tui/tui.config.js';
 
 import { toProjectRelativePath } from 'utils/path.utils.js';
 

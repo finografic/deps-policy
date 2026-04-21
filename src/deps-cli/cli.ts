@@ -2,10 +2,10 @@
 
 import { createRequire } from 'node:module';
 import process from 'node:process';
+import { renderHelp } from '@finografic/cli-kit/render-help';
 import { runAudit } from 'commands/audit/audit.cli.js';
 import { runOutdated } from 'commands/outdated/outdated.cli.js';
 import { runUpdate } from 'commands/update/update.cli.js';
-import { renderHelp } from 'core/render-help/index.js';
 
 import { cliHelp } from './cli.help.js';
 

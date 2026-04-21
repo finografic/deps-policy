@@ -13,11 +13,9 @@
     "paths": {
       "deps.types": ["./src/deps.types.ts"],
       "policy/*": ["./src/policy/*"],
-      "core/*": ["./src/deps-cli/core/*"],
       "deps-cli/*": ["./src/deps-cli/*"],
       "commands": ["./src/deps-cli/commands/index.ts"],
       "commands/*": ["./src/deps-cli/commands/*"],
-      "tui/*": ["./src/deps-cli/tui/*"],
       "output/*": ["./src/deps-cli/output/*"],
       "utils/*": ["./src/deps-cli/utils/*"],
       "types/*": ["./src/deps-cli/types/*"],

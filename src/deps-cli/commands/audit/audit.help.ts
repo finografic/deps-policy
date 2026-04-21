@@ -1,4 +1,4 @@
-import type { CommandHelpConfig } from 'core/render-help/index.js';
+import type { CommandHelpConfig } from '@finografic/cli-kit/render-help';
 
 export const help: CommandHelpConfig = {
   command: 'policy audit',

@@ -1,6 +1,6 @@
+import { renderCommandHelp } from '@finografic/cli-kit/render-help';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
-import { renderCommandHelp } from 'core/render-help/index.js';
 import { printOutdated } from 'output/outdated.output.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
