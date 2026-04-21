@@ -1,7 +1,7 @@
 import { renderCommandHelp } from '@finografic/cli-kit/render-help';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
-import { printOutdated } from 'output/outdated.output.js';
+import { printOutdated } from 'deps-cli/output/outdated.output.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
 

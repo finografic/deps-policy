@@ -32,7 +32,7 @@ function renderSelectLabel(e: DepEntryWithLatest, col: ColWidths): string {
   const current = pc.dim(padLeft(e.current, col.version));
   const next = pc.green(padLeft(`${e.prefix}${e.latest}`, col.version));
   const pinnedTag = e.pinned ? pc.yellow('  pinned') : '';
-  return ` ${name}${current}  ${pc.dim('→')}${next}${pinnedTag}`;
+  return ` ${name}${current} ${next}${pinnedTag}`;
 }
 
 // ─── Multiselect option builders ─────────────────────────────────────────────
@@ -48,7 +48,7 @@ export function createOutdatedSelectOptions(
 
   const col: ColWidths = {
     // Sized to the visible (filtered) rows so versions don't drift right to match
-    // up-to-date packages. nameExtraPad is the tuning knob in tui.config.ts.
+    // up-to-date packages. nameExtraPad is the tuning knob in TUI_DEFAULTS.multiselect.
     name: computeNameWidth(filtered, TUI_DEFAULTS.multiselect.nameExtraPad),
     // Version width matches the full table (all entries) for consistent alignment.
     version: computeVersionWidth(entries),

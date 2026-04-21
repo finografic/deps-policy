@@ -25,8 +25,8 @@ const _eslint: Record<string, string> = {
 
 const linting: Record<string, string> = {
   'oxlint': '^1.61.0',
-  '@finografic/md-lint': '^0.8.2',
-  '@finografic/oxc-config': '^2.3.5',
+  '@finografic/md-lint': '^0.7.0',
+  '@finografic/oxc-config': '^1.3.0',
   'globals': '^17.5.0',
 };
 
@@ -43,7 +43,7 @@ const hooks: Record<string, string> = {
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^1.3.3',
+  '@finografic/project-scripts': '^1.3.2',
 };
 
 /**

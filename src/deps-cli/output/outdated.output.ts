@@ -1,99 +1,53 @@
-import { basename } from 'node:path';
-import {
-  computeNameWidth,
-  computeVersionWidth,
-  createDivider,
-  padLeft,
-  padRight,
-} from '@finografic/cli-kit/tui';
+import { renderOutdatedGroup } from 'deps-cli/output/outdate.utils.js';
+import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
 import pc from 'picocolors';
+import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
 
-import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
-
-// ─── Grouping ────────────────────────────────────────────────────────────────
-
-interface GroupedFile {
-  sourceFile: string;
-  groups: Map<string, DepEntryWithLatest[]>;
-}
-
-function groupByFile(entries: DepEntryWithLatest[]): GroupedFile[] {
-  const fileMap = new Map<string, Map<string, DepEntryWithLatest[]>>();
-  for (const e of entries) {
-    if (!fileMap.has(e.sourceFile)) fileMap.set(e.sourceFile, new Map());
-    const groups = fileMap.get(e.sourceFile)!;
-    if (!groups.has(e.group)) groups.set(e.group, []);
-    groups.get(e.group)!.push(e);
-  }
-  return [...fileMap.entries()].map(([sourceFile, groups]) => ({ sourceFile, groups }));
-}
-
-// ─── Row renderer ─────────────────────────────────────────────────────────────
-
-interface ColWidths {
-  name: number;
-  version: number;
-}
-
-function renderOutdatedEntry(e: DepEntryWithLatest, col: ColWidths): string {
-  const name = padRight(e.name, col.name);
-
-  if (e.latest === null) {
-    return `  ${pc.dim(name)}${padLeft(e.current, col.version)}  ${pc.dim('(private)')}`;
-  }
-
-  if (!e.outdated) {
-    return `  ${pc.dim(name)}${pc.dim(padLeft(e.current, col.version))}  ${pc.dim('✓')}`;
-  }
-
-  const next = `${e.prefix}${e.latest}`;
-
-  const current = padLeft(e.current, col.version);
-  const nextAligned = padLeft(next, col.version);
-
-  const arrow = `${pc.dim(current)}  ${pc.dim('→')}${pc.green(nextAligned)}`;
-  const tag = e.pinned ? pc.yellow('  ✦ pinned') : pc.yellow('  ✦');
-
-  return `  ${pc.bold(name)}${arrow}${tag}`;
-}
-
-// ─── Public ───────────────────────────────────────────────────────────────────
+import { FIRST_COLUMN_OFFSET, LEFT_MARGIN } from './config.constants.js';
+import { computeColumnWidths } from './table/width.js';
 
 export function printOutdated(entries: DepEntryWithLatest[]): void {
-  const outdatedCount = entries.filter((e) => e.outdated).length;
-  const skipped = entries.filter((e) => e.latest === null && !e.name.startsWith('@finografic/')).length;
-
-  if (outdatedCount === 0) {
-    console.log(`\n  ${pc.green('✓')} All ${entries.length} packages are up to date.\n`);
+  if (entries.length === 0) {
+    console.log(`${LEFT_MARGIN}${pc.dim('No dependencies found.')}`);
     return;
   }
 
-  console.log(
-    `\n  ${pc.yellow(`${outdatedCount} of ${entries.length} packages outdated`)}${skipped > 0 ? pc.dim(`  (${skipped} skipped)`) : ''}\n`,
-  );
+  const outdated = entries.filter((e) => e.outdated);
+  const total = entries.length;
 
-  const col: ColWidths = {
-    name: computeNameWidth(entries),
-    version: computeVersionWidth(entries),
-  };
-  const tableWidth = col.name + col.version * 2 + 14;
+  // ─── Summary ───────────────────────────────────────────────
 
-  for (const { sourceFile, groups } of groupByFile(entries)) {
-    const hasOutdated = [...groups.values()].flat().some((e) => e.outdated);
-    if (!hasOutdated) continue;
+  console.log();
+  console.log(`${LEFT_MARGIN}${pc.bold(`${outdated.length} of ${total} packages outdated`)}`);
 
-    console.log(`  ${pc.bold(pc.cyan(basename(sourceFile)))}\n`);
+  // ─── Build rows (for width calculation) ────────────────────
 
-    for (const [groupName, groupEntries] of groups) {
-      const groupHasOutdated = groupEntries.some((e) => e.outdated);
-      if (!groupHasOutdated) continue;
+  const rows = entries.map((e) => {
+    const next = e.latest ? `${e.prefix}${e.latest}` : '';
+    return [e.name, e.current, next];
+  });
 
-      console.log(`  ${pc.dim(pc.cyan(groupName))}`);
-      console.log(pc.cyan(createDivider(tableWidth)));
-      for (const e of groupEntries) {
-        console.log(renderOutdatedEntry(e, col));
-      }
-      console.log();
+  const widths = computeColumnWidths(rows);
+
+  const columns = [
+    { width: widths[0] + FIRST_COLUMN_OFFSET, align: 'left' as const },
+    { width: widths[1], align: 'right' as const },
+    { width: widths[2], align: 'right' as const },
+  ];
+
+  // ─── Grouping ──────────────────────────────────────────────
+
+  const groups = groupDependencies(entries);
+  const dividerWidth = widths[0] + FIRST_COLUMN_OFFSET + widths[1] + widths[2] + 4;
+
+  for (const group of groups) {
+    const lines = renderOutdatedGroup(group, columns, dividerWidth);
+
+    for (const line of lines) {
+      console.log(line);
     }
   }
+
+  console.log();
+  console.log(`${LEFT_MARGIN}${pc.dim('Done.')}`);
 }

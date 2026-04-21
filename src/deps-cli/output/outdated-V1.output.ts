@@ -1,0 +1,102 @@
+import { basename } from 'node:path';
+import {
+  computeNameWidth,
+  computeVersionWidth,
+  createDivider,
+  padLeft,
+  padRight,
+} from '@finografic/cli-kit/tui';
+import pc from 'picocolors';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
+
+// ─── Grouping ────────────────────────────────────────────────────────────────
+
+interface GroupedFile {
+  sourceFile: string;
+  groups: Map<string, DepEntryWithLatest[]>;
+}
+
+function groupByFile(entries: DepEntryWithLatest[]): GroupedFile[] {
+  const fileMap = new Map<string, Map<string, DepEntryWithLatest[]>>();
+  for (const e of entries) {
+    if (!fileMap.has(e.sourceFile)) fileMap.set(e.sourceFile, new Map());
+    const groups = fileMap.get(e.sourceFile)!;
+    if (!groups.has(e.group)) groups.set(e.group, []);
+    groups.get(e.group)!.push(e);
+  }
+  return [...fileMap.entries()].map(([sourceFile, groups]) => ({ sourceFile, groups }));
+}
+
+// ─── Row renderer ─────────────────────────────────────────────────────────────
+
+interface ColWidths {
+  name: number;
+  version: number;
+}
+
+function renderOutdatedEntry(e: DepEntryWithLatest, col: ColWidths): string {
+  const name = padRight(e.name, col.name);
+
+  if (e.latest === null) {
+    return `  A--${pc.dim(name)}${padLeft(e.current, col.version)}  ${pc.dim('(private)')}`;
+  }
+
+  if (!e.outdated) {
+    return `  B--${pc.dim(name)}${pc.dim(padLeft(e.current, col.version))}  ${pc.dim('✓')}`;
+  }
+
+  const next = `${e.prefix}${e.latest}`;
+
+  const current = padLeft(e.current, col.version);
+  const nextAligned = padLeft(next, col.version);
+
+  const arrow = `${pc.dim(current)}  ${pc.dim('→')}${pc.green(nextAligned)}`;
+  const tag = e.pinned ? pc.yellow('  ✦ pinned') : pc.yellow('  ✦');
+
+  return `    C--${pc.bold(name)}${arrow}${tag}`;
+  // return padLeft(`  ${pc.bold(name)}${arrow}${tag}`, 10);
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// ─── Public ───────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────────
+
+export function printOutdated(entries: DepEntryWithLatest[]): void {
+  const outdatedCount = entries.filter((e) => e.outdated).length;
+  const skipped = entries.filter((e) => e.latest === null && !e.name.startsWith('@finografic/')).length;
+
+  if (outdatedCount === 0) {
+    console.log(`\n  ${pc.green('✓')} All ${entries.length} packages are up to date.\n`);
+    return;
+  }
+
+  console.log(
+    `\n  ${pc.yellow(`${outdatedCount} of ${entries.length} packages outdated`)}${skipped > 0 ? pc.dim(`  (${skipped} skipped)`) : ''}\n`,
+  );
+
+  const col: ColWidths = {
+    name: computeNameWidth(entries),
+    version: computeVersionWidth(entries),
+  };
+  const tableWidth = col.name + col.version * 2 + 14;
+
+  for (const { sourceFile, groups } of groupByFile(entries)) {
+    const hasOutdated = [...groups.values()].flat().some((e) => e.outdated);
+    if (!hasOutdated) continue;
+
+    console.log(`  ${pc.bold(pc.cyan(basename(sourceFile)))}\n`);
+
+    for (const [groupName, groupEntries] of groups) {
+      const groupHasOutdated = groupEntries.some((e) => e.outdated);
+      if (!groupHasOutdated) continue;
+
+      console.log(`  ${pc.dim(pc.cyan(groupName))}`);
+      console.log(pc.cyan(createDivider(tableWidth)));
+      for (const e of groupEntries) {
+        console.log(renderOutdatedEntry(e, col));
+      }
+      console.log();
+    }
+  }
+}
