@@ -1,0 +1,26 @@
+import { column } from '@finografic/cli-kit/tui/table';
+import type { ColumnDef } from '@finografic/cli-kit/tui/table';
+import pc from 'picocolors';
+import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
+
+export function getDepsColumns(): ColumnDef<DepEntryWithLatest>[] {
+  return [
+    column<DepEntryWithLatest>('name', {
+      align: 'left',
+      offset: 5,
+      get: (entry) => entry.name,
+    }),
+
+    column<DepEntryWithLatest>('current', {
+      align: 'right',
+      get: (entry) => entry.current,
+      format: (v) => pc.dim(v),
+    }),
+
+    column<DepEntryWithLatest>('next', {
+      align: 'right',
+      get: (entry) => `${entry.prefix}${entry.latest}`,
+      format: (v, entry) => (entry.latest ? pc.green(v) : pc.dim('(private)')),
+    }),
+  ];
+}

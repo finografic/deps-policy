@@ -5,23 +5,22 @@ import type { PatchInput } from './update.logic.js';
 
 import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
-import { createOutdatedSelectOptions } from './update.options.js';
+import { createSelectOptions } from './update.options.js';
 
 export async function selectUpdatePatches(entries: DepEntryWithLatest[]): Promise<PatchInput[]> {
   const patches: PatchInput[] = [];
 
-  const outdatedOptions = createOutdatedSelectOptions(entries);
+  const options = createSelectOptions(entries, {
+    isSelected: (e) => e.outdated && !e.pinned,
+  });
 
-  if (outdatedOptions.length === 0) {
+  if (options.length === 0) {
     return patches;
   }
 
-  const initialValues = outdatedOptions.filter((o) => o.initialValue).map((o) => o.value);
-
   const selected = await multiselectLineBreak<DepEntryWithLatest>({
     message: 'Select packages to update',
-    options: outdatedOptions,
-    initialValues,
+    options,
     required: false,
   });
 

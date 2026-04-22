@@ -1,63 +1,39 @@
-import {
-  computeNameWidth,
-  computeVersionWidth,
-  padLeft,
-  padRight,
-  TUI_DEFAULTS,
-} from '@finografic/cli-kit/tui';
-import pc from 'picocolors';
+import type { SelectOption } from '@finografic/cli-kit/prompts';
+import { createTable } from '@finografic/cli-kit/tui/table';
+import type { TableInstance } from '@finografic/cli-kit/tui/table';
+import { getDepsColumns } from 'deps-cli/output/deps.columns.js';
+import { printDepsLine } from 'deps-cli/output/deps.row.js';
+import { toProjectRelativePath } from 'deps-cli/utils/path.utils.js';
+import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
 
-import { toProjectRelativePath } from 'utils/path.utils.js';
+// ─── Labels ─────────────────────────────────────────────────
 
-import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export interface SelectOption<T> {
-  value: T;
-  label: string;
-  hint: string;
-  initialValue: boolean;
-}
-
-// ─── Row renderer ─────────────────────────────────────────────────────────────
-
-interface ColWidths {
-  name: number;
-  version: number;
-}
-
-function renderSelectLabel(e: DepEntryWithLatest, col: ColWidths): string {
-  const name = padRight(e.name, col.name);
-  const current = pc.dim(padLeft(e.current, col.version));
-  const next = pc.green(padLeft(`${e.prefix}${e.latest}`, col.version));
-  const pinnedTag = e.pinned ? pc.yellow('  pinned') : '';
-  return ` ${name}${current} ${next}${pinnedTag}`;
-}
-
-// ─── Multiselect option builders ─────────────────────────────────────────────
-
-/**
- * One row per outdated package (range-prefixed and pinned). Nothing is pre-selected; callers pass
- * `initialValues` (from each option's `initialValue`) into `multiselectLineBreak`.
- */
-export function createOutdatedSelectOptions(
+function createSelectOptionLabels(
   entries: DepEntryWithLatest[],
+  table: TableInstance<DepEntryWithLatest>,
+): string[] {
+  return entries.map((entry) => printDepsLine(entry, table));
+}
+
+// ─── Options ────────────────────────────────────────────────
+
+export function createSelectOptions(
+  entries: DepEntryWithLatest[],
+  options?: {
+    isSelected?: (entry: DepEntryWithLatest) => boolean;
+  },
 ): SelectOption<DepEntryWithLatest>[] {
-  const filtered = entries.filter((e) => e.outdated);
+  if (entries.length === 0) return [];
 
-  const col: ColWidths = {
-    // Sized to the visible (filtered) rows so versions don't drift right to match
-    // up-to-date packages. nameExtraPad is the tuning knob in TUI_DEFAULTS.multiselect.
-    name: computeNameWidth(filtered, TUI_DEFAULTS.multiselect.nameExtraPad),
-    // Version width matches the full table (all entries) for consistent alignment.
-    version: computeVersionWidth(entries),
-  };
+  // IMPORTANT: use SAME entries for width calc + labels
+  const table = createTable(entries, getDepsColumns());
+  const labels = createSelectOptionLabels(entries, table);
+  const isSelected = options?.isSelected ?? (() => false);
 
-  return filtered.map((e) => ({
-    value: e,
-    label: renderSelectLabel(e, col),
-    hint: toProjectRelativePath(e.sourceFile),
-    initialValue: false,
+  return entries.map((entry, i) => ({
+    value: entry,
+    label: labels[i],
+    hint: toProjectRelativePath(entry.sourceFile),
+    initialValue: isSelected(entry),
   }));
 }

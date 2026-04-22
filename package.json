@@ -95,7 +95,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/js": "^9.39.2",
-    "@finografic/cli-kit": "^0.2.2",
+    "@finografic/cli-kit": "^0.3.3",
     "@finografic/eslint-config": "^9.18.4",
     "@finografic/md-lint": "^0.8.2",
     "@finografic/oxfmt-config": "^1.11.1",
