@@ -37,7 +37,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     return;
   }
 
-  printDepsTable(entries);
+  printDepsTable(entries, { view: 'outdated' });
 
   const patches = await selectUpdatePatches(entries);
 

@@ -26,15 +26,30 @@ export function printGroupTitle<T extends { name: string }>(
 
 // ─── Table ────────────────────────────────────────────────
 
-export function printDepsTable(entries: DepEntryWithLatest[]): void {
-  const outdated = entries.filter((entry) => entry.outdated);
+export function printDepsTable(
+  entries: DepEntryWithLatest[],
+  options?: {
+    view?: 'all' | 'outdated';
+  },
+): void {
+  const view = options?.view ?? 'all';
+
   const total = entries.length;
+  const outdatedCount = entries.filter((e) => e.outdated).length;
+
+  const visibleEntries = view === 'outdated' ? entries.filter((e) => e.outdated) : entries;
 
   console.log();
-  console.log(`${LEFT_MARGIN}${pc.bold(`${outdated.length} of ${total} packages outdated`)}`);
 
-  const table = createTable(entries, getDepsColumns());
-  const groups = groupDependencies(entries);
+  if (view === 'outdated') {
+    console.log(`${LEFT_MARGIN}${pc.bold(`${visibleEntries.length} outdated packages`)}`);
+  } else {
+    console.log(`${LEFT_MARGIN}${pc.bold(`${outdatedCount} of ${total} packages outdated`)}`);
+  }
+
+  // Important: table + groups use SAME filtered set
+  const table = createTable(visibleEntries, getDepsColumns());
+  const groups = groupDependencies(visibleEntries);
 
   for (const group of groups) {
     console.log();
