@@ -4,7 +4,7 @@ import { runPnpmInstall } from '@finografic/cli-kit/package-manager';
 import { renderCommandHelp } from '@finografic/cli-kit/render-help';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
-import { printOutdatedTable } from 'deps-cli/output/deps.table.js';
+import { printDepsTable } from 'deps-cli/output/deps.table.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
 
@@ -37,7 +37,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     return;
   }
 
-  printOutdatedTable(entries);
+  printDepsTable(entries);
 
   const patches = await selectUpdatePatches(entries);
 

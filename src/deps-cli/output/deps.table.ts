@@ -26,7 +26,7 @@ export function printGroupTitle<T extends { name: string }>(
 
 // ─── Table ────────────────────────────────────────────────
 
-export function printOutdatedTable(entries: DepEntryWithLatest[]): void {
+export function printDepsTable(entries: DepEntryWithLatest[]): void {
   const outdated = entries.filter((entry) => entry.outdated);
   const total = entries.length;
 
