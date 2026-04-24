@@ -6,7 +6,7 @@
 > — Write in present tense. No code snippets — describe what exists, not how it works.
 > — `.claude/memory.md` = session work log. `.ai/handoff.md` = project state snapshot. Never duplicate between the two.
 
-📅 Apr 21, 2026
+📅 Apr 24, 2026
 
 ## Project
 
@@ -30,22 +30,37 @@ Auth for private `@finografic/*` version lookups uses `NPM_TOKEN` from a gitigno
 
 Interactive update uses a multiselect with **no packages pre-selected by default** (explicit opt-in per row). Pinned packages still get per-package follow-up prompts.
 
+All three commands (`outdated`, `update`, `audit`) are wrapped in `withHelp` from `@finografic/cli-kit/render-help` — no manual `--help` guard boilerplate.
+
+## Table / Multiselect Alignment
+
+Table rendering uses `createTable` / `ColumnDef<T>` from `@finografic/cli-kit/tui`. Key constants in `deps-cli/config.constants.ts`:
+
+- `CLACK_LEFT_MARGIN = ' '.repeat(3)` — prefix for static rows (matches clack's visual margin)
+- `CLACK_MULTISELECT_PREFIX_WIDTH = 2` — net char difference between clack's checkbox prefix (5 chars) and `CLACK_LEFT_MARGIN` (3 chars); applied as negative padding adjustment on the first column in `selectUpdatePatches` so multiselect rows align with the static table above
+
+Section headers use `renderSectionTitle` from `@finografic/cli-kit/tui`, passing `CLACK_LEFT_MARGIN` as the margin. No local color logic needed.
+
 ## Decisions (recent)
 
-1. **cli-kit for deps-cli** — Help rendering, TUI primitives, multiselect line-break, and `pnpm install` spawning use `@finografic/cli-kit` instead of duplicated local modules. (2026-04)
-2. **Policy source filenames** — Policy literals use `*.deps.ts` under `src/policy/`. (ongoing)
+1. **cli-kit for deps-cli** — Help rendering, TUI primitives, multiselect line-break, and `pnpm install` spawning use `@finografic/cli-kit`. (2026-04)
+2. **Table system** — `createTable` / `ColumnDef<T>` replaced all ad-hoc width computation. Widths computed ANSI-aware from full dataset. (2026-04)
+3. **renderSectionTitle** — Section title + divider moved to `cli-kit/tui`; `printGroupTitle` removed from this repo. (2026-04)
+4. **`withHelp` wrapper** — All three CLI commands use `withHelp` instead of the manual `if (argv.includes('--help'))` guard. (2026-04)
+5. **Policy source filenames** — Policy literals use `*.deps.ts` under `src/policy/`. (ongoing)
 
 ## Open questions
 
 1. Whether `genx` should expose a `deps-policy --update` style command that shells into this flow without switching repos — still a future integration; design notes live in `docs/todo/UPDATER_PLAN.md`.
-2. Optional higher-level **dependency table / selector** widget in cli-kit (see `docs/todo/CLI_KIT_PLAN.md` “Future idea”) — product decision, not blocking this package.
+2. 4 commands in `@finografic-genx/src/commands/` still use the old manual `--help` guard — should be updated to `withHelp`.
 
 ## Docs
 
 - `README.md` — quick structure and script reference
 - `docs/MANUAL.md` — full maintainer reference
+- `docs/DEPS_POLICY.md` — policy surface reference
 - `docs/todo/UPDATER_PLAN.md` — updater design and UX notes
-- `docs/todo/CLI_KIT_PLAN.md` — historical cli-kit planning plus remaining normalization TODOs for this repo
+- `docs/todo/CLI_KIT_PLAN.md` — historical cli-kit planning plus remaining normalization TODOs
 
 ## Agent doc layout
 
