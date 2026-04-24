@@ -5,7 +5,7 @@ import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
 import pc from 'picocolors';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
 
-import { LEFT_MARGIN } from '../config.constants.js';
+import { CLACK_LEFT_MARGIN } from '../config.constants.js';
 import { getDepsColumns } from './deps.columns.js';
 
 // ─── Title ────────────────────────────────────────────────
@@ -17,8 +17,8 @@ export function printGroupTitle<T extends { name: string }>(
   const dividerWidth =
     table.columns.reduce((acc, col) => acc + col.width, 0) + (table.columns.length - 1) * 2;
 
-  const title = `${LEFT_MARGIN}${group.name}`;
-  const divider = pc.dim(`${LEFT_MARGIN}${'─'.repeat(dividerWidth)}`);
+  const title = `${CLACK_LEFT_MARGIN}${group.name}`;
+  const divider = pc.dim(`${CLACK_LEFT_MARGIN}${'─'.repeat(dividerWidth)}`);
 
   console.log(pc.cyan(title));
   console.log(pc.cyan(divider));
@@ -42,9 +42,9 @@ export function printDepsTable(
   console.log();
 
   if (view === 'outdated') {
-    console.log(`${LEFT_MARGIN}${pc.bold(`${visibleEntries.length} outdated packages`)}`);
+    console.log(`${CLACK_LEFT_MARGIN}${pc.bold(`${visibleEntries.length} outdated packages`)}`);
   } else {
-    console.log(`${LEFT_MARGIN}${pc.bold(`${outdatedCount} of ${total} packages outdated`)}`);
+    console.log(`${CLACK_LEFT_MARGIN}${pc.bold(`${outdatedCount} of ${total} packages outdated`)}`);
   }
 
   // Important: table + groups use SAME filtered set
@@ -57,7 +57,7 @@ export function printDepsTable(
 
     for (const entry of group.entries) {
       const line = printDepsLine(entry, table);
-      console.log(LEFT_MARGIN + line);
+      console.log(CLACK_LEFT_MARGIN + line);
     }
   }
 }

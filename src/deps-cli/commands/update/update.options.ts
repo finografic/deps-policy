@@ -6,28 +6,30 @@ import { printDepsLine } from 'deps-cli/output/deps.row.js';
 import { toProjectRelativePath } from 'deps-cli/utils/path.utils.js';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
 
-// ─── Labels ─────────────────────────────────────────────────
+// ─── Labels ────────────────────────────────────────────────
 
-function createSelectOptionLabels(
+function createSelectLabels(
   entries: DepEntryWithLatest[],
   table: TableInstance<DepEntryWithLatest>,
 ): string[] {
   return entries.map((entry) => printDepsLine(entry, table));
 }
 
-// ─── Options ────────────────────────────────────────────────
+// ─── Options ───────────────────────────────────────────────
 
 export function createSelectOptions(
   entries: DepEntryWithLatest[],
   options?: {
     isSelected?: (entry: DepEntryWithLatest) => boolean;
   },
+  table?: TableInstance<DepEntryWithLatest>,
 ): SelectOption<DepEntryWithLatest>[] {
   if (entries.length === 0) return [];
 
-  // IMPORTANT: use SAME entries for width calc + labels
-  const table = createTable(entries, getDepsColumns());
-  const labels = createSelectOptionLabels(entries, table);
+  const tableInstance = table ?? createTable(entries, getDepsColumns());
+
+  const labels = createSelectLabels(entries, tableInstance);
+
   const isSelected = options?.isSelected ?? (() => false);
 
   return entries.map((entry, i) => ({

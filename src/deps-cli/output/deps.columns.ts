@@ -7,7 +7,7 @@ export function getDepsColumns(): ColumnDef<DepEntryWithLatest>[] {
   return [
     column<DepEntryWithLatest>('name', {
       align: 'left',
-      offset: 5,
+      offset: 3,
       get: (entry) => entry.name,
     }),
 
