@@ -4,6 +4,7 @@ import { runPnpmInstall } from '@finografic/cli-kit/package-manager';
 import { renderCommandHelp } from '@finografic/cli-kit/render-help';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
+import { getDepsColumns } from 'deps-cli/output/deps.columns.js';
 import { printDepsTable } from 'deps-cli/output/deps.table.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
@@ -28,18 +29,22 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
   const deps = await collectDeps();
   spin.message(`Fetching latest from npm registry… (${deps.length} packages)`);
 
-  const entries = await resolveLatestVersions(deps);
-  const outdatedCount = entries.filter((e) => e.outdated).length;
-  spin.stop(`${outdatedCount} of ${entries.length} packages outdated`);
+  const data = await resolveLatestVersions(deps);
+  const entries = data.filter((dep) => dep.outdated);
 
-  if (outdatedCount === 0) {
+  spin.stop(`${entries.length} of ${data.length} packages outdated`);
+
+  if (entries.length === 0) {
     clack.outro(pc.green('All packages are up to date.'));
     return;
   }
 
-  const table = printDepsTable(entries, { view: 'outdated' });
+  const columns = getDepsColumns();
 
-  const patches = await selectUpdatePatches(entries, table);
+  printDepsTable(entries, columns);
+  console.log();
+
+  const patches = await selectUpdatePatches(entries, columns);
 
   if (patches.length === 0) {
     clack.outro('No changes applied.');

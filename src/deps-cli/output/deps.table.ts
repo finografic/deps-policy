@@ -1,51 +1,34 @@
 import { createTable } from '@finografic/cli-kit/tui/table';
-import type { TableInstance } from '@finografic/cli-kit/tui/table';
+import type { ColumnDef } from '@finografic/cli-kit/tui/table';
+import { printDepsRow } from 'deps-cli/output/deps.row.js';
 import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
 import pc from 'picocolors';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
 
 import { CLACK_LEFT_MARGIN } from '../config.constants.js';
-import { getDepsColumns } from './deps.columns.js';
-import { printDepsLine } from './deps.row.js';
 
 // ─── Group title + divider ────────────────────────────────
 
-export function printGroupTitle(name: string, table: TableInstance<DepEntryWithLatest>): void {
+export function printGroupTitle(name: string, totalWidth: number): void {
   console.log(pc.cyan(`${CLACK_LEFT_MARGIN}${name}`));
-  console.log(pc.dim(`${CLACK_LEFT_MARGIN}${'─'.repeat(table.totalWidth)}`));
+  console.log(pc.dim(`${CLACK_LEFT_MARGIN}${'─'.repeat(totalWidth)}`));
 }
 
 // ─── Table ────────────────────────────────────────────────
 
 export function printDepsTable(
   entries: DepEntryWithLatest[],
-  options?: { view?: 'all' | 'outdated' },
-): TableInstance<DepEntryWithLatest> {
-  const view = options?.view ?? 'all';
-
-  const total = entries.length;
-  const outdatedCount = entries.filter((e) => e.outdated).length;
-  const visibleEntries = view === 'outdated' ? entries.filter((e) => e.outdated) : entries;
-
-  console.log();
-
-  if (view === 'outdated') {
-    console.log(`${CLACK_LEFT_MARGIN}${pc.bold(`${visibleEntries.length} outdated packages`)}`);
-  } else {
-    console.log(`${CLACK_LEFT_MARGIN}${pc.bold(`${outdatedCount} of ${total} packages outdated`)}`);
-  }
-
-  const table = createTable(visibleEntries, getDepsColumns());
-  const groups = groupDependencies(visibleEntries);
+  columns: ColumnDef<DepEntryWithLatest>[],
+): void {
+  const table = createTable<DepEntryWithLatest>(entries, columns);
+  const groups = groupDependencies(entries);
 
   for (const group of groups) {
     console.log();
-    printGroupTitle(group.name, table);
+    printGroupTitle(group.name, table.totalWidth);
 
     for (const entry of group.entries) {
-      console.log(CLACK_LEFT_MARGIN + printDepsLine(entry, table));
+      console.log(CLACK_LEFT_MARGIN + printDepsRow(entry, table.renderRow(entry)));
     }
   }
-
-  return table;
 }

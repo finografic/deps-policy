@@ -1,5 +1,5 @@
-import { multiselectLineBreak } from '@finografic/cli-kit/tui';
-import type { TableInstance } from '@finografic/cli-kit/tui/table';
+import { createTable, multiselectLineBreak } from '@finografic/cli-kit/tui';
+import type { ColumnDef } from '@finografic/cli-kit/tui/table';
 import * as clack from '@clack/prompts';
 import pc from 'picocolors';
 import type { PatchInput } from './update.logic.js';
@@ -10,19 +10,15 @@ import { createDepsSelectOptions } from './update.options.js';
 
 export async function selectUpdatePatches(
   entries: DepEntryWithLatest[],
-  table: TableInstance<DepEntryWithLatest>,
+  columns: ColumnDef<DepEntryWithLatest>[],
 ): Promise<PatchInput[]> {
   const patches: PatchInput[] = [];
 
-  const actionable = entries.filter((e) => e.outdated);
-  if (actionable.length === 0) return patches;
+  const table = createTable<DepEntryWithLatest>(entries, columns);
+  const options = createDepsSelectOptions(entries, table, { isSelected: (e) => !e.pinned });
 
-  const options = createDepsSelectOptions(actionable, table, {
-    isSelected: (e) => !e.pinned,
-  });
-
-  const selected = await multiselectLineBreak<DepEntryWithLatest>({
-    message: 'Select packages to update',
+  const selected = await multiselectLineBreak({
+    message: 'Select packages to update\n',
     options,
     required: false,
   });
