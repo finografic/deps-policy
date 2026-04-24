@@ -6,6 +6,7 @@ import type { PatchInput } from './update.logic.js';
 
 import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
+import { CLACK_MULTISELECT_PREFIX_WIDTH } from '../../config.constants.js';
 import { createDepsSelectOptions } from './update.options.js';
 
 export async function selectUpdatePatches(
@@ -14,7 +15,21 @@ export async function selectUpdatePatches(
 ): Promise<PatchInput[]> {
   const patches: PatchInput[] = [];
 
-  const table = createTable<DepEntryWithLatest>(entries, columns);
+  // Clack's guide bar + checkbox prefix adds CLACK_MULTISELECT_PREFIX_WIDTH more chars than
+  // CLACK_LEFT_MARGIN. Narrow the first column by that amount so version columns stay aligned
+  // with the static table printed above the prompt.
+  const msColumns = columns.map((col, i) =>
+    i === 0
+      ? {
+        ...col,
+        padding: {
+          ...(col.padding ?? {}),
+          right: (col.padding?.right ?? 0) - CLACK_MULTISELECT_PREFIX_WIDTH,
+        },
+      }
+      : col,
+  );
+  const table = createTable<DepEntryWithLatest>(entries, msColumns);
   const options = createDepsSelectOptions(entries, table, { isSelected: (e) => !e.pinned });
 
   const selected = await multiselectLineBreak({
