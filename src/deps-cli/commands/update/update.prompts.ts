@@ -21,12 +21,12 @@ export async function selectUpdatePatches(
   const msColumns = columns.map((col, i) =>
     i === 0
       ? {
-        ...col,
-        padding: {
-          ...(col.padding ?? {}),
-          right: (col.padding?.right ?? 0) - CLACK_MULTISELECT_PREFIX_WIDTH,
-        },
-      }
+          ...col,
+          padding: {
+            ...(col.padding ?? {}),
+            right: (col.padding?.right ?? 0) - CLACK_MULTISELECT_PREFIX_WIDTH,
+          },
+        }
       : col,
   );
   const table = createTable<DepEntryWithLatest>(entries, msColumns);

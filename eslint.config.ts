@@ -69,7 +69,7 @@ export default defineConfig([
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
 
-      '@stylistic/indent': ['warn', 2, { SwitchCase: 1, ignoredNodes: ['ConditionalExpression'] }],
+      // '@stylistic/indent': ['warn', 2, { SwitchCase: 1, ignoredNodes: ['ConditionalExpression'] }],
       '@stylistic/operator-linebreak': [
         'warn',
         'after',
