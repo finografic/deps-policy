@@ -9,6 +9,5 @@ export function printDepsRow(entry: DepEntryWithLatest, baseRow: string): string
 }
 
 export function printDepsLine(entry: DepEntryWithLatest, table: TableInstance<DepEntryWithLatest>): string {
-  const row = table.render(entry);
-  return printDepsRow(entry, row);
+  return printDepsRow(entry, table.renderRow(entry));
 }

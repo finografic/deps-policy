@@ -37,9 +37,9 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     return;
   }
 
-  printDepsTable(entries, { view: 'outdated' });
+  const table = printDepsTable(entries, { view: 'outdated' });
 
-  const patches = await selectUpdatePatches(entries);
+  const patches = await selectUpdatePatches(entries, table);
 
   if (patches.length === 0) {
     clack.outro('No changes applied.');
