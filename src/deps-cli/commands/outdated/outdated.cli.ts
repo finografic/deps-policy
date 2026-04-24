@@ -1,7 +1,7 @@
 import { renderCommandHelp } from '@finografic/cli-kit/render-help';
 import * as clack from '@clack/prompts';
 import { collectDeps } from 'collect-deps.js';
-import { LEFT_MARGIN } from 'deps-cli/config.constants.js';
+import { CLACK_LEFT_MARGIN } from 'deps-cli/config.constants.js';
 import { printDepsTable } from 'deps-cli/output/deps.table.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
@@ -26,7 +26,7 @@ export async function runOutdated(argv: string[] = []): Promise<void> {
   spin.stop(`Fetched ${entries.length} packages`);
 
   if (entries.length === 0) {
-    console.log(`${LEFT_MARGIN}${pc.dim('No dependencies found.')}`);
+    console.log(`${CLACK_LEFT_MARGIN}${pc.dim('No dependencies found.')}`);
     return;
   }
 

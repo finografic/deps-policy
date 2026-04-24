@@ -1,1 +1,1 @@
-export const LEFT_MARGIN = ' '.repeat(3);
+export const CLACK_LEFT_MARGIN = ' '.repeat(3);
