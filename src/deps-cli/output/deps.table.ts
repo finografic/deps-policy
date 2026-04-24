@@ -1,18 +1,10 @@
-import { createTable } from '@finografic/cli-kit/tui/table';
-import type { ColumnDef } from '@finografic/cli-kit/tui/table';
+import { createTable, renderSectionTitle } from '@finografic/cli-kit/tui';
+import type { ColumnDef } from '@finografic/cli-kit/tui';
 import { printDepsRow } from 'deps-cli/output/deps.row.js';
 import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
-import pc from 'picocolors';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
 
 import { CLACK_LEFT_MARGIN } from '../config.constants.js';
-
-// ─── Group title + divider ────────────────────────────────
-
-export function printGroupTitle(name: string, totalWidth: number): void {
-  console.log(pc.cyan(`${CLACK_LEFT_MARGIN}${name}`));
-  console.log(pc.dim(`${CLACK_LEFT_MARGIN}${'─'.repeat(totalWidth)}`));
-}
 
 // ─── Table ────────────────────────────────────────────────
 
@@ -25,7 +17,7 @@ export function printDepsTable(
 
   for (const group of groups) {
     console.log();
-    printGroupTitle(group.name, table.totalWidth);
+    renderSectionTitle(group.name, table.totalWidth, { margin: CLACK_LEFT_MARGIN });
 
     for (const entry of group.entries) {
       console.log(CLACK_LEFT_MARGIN + printDepsRow(entry, table.renderRow(entry)));
