@@ -2,12 +2,12 @@ import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
   'typescript': '6.0.2',
-  'tsdown': '^0.21.9',
+  'tsdown': '^0.21.10',
   '@types/node': '24.0.0',
 };
 
 const testing: Record<string, string> = {
-  vitest: '^4.1.4',
+  vitest: '^4.1.5',
 };
 
 // DEPRECATED: will be removed in the next major release
@@ -15,7 +15,7 @@ const _eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  '@finografic/md-lint': '^0.8.2',
+  '@finografic/md-lint': '^0.9.4',
   '@stylistic/eslint-plugin': '^5.10.0',
   '@typescript-eslint/eslint-plugin': '^8.58.2',
   '@typescript-eslint/parser': '^8.58.2',
@@ -25,8 +25,8 @@ const _eslint: Record<string, string> = {
 
 export const linting: Record<string, string> = {
   'oxlint': '^1.61.0',
-  '@finografic/md-lint': '^0.7.0',
-  '@finografic/oxc-config': '^1.3.0',
+  '@finografic/md-lint': '^0.9.4',
+  '@finografic/oxc-config': '^2.3.5',
   'globals': '^17.5.0',
 };
 
@@ -43,7 +43,7 @@ const hooks: Record<string, string> = {
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^1.3.2',
+  '@finografic/project-scripts': '^1.3.3',
 };
 
 /**
