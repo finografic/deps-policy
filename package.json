@@ -1,6 +1,6 @@
 {
   "name": "@finografic/deps-policy",
-  "version": "0.15.5",
+  "version": "0.15.6",
   "description": "Central dependency policy for the @finografic ecosystem",
   "keywords": [
     "dependency-management",
