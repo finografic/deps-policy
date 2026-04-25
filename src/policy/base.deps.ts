@@ -39,7 +39,7 @@ export const formatting: Record<string, string> = {
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
   'lint-staged': '^16.4.0',
-  '@commitlint/cli': '^20.5.0',
+  '@commitlint/cli': '^20.5.2',
   '@commitlint/config-conventional': '^20.5.0',
 };
 

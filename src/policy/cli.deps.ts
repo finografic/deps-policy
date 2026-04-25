@@ -7,7 +7,7 @@ export const cli: DependencyGroup = {
   dependencies: {
     '@clack/core': '1.2.0',
     '@clack/prompts': '^1.2.0',
-    '@finografic/cli-kit': '^1.0.1',
+    '@finografic/cli-kit': '^1.1.1',
     'picocolors': '^1.1.1',
   },
 };
