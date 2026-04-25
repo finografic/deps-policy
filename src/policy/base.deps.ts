@@ -25,7 +25,7 @@ const _eslint: Record<string, string> = {
 
 export const linting: Record<string, string> = {
   'oxlint': '^1.61.0',
-  'oxlint-tsgolin': '^0.21.1',
+  'oxlint-tsgolint': '^0.21.1',
   '@finografic/md-lint': '^0.9.4',
   '@finografic/oxc-config': '^2.3.5',
   'globals': '^17.5.0',
