@@ -1,7 +1,7 @@
 import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
-  'typescript': '6.0.2',
+  'typescript': '5.9.3',
   'tsdown': '^0.21.10',
   '@types/node': '24.12.0',
 };
