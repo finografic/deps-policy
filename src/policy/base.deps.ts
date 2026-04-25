@@ -23,14 +23,14 @@ const _eslint: Record<string, string> = {
   'globals': '^17.5.0',
 };
 
-const linting: Record<string, string> = {
+export const linting: Record<string, string> = {
   'oxlint': '^1.61.0',
   '@finografic/md-lint': '^0.7.0',
   '@finografic/oxc-config': '^1.3.0',
   'globals': '^17.5.0',
 };
 
-const formatting: Record<string, string> = {
+export const formatting: Record<string, string> = {
   'oxfmt': '^0.46.0',
   '@finografic/oxfmt-config': '^1.11.1',
 };
