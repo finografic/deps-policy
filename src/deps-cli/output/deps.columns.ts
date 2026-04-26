@@ -14,7 +14,7 @@ export function getDepsColumns(): ColumnDef<DepEntryWithLatest>[] {
     column<DepEntryWithLatest>('current', {
       align: 'right',
       get: (entry) => entry.current,
-      format: (v) => pc.dim(v),
+      format: (v, entry) => (entry.outdated ? pc.white(v) : pc.dim(v)),
     }),
 
     column<DepEntryWithLatest>('next', {

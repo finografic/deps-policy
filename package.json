@@ -29,6 +29,9 @@
   "type": "module",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "bin": {
+    "policy": "./dist/bin/policy.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -41,6 +44,10 @@
     "./deps.types": {
       "types": "./dist/deps.types.d.mts",
       "default": "./dist/deps.types.mjs"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.mts",
+      "default": "./dist/cli.mjs"
     }
   },
   "publishConfig": {

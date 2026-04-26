@@ -1,6 +1,6 @@
 # @finografic/deps-policy — Manual
 
-📅 Apr 21, 2026
+📅 Apr 26, 2026
 
 Single authoritative reference for the `@finografic/deps-policy` package: what it is, how it's structured, how to maintain it, and how to release it.
 
@@ -32,18 +32,32 @@ src/
     library.deps.ts     # additional deps for genx:type:library packages
     config.deps.ts      # additional deps for genx:type:config packages
 
-src/deps-cli/           # dev-only — not exported, not built; run via tsx (see package.json scripts)
-  cli.ts                # CLI entry — command registry, root --help / --version
+src/deps-cli/           # built and published — CLI bin + programmatic API
+  cli.ts                # bin entry — command registry, root --help / --version
   cli.help.ts           # root HelpConfig
   collect-deps.ts       # parse policy *.deps.ts sources → DepEntry[]
   resolve-latest.ts     # npm registry + GitHub Packages version fetch
-  commands/             # audit, outdated, update command modules
+  commands/
+    index.ts            # programmatic API — re-exports runAudit, runOutdated, runUpdate
+    audit/              # audit command
+    outdated/           # outdated command
+    update/             # update command
   output/               # terminal renderers (uses @finografic/cli-kit/tui for tables)
   types/                # DepEntry, DepEntryWithLatest, audit types
   utils/                # path + OSV helpers
 ```
 
 Shared CLI primitives (`renderHelp`, `renderCommandHelp`, TUI layout helpers, `multiselectLineBreak`, `runPnpmInstall`) are imported from **`@finografic/cli-kit`**.
+
+### Published entry points
+
+| Export         | Dist file               | Purpose                                  |
+| -------------- | ----------------------- | ---------------------------------------- |
+| `.`            | `dist/index.mjs`        | Policy data — `policy`, `resolvePolicy`  |
+| `./cli`        | `dist/cli.mjs`          | Programmatic runners — `runUpdate`, etc. |
+| `./policy`     | `dist/policy/index.mjs` | Re-exports policy groups directly        |
+| `./deps.types` | `dist/deps.types.mjs`   | Shared TypeScript types only             |
+| `bin: policy`  | `dist/bin/policy.mjs`   | Terminal CLI — `policy <command>`        |
 
 ### Policy types
 
@@ -180,9 +194,9 @@ Then release (see [Release workflow](#release-workflow)).
 
 ---
 
-## Policy updater
+## Policy updater CLI
 
-The updater is a dev-only CLI under `src/deps-cli/` (run via `pnpm policy:*`, which invokes `tsx src/deps-cli/cli.ts`). It checks all policy deps against the npm registry and GitHub Packages, and patches version strings in place. It is never built or published.
+The updater CLI lives under `src/deps-cli/`. It checks all policy deps against the npm registry and GitHub Packages, and patches version strings in place. It is built and published as part of the package.
 
 ### Setup
 
@@ -195,13 +209,46 @@ NPM_TOKEN=<your GitHub PAT with read:packages scope>
 
 This token is the same one used by `.npmrc` to install `@finografic/*` packages locally.
 
-### Commands
+### Terminal usage
+
+**In this repo** (via `tsx` dev scripts):
 
 ```bash
-pnpm policy:outdated   # check — display only, no writes
-pnpm policy:update     # interactive update — patches source files
-pnpm policy:audit      # vulnerability check via OSV database
+pnpm policy:outdated          # check — display only, no writes
+pnpm policy:update            # interactive update — patches source files
+pnpm policy:update --include-pinned  # also include pinned packages in the update list
+pnpm policy:audit             # vulnerability check via OSV database
 ```
+
+**Globally installed** (after `pnpm link --global` or `npm install -g @finografic/deps-policy`):
+
+```bash
+policy outdated
+policy update
+policy update --include-pinned
+policy audit
+policy --help
+policy --version
+```
+
+### Programmatic usage
+
+Import individual runners from the `./cli` entry point. Each runner accepts an `argv` string array matching the flags the CLI accepts:
+
+```ts
+import { runUpdate, runOutdated, runAudit } from '@finografic/deps-policy/cli';
+
+// Run interactively (same prompts as the terminal command)
+await runUpdate([]);
+
+// Pass flags
+await runUpdate(['--include-pinned']);
+
+// Show help for a command
+await runUpdate(['--help']);
+```
+
+This is how `genx` can invoke policy commands without shelling out. The runners are self-contained — they manage their own clack output and process lifecycle.
 
 ---
 
@@ -219,7 +266,7 @@ Output is grouped by file → group, showing only groups that contain at least o
 
 ### `policy:update`
 
-Runs the same fetch as `policy:outdated`, then opens interactive prompts.
+Runs the same fetch as `policy:outdated`, then opens interactive prompts. Pinned packages (no prefix) are excluded from the list by default — pass `--include-pinned` to include them.
 
 **Range-prefixed packages** (`^x.y.z`, `~x.y.z`):
 
@@ -299,11 +346,11 @@ This publishes to GitHub Packages (`https://npm.pkg.github.com`).
 
 ### When to use each bump
 
-| Change                                        | Bump  |
-| --------------------------------------------- | ----- |
-| Version string update(s) — no API change      | patch |
-| New policy group or new `PackageType`         | minor |
-| Renamed/removed export, type signature change | major |
+| Change                                              | Bump  |
+| --------------------------------------------------- | ----- |
+| Version string update(s) — no API change            | patch |
+| New policy group, new `PackageType`, new CLI export | minor |
+| Renamed/removed export, type signature change       | major |
 
 ### After release
 

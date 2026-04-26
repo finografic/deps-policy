@@ -94,6 +94,19 @@ const effective = resolvePolicy('cli');
 // → { dependencies: { picocolors }, devDependencies: { ...base, ...cli.devDeps } }
 ```
 
+## Running the updater CLI (for reference)
+
+```ts
+import { runUpdate, runOutdated, runAudit } from '@finografic/deps-policy/cli';
+
+await runUpdate([]);                  // interactive update
+await runUpdate(['--include-pinned']); // include pinned packages
+await runOutdated([]);                // display-only check
+await runAudit([]);                   // OSV vulnerability check
+```
+
+The `policy` bin is also available after a global install: `policy update`, `policy outdated`, `policy audit`.
+
 ---
 
 ## Related documentation

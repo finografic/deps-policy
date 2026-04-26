@@ -17,6 +17,8 @@ import { selectUpdatePatches } from './update.prompts.js';
 
 export async function runUpdate(argv: string[] = []): Promise<void> {
   return withHelp(argv, help, async () => {
+    const includePinned = argv.includes('--include-pinned');
+
     clack.intro(pc.bold('deps-policy › update'));
 
     const spin = clack.spinner();
@@ -26,7 +28,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     spin.message(`Fetching latest from npm registry… (${deps.length} packages)`);
 
     const data = await resolveLatestVersions(deps);
-    const entries = data.filter((dep) => dep.outdated);
+    const entries = data.filter((dep) => dep.outdated && (includePinned || !dep.pinned));
 
     spin.stop(`${entries.length} of ${data.length} packages outdated`);
 
