@@ -130,7 +130,7 @@
     "node": ">=24.3.0"
   },
   "LOCAL_DEP_EXAMPLE": {
-    "@finografic/cli-kit": "^1.1.1",
+    "@finografic/cli-kit": "^1.2.0",
     "@finografic/cli-kit_LOCAL": "file:/Users/justin/repos-finografic/@finografic-cli-kit"
   },
   "lint-staged": {
