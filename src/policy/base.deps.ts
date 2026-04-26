@@ -15,7 +15,7 @@ const _eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  '@finografic/md-lint': '^0.9.4',
+  '@finografic/md-lint': '^0.9.6',
   '@stylistic/eslint-plugin': '^5.10.0',
   '@typescript-eslint/eslint-plugin': '^8.58.2',
   '@typescript-eslint/parser': '^8.58.2',
@@ -25,9 +25,9 @@ const _eslint: Record<string, string> = {
 
 export const linting: Record<string, string> = {
   'oxlint': '^1.61.0',
-  'oxlint-tsgolint': '^0.21.1',
-  '@finografic/md-lint': '^0.9.4',
-  '@finografic/oxc-config': '^2.3.5',
+  'oxlint-tsgolint': '^0.22.0',
+  '@finografic/md-lint': '^0.9.6',
+  '@finografic/oxc-config': '^2.3.7',
   'globals': '^17.5.0',
 };
 
