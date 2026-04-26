@@ -96,7 +96,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@finografic/cli-kit": "^1.1.1",
+    "@finografic/cli-kit": "^1.2.0",
     "strip-ansi": "^7.2.0"
   },
   "devDependencies": {
