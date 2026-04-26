@@ -8,9 +8,11 @@ import { getDepsColumns } from 'deps-cli/output/deps.columns.js';
 import { printDepsTable } from 'deps-cli/output/deps.table.js';
 import pc from 'picocolors';
 import { resolveLatestVersions } from 'resolve-latest.js';
+import type { PatchInput } from './update.logic.js';
 
 import { toProjectRelativePath } from 'utils/path.utils.js';
 
+import { runSnapshot } from '../snapshot/snapshot.cli.js';
 import { help } from './update.help.js';
 import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
@@ -18,6 +20,7 @@ import { selectUpdatePatches } from './update.prompts.js';
 export async function runUpdate(argv: string[] = []): Promise<void> {
   return withHelp(argv, help, async () => {
     const includePinned = argv.includes('--include-pinned');
+    const yes = argv.includes('--yes') || argv.includes('-y');
 
     clack.intro(pc.bold('deps-policy › update'));
 
@@ -38,11 +41,21 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     }
 
     const columns = getDepsColumns();
-
     printDepsTable(entries, columns);
     console.log();
 
-    const patches = await selectUpdatePatches(entries, columns);
+    // In --yes mode: auto-select all entries (pinned → pin to latest), skip all confirms.
+    let patches: PatchInput[];
+    if (yes) {
+      clack.log.info(`Auto-selecting all ${entries.length} packages (--yes)`);
+      patches = entries.map((entry) => ({
+        filePath: entry.sourceFile,
+        name: entry.name,
+        newVersion: entry.pinned ? entry.latest! : `${entry.prefix}${entry.latest!}`,
+      }));
+    } else {
+      patches = await selectUpdatePatches(entries, columns);
+    }
 
     if (patches.length === 0) {
       clack.outro('No changes applied.');
@@ -61,16 +74,23 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     if (pkgApplicable.length > 0) {
       const thisProjectName = `@finografic/deps-policy/${pc.bold('package.json')}`;
-      const syncPkg = await clack.confirm({
-        message: pc.cyan(
-          `Apply the same ${pc.bold(pkgApplicable.length)} version bump${pkgApplicable.length === 1 ? '' : 's'} to ${pc.white(`${thisProjectName}?`)}`,
-        ),
-        initialValue: true,
-      });
 
-      if (clack.isCancel(syncPkg)) {
-        clack.cancel('Cancelled.');
-        process.exit(0);
+      let syncPkg: boolean;
+      if (yes) {
+        syncPkg = true;
+        clack.log.info(`Auto-applying bumps to ${thisProjectName} (--yes)`);
+      } else {
+        const answer = await clack.confirm({
+          message: pc.cyan(
+            `Apply the same ${pc.bold(pkgApplicable.length)} version bump${pkgApplicable.length === 1 ? '' : 's'} to ${pc.white(`${thisProjectName}?`)}`,
+          ),
+          initialValue: true,
+        });
+        if (clack.isCancel(answer)) {
+          clack.cancel('Cancelled.');
+          process.exit(0);
+        }
+        syncPkg = answer;
       }
 
       if (syncPkg) {
@@ -88,14 +108,20 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
         const packageJsonChanged = pkgResults.some((r) => r.count > 0);
         if (packageJsonChanged) {
-          const runInstall = await clack.confirm({
-            message: `Run ${pc.cyan('pnpm install')} now to refresh the ${pc.bold('lockfile')} and ${pc.bold('node_modules')}?`,
-            initialValue: true,
-          });
-
-          if (clack.isCancel(runInstall)) {
-            clack.cancel('Cancelled.');
-            process.exit(0);
+          let runInstall: boolean;
+          if (yes) {
+            runInstall = true;
+            clack.log.info('Running pnpm install (--yes)');
+          } else {
+            const answer = await clack.confirm({
+              message: `Run ${pc.cyan('pnpm install')} now to refresh the ${pc.bold('lockfile')} and ${pc.bold('node_modules')}?`,
+              initialValue: true,
+            });
+            if (clack.isCancel(answer)) {
+              clack.cancel('Cancelled.');
+              process.exit(0);
+            }
+            runInstall = answer;
           }
 
           if (runInstall) {
@@ -112,5 +138,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     const names = patches.map((p) => p.name).join(', ');
     clack.outro(`Suggested commit: ${pc.dim(`deps: bump ${names}`)}`);
+
+    await runSnapshot([]);
   });
 }
