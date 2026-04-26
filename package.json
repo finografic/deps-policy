@@ -87,6 +87,7 @@
     "·········· POLICY UPDATER": "············································",
     "policy:outdated": "tsx src/deps-cli/cli.ts outdated",
     "policy:update": "tsx src/deps-cli/cli.ts update",
+    "policy:update:release": "tsx src/deps-cli/cli.ts update --yes && policy:release:patch",
     "policy:snapshot": "tsx src/deps-cli/cli.ts snapshot",
     "policy:audit": "tsx src/deps-cli/cli.ts audit",
     "policy:release:patch": "pnpm build && pnpm release:github:patch && pnpm release:publish",
