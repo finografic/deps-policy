@@ -4,16 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@finografic/cli-kit': link:../@finografic-cli-kit
-
 importers:
 
   .:
     dependencies:
       '@finografic/cli-kit':
-        specifier: link:../@finografic-cli-kit
-        version: link:../@finografic-cli-kit
+        specifier: ^1.4.0
+        version: 1.4.0
       strip-ansi:
         specifier: ^7.2.0
         version: 7.2.0
@@ -546,6 +543,9 @@ packages:
   '@eslint/plugin-kit@0.4.1':
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@finografic/cli-kit@1.4.0':
+    resolution: {integrity: sha512-E6jvfu5PtgSfn7WeSjIQVVXvdGjTjEp8e/3V8IcF6Q4YByAjVT2E+pYsoUmFOaW0+OLIeUbJKEV5C2d4BhnAqw==, tarball: https://npm.pkg.github.com/download/@finografic/cli-kit/1.4.0/a8f6002444fc2e23b854a25f74f18c183b588327}
 
   '@finografic/eslint-config@9.18.4':
     resolution: {integrity: sha512-N1p1g6kZGVmp2DON+D5Q8BUxowBdl6JKeA+TANVl7N/P4TXAjJ9WkUDwIAEQma3BWGWFE26K6aFVgl+XOsR4jg==, tarball: https://npm.pkg.github.com/download/@finografic/eslint-config/9.18.4/76d7f4d7406ce75a186dac0e3a2d66aee23dd73a}
@@ -2046,6 +2046,10 @@ packages:
   diff-sequences@27.5.1:
     resolution: {integrity: sha512-k1gCAXAsNgLwEL+Y8Wvl+M6oEFj5bgazfZULpS5CneoPPXRaCCW7dm+q21Ky2VEE5X+VeRDBVg1Pcvvsr4TtNQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+
+  diff@8.0.4:
+    resolution: {integrity: sha512-DPi0FmjiSU5EvQV0++GFDOJ9ASQUVFh5kD+OzOnYdi7n3Wpm9hWWGfB/O2blfHcMVTL5WkQXSnRiK9makhrcnw==}
+    engines: {node: '>=0.3.1'}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -4901,6 +4905,15 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
+  '@finografic/cli-kit@1.4.0':
+    dependencies:
+      '@clack/core': 1.2.0
+      '@clack/prompts': 1.2.0
+      diff: 8.0.4
+      jsonc-parser: 3.3.1
+      picocolors: 1.1.1
+      strip-ansi: 7.2.0
+
   '@finografic/eslint-config@9.18.4(07cd324f320d9da60104f79f48d67cf9)':
     dependencies:
       '@antfu/utils': 9.3.0
@@ -6355,6 +6368,8 @@ snapshots:
       dequal: 2.0.3
 
   diff-sequences@27.5.1: {}
+
+  diff@8.0.4: {}
 
   dir-glob@3.0.1:
     dependencies:
