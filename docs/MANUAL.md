@@ -108,14 +108,13 @@ const effective = resolvePolicy('cli');
 
 `base.deps.ts` organises its `devDependencies` into named `const` groups. The policy CLI (`src/deps-cli/`) uses these group names as section headers when printing tables.
 
-| Group        | Contents                                                                     |
-| ------------ | ---------------------------------------------------------------------------- |
-| `build`      | `typescript`, `tsdown`, `@types/node`                                        |
-| `testing`    | `vitest`                                                                     |
-| `eslint`     | `eslint`, `@eslint/js`, `@finografic/eslint-config`, full TS-ESLint stack    |
-| `formatting` | `oxfmt`, `@finografic/oxfmt-config`                                          |
-| `hooks`      | `husky`, `lint-staged`, `@commitlint/cli`, `@commitlint/config-conventional` |
-| `ecosystem`  | `@finografic/project-scripts`                                                |
+| Group                  | Contents                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------ |
+| `build`                | `typescript`, `tsdown`, `@types/node`                                                            |
+| `testing`              | `vitest`                                                                                         |
+| `lintingAndFormatting` | `oxlint`, `oxlint-tsgolint`, `@finografic/md-lint`, `@finografic/oxc-config`, `globals`, `oxfmt` |
+| `hooks`                | `husky`, `lint-staged`, `@commitlint/cli`, `@commitlint/config-conventional`                     |
+| `ecosystem`            | `@finografic/project-scripts`                                                                    |
 
 ---
 

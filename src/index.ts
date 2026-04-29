@@ -5,7 +5,7 @@ import { library } from 'policy/library.deps.js';
 import type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
 
 export type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
-export { base, cli, config, library, linting, formatting } from 'policy/index.js';
+export { base, cli, config, library, lintingAndFormatting } from 'policy/index.js';
 
 export const policy: DependencyPolicy = {
   base,

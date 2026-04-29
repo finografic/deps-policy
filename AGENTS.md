@@ -84,6 +84,7 @@ Shared across Claude Code, Cursor, and GitHub Copilot.
 ## Learned Workspace Facts
 
 - After replacing `simple-git-hooks` with Husky (e.g. via generator tooling), set `scripts.prepare` to `husky`; a leftover `simple-git-hooks` prepare script breaks `pnpm install`.
+- The dev-only policy CLI under `src/deps-cli/` imports shared primitives from `@finografic/cli-kit` (`render-help`, `tui`, `package-manager`); do not reintroduce vendored `deps-cli/core` or parallel `tui/` copies for those concerns.
 - The `deps update` command patches policy sources first, then may offer the same version bumps for `package.json` and optionally running `pnpm install`.
 - For VS Code/Cursor `markdown.styles`, prefer local workspace or package paths; remote raw/gist URLs are often unreliable for loading as CSS in the Markdown preview.
 

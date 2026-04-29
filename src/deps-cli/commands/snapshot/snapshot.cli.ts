@@ -3,7 +3,7 @@ import { withHelp } from '@finografic/cli-kit/render-help';
 import { createXdgPaths, writeJsonc } from '@finografic/cli-kit/xdg';
 import * as clack from '@clack/prompts';
 import pc from 'picocolors';
-import { base, formatting, linting } from 'policy/base.deps.js';
+import { base, lintingAndFormatting } from 'policy/base.deps.js';
 import { cli } from 'policy/cli.deps.js';
 import { config } from 'policy/config.deps.js';
 import { library } from 'policy/library.deps.js';
@@ -28,8 +28,7 @@ export async function runSnapshot(argv: string[] = []): Promise<void> {
       cli,
       library,
       config,
-      formatting,
-      linting,
+      lintingAndFormatting,
     };
 
     await writeJsonc(DEPS_POLICY_CONFIG_PATH, snapshot);

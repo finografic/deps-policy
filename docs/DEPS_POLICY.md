@@ -37,7 +37,7 @@ src/
 
 ### Rules
 
-- `base` — everything in the standard template: build tools, eslint stack, formatting, git hooks, commitlint, `@types/node`, vitest.
+- `base` — everything in the standard template: build tools, linting/formatting stack (`lintingAndFormatting`), git hooks, commitlint, `@types/node`, vitest.
 - Type-specific files (`cli`, `library`, `config`) — only what is _not_ already in `base`.
 - `cli.dependencies` holds runtime deps (e.g. `picocolors`). `devDependencies` is for build-time only.
 

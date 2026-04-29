@@ -23,16 +23,14 @@ const _eslint: Record<string, string> = {
   'globals': '^17.5.0',
 };
 
-export const linting: Record<string, string> = {
+/** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
+export const lintingAndFormatting: Record<string, string> = {
   'oxlint': '^1.62.0',
   'oxlint-tsgolint': '^0.22.1',
   '@finografic/md-lint': '^0.9.6',
   '@finografic/oxc-config': '^2.4.1',
   'globals': '^17.5.0',
-};
-
-export const formatting: Record<string, string> = {
-  oxfmt: '^0.47.0',
+  'oxfmt': '^0.47.0',
 };
 
 const hooks: Record<string, string> = {
@@ -53,8 +51,7 @@ export const base: DependencyGroup = {
   devDependencies: {
     ...build,
     ...testing,
-    ...linting,
-    ...formatting,
+    ...lintingAndFormatting,
     ...hooks,
     ...ecosystem,
   },

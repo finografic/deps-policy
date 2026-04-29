@@ -14,7 +14,7 @@ export const help: CommandHelpConfig = {
     },
   ],
   howItWorks: [
-    'Reads the current policy from source (base, cli, library, config groups)',
+    'Reads the current policy from source (base, cli, library, config, lintingAndFormatting)',
     `Writes a JSON snapshot to ${xdg.configPath('deps-policy')}`,
     'genx reads this file first when available, bypassing the published npm version',
     'Run automatically at the end of policy:update',
