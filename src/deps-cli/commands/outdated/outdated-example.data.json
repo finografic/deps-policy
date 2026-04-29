@@ -108,18 +108,6 @@
     "pinned": false
   },
   {
-    "name": "@finografic/oxfmt-config",
-    "current": "^1.11.1",
-    "prefix": "^",
-    "bare": "1.11.1",
-    "group": "formatting",
-    "sourceFile": "/Users/justin/repos-finografic/_@finografic-deps-policy/src/policy/base.deps.ts",
-    "depKind": "devDependencies",
-    "latest": "1.11.1",
-    "outdated": false,
-    "pinned": false
-  },
-  {
     "name": "husky",
     "current": "^9.1.7",
     "prefix": "^",

@@ -32,8 +32,7 @@ export const linting: Record<string, string> = {
 };
 
 export const formatting: Record<string, string> = {
-  'oxfmt': '^0.47.0',
-  '@finografic/oxfmt-config': '^1.11.1',
+  oxfmt: '^0.47.0',
 };
 
 const hooks: Record<string, string> = {
