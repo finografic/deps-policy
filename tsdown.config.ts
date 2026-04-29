@@ -7,6 +7,7 @@ export default defineConfig([
       'policy/index': 'src/policy/index.ts',
       'deps.types': 'src/deps.types.ts',
       'cli': 'src/deps-cli/commands/index.ts',
+      'deps-cli/display': 'src/deps-cli/display.ts',
     },
     format: ['esm'],
     dts: true,

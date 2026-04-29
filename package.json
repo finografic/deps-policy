@@ -1,6 +1,6 @@
 {
   "name": "@finografic/deps-policy",
-  "version": "0.16.3",
+  "version": "0.17.0",
   "description": "Central dependency policy for the @finografic ecosystem",
   "keywords": [
     "dependency-management",
@@ -48,6 +48,10 @@
     "./cli": {
       "types": "./dist/cli.d.mts",
       "default": "./dist/cli.mjs"
+    },
+    "./display": {
+      "types": "./dist/deps-cli/display.d.mts",
+      "default": "./dist/deps-cli/display.mjs"
     }
   },
   "publishConfig": {
