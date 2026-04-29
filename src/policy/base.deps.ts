@@ -28,7 +28,7 @@ export const lintingAndFormatting: Record<string, string> = {
   'oxlint': '^1.62.0',
   'oxlint-tsgolint': '^0.22.1',
   '@finografic/md-lint': '^0.9.6',
-  '@finografic/oxc-config': '^2.4.1',
+  '@finografic/oxc-config': '^2.5.0',
   'globals': '^17.5.0',
   'oxfmt': '^0.47.0',
 };

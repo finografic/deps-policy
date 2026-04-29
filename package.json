@@ -111,7 +111,7 @@
     "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.5.0",
     "@finografic/md-lint": "^0.9.6",
-    "@finografic/oxc-config": "^2.4.0",
+    "@finografic/oxc-config": "^2.5.0",
     "@finografic/project-scripts": "^1.3.3",
     "@types/node": "^24.12.0",
     "husky": "^9.1.7",
