@@ -24,15 +24,15 @@ const _eslint: Record<string, string> = {
 };
 
 export const linting: Record<string, string> = {
-  'oxlint': '^1.61.0',
-  'oxlint-tsgolint': '^0.22.0',
+  'oxlint': '^1.62.0',
+  'oxlint-tsgolint': '^0.22.1',
   '@finografic/md-lint': '^0.9.6',
-  '@finografic/oxc-config': '^2.4.0',
+  '@finografic/oxc-config': '^2.4.1',
   'globals': '^17.5.0',
 };
 
 export const formatting: Record<string, string> = {
-  'oxfmt': '^0.46.0',
+  'oxfmt': '^0.47.0',
   '@finografic/oxfmt-config': '^1.11.1',
 };
 
