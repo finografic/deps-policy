@@ -3,7 +3,7 @@ import type { ColumnDef } from '@finografic/cli-kit/tui/table';
 import pc from 'picocolors';
 import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
 
-export function getDepsColumns(): ColumnDef<DepEntryWithLatest>[] {
+export function getDepsColumns(): Array<ColumnDef<DepEntryWithLatest>> {
   return [
     column<DepEntryWithLatest>('name', {
       align: 'left',

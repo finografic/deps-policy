@@ -1,6 +1,10 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
-export type PatchInput = { filePath: string; name: string; newVersion: string };
+export interface PatchInput {
+  filePath: string;
+  name: string;
+  newVersion: string;
+}
 
 /** When the same package appears in multiple policy patches, keep the last target version. */
 export function dedupePatchesByName(patches: PatchInput[]): PatchInput[] {

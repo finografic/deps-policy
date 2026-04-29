@@ -8,7 +8,7 @@ export function createDepsSelectOptions(
   entries: DepEntryWithLatest[],
   table: TableInstance<DepEntryWithLatest>,
   opts?: { isSelected?: (entry: DepEntryWithLatest) => boolean },
-): MultiselectOption<DepEntryWithLatest>[] {
+): Array<MultiselectOption<DepEntryWithLatest>> {
   return entries.map((entry) => ({
     value: entry,
     label: printDepsRow(entry, table.renderRow(entry)),

@@ -10,7 +10,7 @@ import { CLACK_LEFT_MARGIN } from '../config.constants.js';
 
 export function printDepsTable(
   entries: DepEntryWithLatest[],
-  columns: ColumnDef<DepEntryWithLatest>[],
+  columns: Array<ColumnDef<DepEntryWithLatest>>,
 ): void {
   const table = createTable<DepEntryWithLatest>(entries, columns);
   const groups = groupDependencies(entries);

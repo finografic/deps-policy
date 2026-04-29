@@ -29,7 +29,7 @@ export async function runOutdated(argv: string[] = []): Promise<void> {
       return;
     }
 
-    const columns: ColumnDef<DepEntryWithLatest>[] = getDepsColumns();
+    const columns: Array<ColumnDef<DepEntryWithLatest>> = getDepsColumns();
     printDepsTable(entries, columns);
 
     clack.outro('Done.');

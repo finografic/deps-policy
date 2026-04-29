@@ -11,7 +11,7 @@ import { createDepsSelectOptions } from './update.options.js';
 
 export async function selectUpdatePatches(
   entries: DepEntryWithLatest[],
-  columns: ColumnDef<DepEntryWithLatest>[],
+  columns: Array<ColumnDef<DepEntryWithLatest>>,
 ): Promise<PatchInput[]> {
   const patches: PatchInput[] = [];
 
@@ -23,7 +23,7 @@ export async function selectUpdatePatches(
       ? {
           ...col,
           padding: {
-            ...(col.padding ?? {}),
+            ...col.padding,
             right: (col.padding?.right ?? 0) - CLACK_MULTISELECT_PREFIX_WIDTH,
           },
         }
