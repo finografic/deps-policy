@@ -1,5 +1,6 @@
-import { createTable, renderSectionTitle } from '@finografic/cli-kit/tui';
 import type { ColumnDef } from '@finografic/cli-kit/tui';
+import { createTable, renderSectionTitle } from '@finografic/cli-kit/tui';
+import { camelCaseToSentence } from '@finografic/core';
 import { printDepsRow } from 'deps-cli/output/deps.row.js';
 import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
@@ -17,7 +18,9 @@ export function printDepsTable(
 
   for (const group of groups) {
     console.log();
-    renderSectionTitle(group.name, table.totalWidth, { margin: CLACK_LEFT_MARGIN });
+    renderSectionTitle(camelCaseToSentence(group.name), table.totalWidth, {
+      margin: CLACK_LEFT_MARGIN,
+    });
 
     for (const entry of group.entries) {
       console.log(CLACK_LEFT_MARGIN + printDepsRow(entry, table.renderRow(entry)));

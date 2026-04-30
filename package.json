@@ -103,6 +103,7 @@
   },
   "dependencies": {
     "@finografic/cli-kit": "^1.4.0",
+    "@finografic/core": "^0.13.0",
     "strip-ansi": "^7.2.0"
   },
   "devDependencies": {
