@@ -2,12 +2,12 @@ import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
   'typescript': '5.9.3',
-  'tsdown': '^0.21.10',
+  'tsdown': '^0.22.0',
   '@types/node': '24.12.0',
 };
 
 const testing: Record<string, string> = {
-  vitest: '^4.1.5',
+  vitest: '^4.1.7',
 };
 
 // DEPRECATED: will be removed in the next major release
@@ -15,7 +15,7 @@ const _eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  '@finografic/md-lint': '^0.9.6',
+  '@finografic/md-lint': '^0.9.7',
   '@stylistic/eslint-plugin': '^5.10.0',
   '@typescript-eslint/eslint-plugin': '^8.58.2',
   '@typescript-eslint/parser': '^8.58.2',
@@ -24,18 +24,18 @@ const _eslint: Record<string, string> = {
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
 export const lintingAndFormatting: Record<string, string> = {
-  'oxlint': '^1.62.0',
-  'oxlint-tsgolint': '^0.22.1',
-  '@finografic/md-lint': '^0.9.6',
-  '@finografic/oxc-config': '^2.5.0',
-  'oxfmt': '^0.47.0',
+  'oxlint': '^1.66.0',
+  'oxlint-tsgolint': '^0.23.0',
+  '@finografic/md-lint': '^0.9.7',
+  '@finografic/oxc-config': '^2.5.1',
+  'oxfmt': '^0.51.0',
 };
 
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
-  'lint-staged': '^16.4.0',
-  '@commitlint/cli': '^20.5.2',
-  '@commitlint/config-conventional': '^20.5.0',
+  'lint-staged': '^17.0.5',
+  '@commitlint/cli': '^21.0.1',
+  '@commitlint/config-conventional': '^21.0.1',
 };
 
 const ecosystem: Record<string, string> = {
