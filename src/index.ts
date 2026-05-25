@@ -4,8 +4,8 @@ import { config } from 'policy/config.deps.js';
 import { library } from 'policy/library.deps.js';
 import type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
 
-export type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
-export { base, cli, config, library, lintingAndFormatting } from 'policy/index.js';
+export type { DependencyGroup, DependencyPolicy, PackageType, ToolchainPolicy } from 'deps.types';
+export { base, cli, config, library, lintingAndFormatting, toolchain } from 'policy/index.js';
 
 export const policy: DependencyPolicy = {
   base,

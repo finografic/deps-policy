@@ -17,3 +17,8 @@ export interface DependencyPolicy {
   library: DependencyGroup;
   config: DependencyGroup;
 }
+
+export interface ToolchainPolicy {
+  node: string;
+  pnpm: string;
+}

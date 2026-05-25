@@ -7,6 +7,7 @@ import { base, lintingAndFormatting } from 'policy/base.deps.js';
 import { cli } from 'policy/cli.deps.js';
 import { config } from 'policy/config.deps.js';
 import { library } from 'policy/library.deps.js';
+import { toolchain } from 'policy/toolchain.js';
 
 import { help } from './snapshot.help.js';
 
@@ -29,6 +30,7 @@ export async function runSnapshot(argv: string[] = []): Promise<void> {
       library,
       config,
       lintingAndFormatting,
+      toolchain,
     };
 
     await writeJsonc(DEPS_POLICY_CONFIG_PATH, snapshot);

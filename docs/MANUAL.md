@@ -23,14 +23,15 @@ The package exports plain TypeScript objects — no runtime logic, no network ca
 
 ```
 src/
-  types.ts              # DependencyGroup, DependencyPolicy, PackageType
-  index.ts              # exports: policy, resolvePolicy()
+  types.ts              # DependencyGroup, DependencyPolicy, PackageType, ToolchainPolicy
+  index.ts              # exports: policy, toolchain, resolvePolicy()
   policy/
-    index.ts            # re-exports base, cli, library, config
+    index.ts            # re-exports base, cli, library, config, toolchain
     base.deps.ts        # devDeps shared by every @finografic package
     cli.deps.ts         # additional deps for genx:type:cli packages
     library.deps.ts     # additional deps for genx:type:library packages
     config.deps.ts      # additional deps for genx:type:config packages
+    toolchain.ts        # canonical node and pnpm versions
 
 src/deps-cli/           # built and published — CLI bin + programmatic API
   cli.ts                # bin entry — command registry, root --help / --version
@@ -51,13 +52,13 @@ Shared CLI primitives (`renderHelp`, `renderCommandHelp`, TUI layout helpers, `m
 
 ### Published entry points
 
-| Export         | Dist file               | Purpose                                  |
-| -------------- | ----------------------- | ---------------------------------------- |
-| `.`            | `dist/index.mjs`        | Policy data — `policy`, `resolvePolicy`  |
-| `./cli`        | `dist/cli.mjs`          | Programmatic runners — `runUpdate`, etc. |
-| `./policy`     | `dist/policy/index.mjs` | Re-exports policy groups directly        |
-| `./deps.types` | `dist/deps.types.mjs`   | Shared TypeScript types only             |
-| `bin: policy`  | `dist/bin/policy.mjs`   | Terminal CLI — `policy <command>`        |
+| Export         | Dist file               | Purpose                                              |
+| -------------- | ----------------------- | ---------------------------------------------------- |
+| `.`            | `dist/index.mjs`        | Policy data — `policy`, `toolchain`, `resolvePolicy` |
+| `./cli`        | `dist/cli.mjs`          | Programmatic runners — `runUpdate`, etc.             |
+| `./policy`     | `dist/policy/index.mjs` | Re-exports policy groups directly                    |
+| `./deps.types` | `dist/deps.types.mjs`   | Shared TypeScript types only                         |
+| `bin: policy`  | `dist/bin/policy.mjs`   | Terminal CLI — `policy <command>`                    |
 
 ### Policy types
 
@@ -69,6 +70,11 @@ interface DependencyGroup {
 }
 
 type PackageType = "cli" | "library" | "config";
+
+interface ToolchainPolicy {
+  node: string;
+  pnpm: string;
+}
 ```
 
 ---
@@ -115,6 +121,52 @@ const effective = resolvePolicy("cli");
 | `lintingAndFormatting` | `oxlint`, `oxlint-tsgolint`, `@finografic/md-lint`, `@finografic/oxc-config`, `oxfmt` |
 | `hooks`                | `husky`, `lint-staged`, `@commitlint/cli`, `@commitlint/config-conventional`          |
 | `ecosystem`            | `@finografic/project-scripts`                                                         |
+
+---
+
+## Toolchain policy
+
+The `toolchain` object stores the canonical node and pnpm versions for the ecosystem. These are not npm packages — they have distinct storage locations and update mechanisms.
+
+```ts
+import { toolchain } from "@finografic/deps-policy";
+
+toolchain.node; // '24.3.0'
+toolchain.pnpm; // '10.32.1'
+```
+
+Version strings are bare semver (no prefixes). Formatting is the consumer's responsibility.
+
+### Where toolchain versions are written in a target project
+
+| Value            | Target                          | Format            | Example        |
+| ---------------- | ------------------------------- | ----------------- | -------------- |
+| `toolchain.node` | `.nvmrc`                        | bare version      | `24.3.0`       |
+| `toolchain.node` | `package.json` `engines.node`   | `>=` + version    | `>=24.3.0`     |
+| `toolchain.pnpm` | `package.json` `packageManager` | `pnpm@` + version | `pnpm@10.32.1` |
+
+### How genx updates toolchain versions
+
+Toolchain updates are distinct from package dependency updates — no `pnpm add` is involved.
+
+**Node version** — two file writes:
+
+1. Write `toolchain.node` to `.nvmrc`
+2. Set `engines.node` to `>={toolchain.node}` in `package.json`
+
+**pnpm version** — one field write:
+
+1. Set `packageManager` to `pnpm@{toolchain.pnpm}` in `package.json`
+
+### Updating toolchain versions in the policy
+
+Edit `src/policy/toolchain.ts` directly, then build and typecheck:
+
+```bash
+pnpm build && pnpm typecheck
+```
+
+Commit: `deps: bump node to <version>` or `deps: bump pnpm to <version>`
 
 ---
 

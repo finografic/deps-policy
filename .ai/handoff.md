@@ -6,15 +6,15 @@
 > — Write in present tense. No code snippets — describe what exists, not how it works.
 > — `.claude/memory.md` = session work log. `.ai/handoff.md` = project state snapshot. Never duplicate between the two.
 
-📅 Apr 24, 2026
+📅 May 26, 2026
 
 ## Project
 
-`@finografic/deps-policy` — canonical dependency version policy for the `@finografic` ecosystem. Published to GitHub Packages. Current package version **v0.13.2**. Consumed by `@finografic/genx` and aligned tooling.
+`@finografic/deps-policy` — canonical dependency and toolchain version policy for the `@finografic` ecosystem. Published to GitHub Packages. Current package version **v0.21.1**. Consumed by `@finografic/genx` and aligned tooling.
 
 ## Architecture
 
-The published surface is typed policy data plus `resolvePolicy()` in `src/index.ts` and `src/types.ts`. Version literals live in `src/policy/*.deps.ts` (base, cli, library, config) and are re-exported through `src/policy/index.ts`.
+The published surface is typed policy data plus `resolvePolicy()` in `src/index.ts` and `src/deps.types.ts`. Package version literals live in `src/policy/*.deps.ts` (base, cli, library, config). Toolchain versions (node, pnpm) live in `src/policy/toolchain.ts` as a separate `ToolchainPolicy` export — not nested in `DependencyPolicy`. All re-exported through `src/policy/index.ts`.
 
 The **policy management CLI** is dev-only under `src/deps-cli/`. It is not part of the published `dist` bundle; maintainers run it via `pnpm policy:outdated`, `pnpm policy:update`, and `pnpm policy:audit` (tsx on `src/deps-cli/cli.ts`). It reads and patches the `*.deps.ts` sources, hits the public npm registry and GitHub Packages for latest versions, and uses the OSV API for audit.
 
@@ -48,6 +48,7 @@ Section headers use `renderSectionTitle` from `@finografic/cli-kit/tui`, passing
 3. **renderSectionTitle** — Section title + divider moved to `cli-kit/tui`; `printGroupTitle` removed from this repo. (2026-04)
 4. **`withHelp` wrapper** — All three CLI commands use `withHelp` instead of the manual `if (argv.includes('--help'))` guard. (2026-04)
 5. **Policy source filenames** — Policy literals use `*.deps.ts` under `src/policy/`. (ongoing)
+6. **Toolchain policy** — Node and pnpm versions stored as bare semver in `src/policy/toolchain.ts` via `ToolchainPolicy` type. Exported as a parallel `toolchain` object alongside `policy`, not nested inside `DependencyPolicy`. Included in the XDG snapshot. Genx consumes these to write `.nvmrc`, `engines.node`, and `packageManager` to target projects — distinct from package dep updates. (2026-05)
 
 ## Open questions
 
@@ -61,6 +62,7 @@ Section headers use `renderSectionTitle` from `@finografic/cli-kit/tui`, passing
 - `docs/DEPS_POLICY.md` — policy surface reference
 - `docs/todo/UPDATER_PLAN.md` — updater design and UX notes
 - `docs/todo/CLI_KIT_PLAN.md` — historical cli-kit planning plus remaining normalization TODOs
+- `docs/todo/TODO_TOOLCHAIN_GENX.md` — spec for genx to consume `toolchain` export (node/pnpm writes)
 
 ## Agent doc layout
 
