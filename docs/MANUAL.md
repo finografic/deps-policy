@@ -68,7 +68,7 @@ interface DependencyGroup {
   peerDependencies?: Record<string, string>;
 }
 
-type PackageType = 'cli' | 'library' | 'config';
+type PackageType = "cli" | "library" | "config";
 ```
 
 ---
@@ -78,17 +78,17 @@ type PackageType = 'cli' | 'library' | 'config';
 The exported `policy` object gives direct access to every group:
 
 ```ts
-import { policy, resolvePolicy } from '@finografic/deps-policy';
+import { policy, resolvePolicy } from "@finografic/deps-policy";
 
-policy.base.devDependencies['typescript']; // '^5.9.3'
-policy.base.devDependencies['eslint']; // '9.39.2'
-policy.cli.dependencies['picocolors']; // '^1.1.1'
+policy.base.devDependencies["typescript"]; // '^5.9.3'
+policy.base.devDependencies["eslint"]; // '9.39.2'
+policy.cli.dependencies["picocolors"]; // '^1.1.1'
 ```
 
 `resolvePolicy(type)` merges `base` with the type-specific group into a single effective `DependencyGroup`:
 
 ```ts
-const effective = resolvePolicy('cli');
+const effective = resolvePolicy("cli");
 // {
 //   dependencies:    { picocolors: '^1.1.1' },
 //   devDependencies: { typescript: '^5.9.3', vitest: '^4.0.18', ... }
@@ -108,13 +108,13 @@ const effective = resolvePolicy('cli');
 
 `base.deps.ts` organises its `devDependencies` into named `const` groups. The policy CLI (`src/deps-cli/`) uses these group names as section headers when printing tables.
 
-| Group                  | Contents                                                                                         |
-| ---------------------- | ------------------------------------------------------------------------------------------------ |
-| `build`                | `typescript`, `tsdown`, `@types/node`                                                            |
-| `testing`              | `vitest`                                                                                         |
-| `lintingAndFormatting` | `oxlint`, `oxlint-tsgolint`, `@finografic/md-lint`, `@finografic/oxc-config`, `globals`, `oxfmt` |
-| `hooks`                | `husky`, `lint-staged`, `@commitlint/cli`, `@commitlint/config-conventional`                     |
-| `ecosystem`            | `@finografic/project-scripts`                                                                    |
+| Group                  | Contents                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| `build`                | `typescript`, `tsdown`, `@types/node`                                                 |
+| `testing`              | `vitest`                                                                              |
+| `lintingAndFormatting` | `oxlint`, `oxlint-tsgolint`, `@finografic/md-lint`, `@finografic/oxc-config`, `oxfmt` |
+| `hooks`                | `husky`, `lint-staged`, `@commitlint/cli`, `@commitlint/config-conventional`          |
+| `ecosystem`            | `@finografic/project-scripts`                                                         |
 
 ---
 
@@ -124,13 +124,13 @@ const effective = resolvePolicy('cli');
 
 ```ts
 // src/config/dependencies.rules.ts
-import { policy } from '@finografic/deps-policy';
+import { policy } from "@finografic/deps-policy";
 
 const dev = policy.base.devDependencies ?? {};
 
 export const dependencyRules: DependencyRule[] = [
-  { name: 'typescript', version: dev['typescript'], section: 'devDependencies' },
-  { name: 'vitest', version: dev['vitest'], section: 'devDependencies' },
+  { name: "typescript", version: dev["typescript"], section: "devDependencies" },
+  { name: "vitest", version: dev["vitest"], section: "devDependencies" },
   // ...
 ];
 ```
@@ -235,16 +235,16 @@ policy --version
 Import individual runners from the `./cli` entry point. Each runner accepts an `argv` string array matching the flags the CLI accepts:
 
 ```ts
-import { runUpdate, runOutdated, runAudit } from '@finografic/deps-policy/cli';
+import { runUpdate, runOutdated, runAudit } from "@finografic/deps-policy/cli";
 
 // Run interactively (same prompts as the terminal command)
 await runUpdate([]);
 
 // Pass flags
-await runUpdate(['--include-pinned']);
+await runUpdate(["--include-pinned"]);
 
 // Show help for a command
-await runUpdate(['--help']);
+await runUpdate(["--help"]);
 ```
 
 This is how `genx` can invoke policy commands without shelling out. The runners are self-contained — they manage their own clack output and process lifecycle.

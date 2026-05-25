@@ -20,7 +20,6 @@ const _eslint: Record<string, string> = {
   '@typescript-eslint/eslint-plugin': '^8.58.2',
   '@typescript-eslint/parser': '^8.58.2',
   'typescript-eslint': '^8.58.2',
-  'globals': '^17.5.0',
 };
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
@@ -29,7 +28,6 @@ export const lintingAndFormatting: Record<string, string> = {
   'oxlint-tsgolint': '^0.22.1',
   '@finografic/md-lint': '^0.9.6',
   '@finografic/oxc-config': '^2.5.0',
-  'globals': '^17.5.0',
   'oxfmt': '^0.47.0',
 };
 

@@ -1,5 +1,6 @@
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 export function printDepsRow(entry: DepEntryWithLatest, baseRow: string): string {
   const tag = entry.pinned ? pc.yellow('  ✦ pinned') : entry.outdated ? pc.yellow('  ✦') : '';

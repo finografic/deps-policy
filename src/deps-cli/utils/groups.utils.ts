@@ -1,6 +1,6 @@
 // core/group-deps.ts
 
-import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 export interface DependencyGroup {
   name: string;

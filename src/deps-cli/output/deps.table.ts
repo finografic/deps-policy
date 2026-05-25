@@ -1,11 +1,10 @@
 import type { ColumnDef } from '@finografic/cli-kit/tui';
 import { createTable, renderSectionTitle } from '@finografic/cli-kit/tui';
 import { camelCaseToSentence } from '@finografic/core';
+import { CLACK_LEFT_MARGIN } from 'config.constants.js';
 import { printDepsRow } from 'deps-cli/output/deps.row.js';
 import { groupDependencies } from 'deps-cli/utils/groups.utils.js';
 import type { DepEntryWithLatest } from 'deps-cli/types/dep-metadata.types.js';
-
-import { CLACK_LEFT_MARGIN } from '../config.constants.js';
 
 // ─── Table ────────────────────────────────────────────────
 

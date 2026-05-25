@@ -45,7 +45,6 @@ export default defineConfig({
     'eslint/curly': ['error', 'multi-line'],
     'eslint/no-unused-vars': 'off',
     'eslint/no-await-in-loop': 'off',
-    // 'eslint/no-redeclare': 'off',
 
     'curly': ['error', 'multi-line'],
     'prefer-const': ['error', { destructuring: 'all' }],

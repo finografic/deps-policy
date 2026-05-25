@@ -1,7 +1,8 @@
-import { column } from '@finografic/cli-kit/tui/table';
 import type { ColumnDef } from '@finografic/cli-kit/tui/table';
+import { column } from '@finografic/cli-kit/tui/table';
 import pc from 'picocolors';
-import type { DepEntryWithLatest } from '../types/dep-metadata.types.js';
+
+import type { DepEntryWithLatest } from 'types/dep-metadata.types.js';
 
 export function getDepsColumns(): Array<ColumnDef<DepEntryWithLatest>> {
   return [
