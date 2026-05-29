@@ -24,16 +24,27 @@ function findDepsPolicyRoot(startDir: string): string | null {
   }
 }
 
-/** Absolute path to `src/policy/` — works from tsx dev, bundled global bin, and genx (cwd set). */
-export function resolvePolicyDir(): string {
+function resolvePackageRoot(): string {
   const fromCwd = findDepsPolicyRoot(process.cwd());
-  if (fromCwd) return join(fromCwd, 'src/policy');
+  if (fromCwd) return fromCwd;
 
   const fromModule = findDepsPolicyRoot(dirname(fileURLToPath(import.meta.url)));
-  if (fromModule) return join(fromModule, 'src/policy');
+  if (fromModule) return fromModule;
 
   throw new Error(
-    `Cannot find ${PACKAGE_NAME} policy sources (src/policy/*.deps.ts). ` +
+    `Cannot find ${PACKAGE_NAME} package root. ` +
       'Run from the deps-policy repo or use genx deps --update-policy (sets cwd via depsPolicyPath).',
   );
+}
+
+export function readPackageVersion(): string {
+  const pkg = JSON.parse(readFileSync(join(resolvePackageRoot(), 'package.json'), 'utf8')) as {
+    version: string;
+  };
+  return pkg.version;
+}
+
+/** Absolute path to `src/policy/` — works from tsx dev, bundled global bin, and genx (cwd set). */
+export function resolvePolicyDir(): string {
+  return join(resolvePackageRoot(), 'src/policy');
 }
