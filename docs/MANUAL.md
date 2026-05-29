@@ -266,9 +266,10 @@ This token is the same one used by `.npmrc` to install `@finografic/*` packages 
 
 ```bash
 pnpm policy:outdated          # check — display only, no writes
+pnpm policy:audit             # vulnerability check via OSV database
 pnpm policy:update            # interactive update — patches source files
 pnpm policy:update --include-pinned  # also include pinned packages in the update list
-pnpm policy:audit             # vulnerability check via OSV database
+pnpm policy:update:release    # non-interactive update, build, commit, patch release
 ```
 
 **Globally installed** (after `pnpm link --global` or `npm install -g @finografic/deps-policy`):
@@ -340,12 +341,18 @@ After all selections, the version strings are patched in-place in the source fil
 deps: bump typescript, vitest, lint-staged
 ```
 
+At the end of every `policy update` run, the CLI writes a **snapshot** — a JSON copy of the full policy (including `toolchain`) to the local XDG config file. Genx reads that file first when present, so local policy changes are picked up without publishing. This runs even when nothing is outdated or no packages were selected (e.g. after manual edits to policy sources).
+
 After running `policy:update`:
 
 1. Run `pnpm build && pnpm typecheck` to verify the patched versions compile cleanly.
 2. Commit with the suggested message.
 3. Release the package (see below).
 4. Update genx: `pnpm update @finografic/deps-policy`.
+
+### `policy:update:release`
+
+One-shot maintainer flow: non-interactive update (`--yes`), then `pnpm build`, commit (`deps: update deps-policy versions`), and `release:github:patch`. Does not publish to GitHub Packages — run `pnpm release:publish` after if needed.
 
 ---
 

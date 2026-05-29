@@ -52,9 +52,10 @@ src/
 Internal scripts for maintaining the policy source files. These are run inside this repo — not intended for consumers.
 
 ```bash
-pnpm policy:outdated   # Show which policy packages have newer versions available
-pnpm policy:update     # Interactively update outdated packages in policy files
-pnpm policy:audit      # Check all packages against the OSV vulnerability database
+pnpm policy:outdated        # Show which policy packages have newer versions available
+pnpm policy:audit           # Check all packages against the OSV vulnerability database
+pnpm policy:update          # Interactively update outdated packages in policy files
+pnpm policy:update:release  # Non-interactive update, then build, commit, and patch-release
 ```
 
 **Command help:**

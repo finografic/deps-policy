@@ -35,5 +35,6 @@ export const help: CommandHelpConfig = {
     'Patches the version strings in the policy source files',
     'Optionally applies the same bumps to this project package.json when those deps are declared there',
     'Optionally runs pnpm install after package.json changes',
+    'Writes a JSON snapshot of the full policy to the local XDG config (genx reads this first)',
   ],
 };

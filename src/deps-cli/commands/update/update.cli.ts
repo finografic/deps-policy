@@ -12,7 +12,7 @@ import type { PatchInput } from './update.logic.js';
 
 import { toProjectRelativePath } from 'utils/path.utils.js';
 
-import { runSnapshot } from '../snapshot/snapshot.cli.js';
+import { writePolicySnapshot } from '../snapshot/snapshot.cli.js';
 import { help } from './update.help.js';
 import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
@@ -37,6 +37,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     if (entries.length === 0) {
       clack.outro(pc.green('All packages are up to date.'));
+      await writePolicySnapshot();
       return;
     }
 
@@ -59,6 +60,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     if (patches.length === 0) {
       clack.outro('No changes applied.');
+      await writePolicySnapshot();
       return;
     }
 
@@ -139,6 +141,6 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     const names = patches.map((p) => p.name).join(', ');
     clack.outro(`Suggested commit: ${pc.dim(`deps: bump ${names}`)}`);
 
-    await runSnapshot([]);
+    await writePolicySnapshot();
   });
 }
