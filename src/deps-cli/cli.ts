@@ -6,18 +6,13 @@ import { runAudit } from 'commands/audit/audit.cli.js';
 import { runOutdated } from 'commands/outdated/outdated.cli.js';
 import { runUpdate } from 'commands/update/update.cli.js';
 
-import { readPackageVersion } from 'utils/policy-dir.utils.js';
+import { loadDepsPolicyEnv, readPackageVersion } from 'utils/policy-dir.utils.js';
 
 import { cliHelp } from './cli.help.js';
 
 const version = readPackageVersion();
 
-// Load .env (NPM_TOKEN for @finografic packages auth)
-try {
-  process.loadEnvFile('.env');
-} catch {
-  // .env not present — continue with existing env vars
-}
+loadDepsPolicyEnv();
 
 type CommandHandler = (argv: string[]) => Promise<void> | void;
 

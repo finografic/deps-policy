@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
+import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const PACKAGE_NAME = '@finografic/deps-policy';
@@ -24,17 +25,20 @@ function findDepsPolicyRoot(startDir: string): string | null {
   }
 }
 
-function resolvePackageRoot(): string {
-  const fromCwd = findDepsPolicyRoot(process.cwd());
-  if (fromCwd) return fromCwd;
+/** Package root when discoverable; null when the deps-policy repo cannot be located. */
+export function tryResolvePackageRoot(): string | null {
+  return findDepsPolicyRoot(process.cwd()) ?? findDepsPolicyRoot(dirname(fileURLToPath(import.meta.url)));
+}
 
-  const fromModule = findDepsPolicyRoot(dirname(fileURLToPath(import.meta.url)));
-  if (fromModule) return fromModule;
-
-  throw new Error(
-    `Cannot find ${PACKAGE_NAME} package root. ` +
-      'Run from the deps-policy repo or use genx deps --update-policy (sets cwd via depsPolicyPath).',
-  );
+export function resolvePackageRoot(): string {
+  const root = tryResolvePackageRoot();
+  if (!root) {
+    throw new Error(
+      `Cannot find ${PACKAGE_NAME} package root. ` +
+        'Run from the deps-policy repo or use genx deps --update-policy (sets cwd via depsPolicyPath).',
+    );
+  }
+  return root;
 }
 
 export function readPackageVersion(): string {
@@ -47,4 +51,22 @@ export function readPackageVersion(): string {
 /** Absolute path to `src/policy/` — works from tsx dev, bundled global bin, and genx (cwd set). */
 export function resolvePolicyDir(): string {
   return join(resolvePackageRoot(), 'src/policy');
+}
+
+/** Load `.env` from the package root (NPM_TOKEN), then fall back to cwd. */
+export function loadDepsPolicyEnv(): void {
+  const root = tryResolvePackageRoot();
+  if (root) {
+    const envPath = join(root, '.env');
+    if (existsSync(envPath)) {
+      process.loadEnvFile(envPath);
+      return;
+    }
+  }
+
+  try {
+    process.loadEnvFile('.env');
+  } catch {
+    // .env not present — continue with existing env vars
+  }
 }

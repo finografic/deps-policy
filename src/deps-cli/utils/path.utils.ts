@@ -1,9 +1,7 @@
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
+import { resolvePackageRoot } from 'utils/policy-dir.utils.js';
 
 export function toProjectRelativePath(absPath: string): string {
-  const root = resolve(dirname(__dirname), '..');
-  return absPath.replace(root + '/', '');
+  const root = resolvePackageRoot();
+  const prefix = `${root}/`;
+  return absPath.startsWith(prefix) ? absPath.slice(prefix.length) : absPath;
 }
