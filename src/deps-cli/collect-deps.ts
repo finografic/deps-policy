@@ -1,19 +1,12 @@
 import { readFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import type { DependencyKind } from 'deps.types';
+
+import { resolvePolicyDir } from 'utils/policy-dir.utils.js';
 
 import type { DepEntry } from 'types/dep-metadata.types.js';
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const POLICY_DIR = resolve(__dirname, '../policy');
-
-const POLICY_FILES = [
-  resolve(POLICY_DIR, 'base.deps.ts'),
-  resolve(POLICY_DIR, 'cli.deps.ts'),
-  resolve(POLICY_DIR, 'library.deps.ts'),
-  resolve(POLICY_DIR, 'config.deps.ts'),
-];
+const POLICY_FILES = ['base.deps.ts', 'cli.deps.ts', 'library.deps.ts', 'config.deps.ts'] as const;
 
 function parsePrefix(version: string): string {
   if (version.startsWith('^')) return '^';
@@ -127,10 +120,12 @@ async function parseSourceFile(filePath: string): Promise<DepEntry[]> {
 }
 
 export async function collectDeps(): Promise<DepEntry[]> {
+  const policyDir = resolvePolicyDir();
   const all: DepEntry[] = [];
   const seen = new Set<string>();
 
-  for (const file of POLICY_FILES) {
+  for (const fileName of POLICY_FILES) {
+    const file = resolve(policyDir, fileName);
     const entries = await parseSourceFile(file);
     for (const e of entries) {
       if (!seen.has(e.name)) {
