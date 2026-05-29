@@ -105,7 +105,7 @@ await runOutdated([]);                // display-only check
 await runAudit([]);                   // OSV vulnerability check
 ```
 
-The `policy` bin is also available after a global install: `policy update`, `policy outdated`, `policy audit`.
+The `deps-policy` bin is also available after a global install: `deps-policy update`, `deps-policy outdated`, `deps-policy audit` (`policy` is a legacy alias).
 
 ---
 

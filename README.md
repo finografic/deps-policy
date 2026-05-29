@@ -52,18 +52,27 @@ src/
 Internal scripts for maintaining the policy source files. These are run inside this repo — not intended for consumers.
 
 ```bash
-pnpm policy:outdated        # Show which policy packages have newer versions available
-pnpm policy:audit           # Check all packages against the OSV vulnerability database
-pnpm policy:update          # Interactively update outdated packages in policy files
-pnpm policy:update:release  # Non-interactive update, then build, commit, and patch-release
+deps-policy outdated        # Show which policy packages have newer versions available
+deps-policy audit           # Check all packages against the OSV vulnerability database
+deps-policy update          # Interactively update outdated packages in policy files
+deps-policy update --release  # Non-interactive update, then build, commit, and patch-release
+```
+
+Dev wrappers (same commands via `tsx`):
+
+```bash
+pnpm deps-policy:outdated
+pnpm deps-policy:audit
+pnpm deps-policy:update
+pnpm deps-policy:update -- --release
 ```
 
 **Command help:**
 
 ```bash
-pnpm policy:outdated -- --help
-pnpm policy:update -- --help
-pnpm policy:audit -- --help
+pnpm deps-policy:outdated -- --help
+pnpm deps-policy:update -- --help
+pnpm deps-policy:audit -- --help
 ```
 
 ### CLI structure

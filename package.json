@@ -30,7 +30,8 @@
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "bin": {
-    "policy": "./dist/bin/policy.mjs"
+    "deps-policy": "./dist/bin/deps-policy.mjs",
+    "policy": "./dist/bin/deps-policy.mjs"
   },
   "exports": {
     ".": {
@@ -60,15 +61,15 @@
   "scripts": {
     "---------- DEV_AND_BUILD": "---------------------------------------------",
     "dev": "tsdown --watch",
-    "update": "pnpm policy:update && tsdown",
+    "update": "pnpm deps-policy:update && tsdown",
     "link": "pnpm build && pnpm link --global",
     "unlink": "pnpm unlink --global",
     "build": "tsdown",
-    "·········· POLICY UPDATER": "············································",
-    "policy:outdated": "tsx src/deps-cli/cli.ts outdated",
-    "policy:audit": "tsx src/deps-cli/cli.ts audit",
-    "policy:update": "tsx src/deps-cli/cli.ts update",
-    "policy:update:release": "tsx src/deps-cli/cli.ts update --yes && pnpm build && git add . && git commit -m 'deps: update deps-policy versions' && pnpm release:github:patch",
+    "·········· DEPS-POLICY CLI": "··········································",
+    "deps-policy:outdated": "tsx src/deps-cli/cli.ts outdated",
+    "deps-policy:audit": "tsx src/deps-cli/cli.ts audit",
+    "deps-policy:update": "tsx src/deps-cli/cli.ts update",
+    "deps-policy:update:release": "tsx src/deps-cli/cli.ts update --release",
     "·········· LINTING": "···················································",
     "lint": "oxlint -c oxlint.config.ts",
     "lint:fix": "oxlint -c oxlint.config.ts --fix",

@@ -1,8 +1,12 @@
 import type { CommandHelpConfig } from '@finografic/cli-kit/render-help';
 
+import { CLI_BIN } from '../../bin-name.js';
+
 export const help: CommandHelpConfig = {
-  command: 'policy audit',
+  command: `${CLI_BIN} audit`,
   description: 'Check policy packages against the OSV vulnerability database',
-  usage: 'policy audit',
-  examples: [{ command: 'policy audit', description: 'Scan all policy packages for known vulnerabilities' }],
+  usage: `${CLI_BIN} audit`,
+  examples: [
+    { command: `${CLI_BIN} audit`, description: 'Scan all policy packages for known vulnerabilities' },
+  ],
 };

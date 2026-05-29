@@ -16,11 +16,22 @@ import { writePolicySnapshot } from '../snapshot/snapshot.cli.js';
 import { help } from './update.help.js';
 import { applyPatches, getApplicablePatchesForPackageJson } from './update.logic.js';
 import { selectUpdatePatches } from './update.prompts.js';
+import { runReleasePipeline } from './update.release.js';
+
+async function finishUpdate(release: boolean): Promise<void> {
+  await writePolicySnapshot();
+  if (release) {
+    await runReleasePipeline(process.cwd());
+  }
+}
 
 export async function runUpdate(argv: string[] = []): Promise<void> {
-  return withHelp(argv, help, async () => {
-    const includePinned = argv.includes('--include-pinned');
-    const yes = argv.includes('--yes') || argv.includes('-y');
+  const release = argv.includes('--release');
+  const filteredArgv = argv.filter((arg) => arg !== '--release');
+
+  return withHelp(filteredArgv, help, async () => {
+    const includePinned = filteredArgv.includes('--include-pinned');
+    const yes = release || filteredArgv.includes('--yes') || filteredArgv.includes('-y');
 
     clack.intro(pc.bold('deps-policy › update'));
 
@@ -37,7 +48,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     if (entries.length === 0) {
       clack.outro(pc.green('All packages are up to date.'));
-      await writePolicySnapshot();
+      await finishUpdate(release);
       return;
     }
 
@@ -60,7 +71,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
 
     if (patches.length === 0) {
       clack.outro('No changes applied.');
-      await writePolicySnapshot();
+      await finishUpdate(release);
       return;
     }
 
@@ -139,8 +150,8 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
     }
 
     const names = patches.map((p) => p.name).join(', ');
-    clack.outro(`Suggested commit: ${pc.dim(`deps: bump ${names}`)}`);
+    clack.outro(release ? pc.green('Update complete') : `Suggested commit: ${pc.dim(`deps: bump ${names}`)}`);
 
-    await writePolicySnapshot();
+    await finishUpdate(release);
   });
 }

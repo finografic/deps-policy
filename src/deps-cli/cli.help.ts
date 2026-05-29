@@ -1,8 +1,10 @@
 import type { HelpConfig } from '@finografic/cli-kit/render-help';
 
+import { CLI_BIN } from './bin-name.js';
+
 export const cliHelp: HelpConfig = {
   main: {
-    bin: 'policy',
+    bin: CLI_BIN,
     args: '<command>',
   },
 
@@ -19,14 +21,15 @@ export const cliHelp: HelpConfig = {
   examples: {
     title: 'Examples',
     list: [
-      { label: 'Check for vulnerabilities', description: 'policy audit' },
-      { label: 'Show outdated packages', description: 'policy outdated' },
-      { label: 'Update packages interactively', description: 'policy update' },
+      { label: 'Check for vulnerabilities', description: `${CLI_BIN} audit` },
+      { label: 'Show outdated packages', description: `${CLI_BIN} outdated` },
+      { label: 'Update packages interactively', description: `${CLI_BIN} update` },
+      { label: 'Update, commit, and patch-release', description: `${CLI_BIN} update --release` },
     ],
   },
 
   footer: {
     title: 'Show Help',
-    list: [{ label: 'policy <command> --help', description: '' }],
+    list: [{ label: `${CLI_BIN} <command> --help`, description: '' }],
   },
 };

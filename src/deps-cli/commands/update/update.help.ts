@@ -1,13 +1,20 @@
 import type { CommandHelpConfig } from '@finografic/cli-kit/render-help';
 
+import { CLI_BIN } from '../../bin-name.js';
+
 export const help: CommandHelpConfig = {
-  command: 'policy update',
+  command: `${CLI_BIN} update`,
   description: 'Interactively update outdated packages in policy files',
-  usage: 'policy update [--yes] [--include-pinned]',
+  usage: `${CLI_BIN} update [--yes] [--release] [--include-pinned]`,
   options: [
     {
       flag: '-y, --yes',
       description: 'Skip all prompts — auto-select every eligible package and apply without confirmation',
+    },
+    {
+      flag: '--release',
+      description:
+        'Non-interactive update, then build, commit, patch version bump, and push tags (does not publish)',
     },
     {
       flag: '--include-pinned',
@@ -15,14 +22,21 @@ export const help: CommandHelpConfig = {
     },
   ],
   examples: [
-    { command: 'policy update', description: 'Review and apply updates interactively' },
-    { command: 'policy update --yes', description: 'Apply all updates non-interactively (CI / scripting)' },
+    { command: `${CLI_BIN} update`, description: 'Review and apply updates interactively' },
     {
-      command: 'policy update --yes --include-pinned',
+      command: `${CLI_BIN} update --yes`,
+      description: 'Apply all updates non-interactively (CI / scripting)',
+    },
+    {
+      command: `${CLI_BIN} update --release`,
+      description: 'Apply all updates, then build, commit, and patch-release',
+    },
+    {
+      command: `${CLI_BIN} update --yes --include-pinned`,
       description: 'Apply all updates including pinned packages',
     },
     {
-      command: 'policy update --include-pinned',
+      command: `${CLI_BIN} update --include-pinned`,
       description: 'Include pinned packages in the interactive list',
     },
   ],
@@ -36,5 +50,6 @@ export const help: CommandHelpConfig = {
     'Optionally applies the same bumps to this project package.json when those deps are declared there',
     'Optionally runs pnpm install after package.json changes',
     'Writes a JSON snapshot of the full policy to the local XDG config (genx reads this first)',
+    'With --release: runs build, git commit, release:check, version patch, and git push --follow-tags',
   ],
 };

@@ -1,8 +1,12 @@
 import type { CommandHelpConfig } from '@finografic/cli-kit/render-help';
 
+import { CLI_BIN } from '../../bin-name.js';
+
 export const help: CommandHelpConfig = {
-  command: 'policy outdated',
+  command: `${CLI_BIN} outdated`,
   description: 'Show which policy packages have newer versions available',
-  usage: 'policy outdated',
-  examples: [{ command: 'policy outdated', description: 'List all outdated packages across policy files' }],
+  usage: `${CLI_BIN} outdated`,
+  examples: [
+    { command: `${CLI_BIN} outdated`, description: 'List all outdated packages across policy files' },
+  ],
 };

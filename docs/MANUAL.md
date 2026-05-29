@@ -52,13 +52,13 @@ Shared CLI primitives (`renderHelp`, `renderCommandHelp`, TUI layout helpers, `m
 
 ### Published entry points
 
-| Export         | Dist file               | Purpose                                              |
-| -------------- | ----------------------- | ---------------------------------------------------- |
-| `.`            | `dist/index.mjs`        | Policy data — `policy`, `toolchain`, `resolvePolicy` |
-| `./cli`        | `dist/cli.mjs`          | Programmatic runners — `runUpdate`, etc.             |
-| `./policy`     | `dist/policy/index.mjs` | Re-exports policy groups directly                    |
-| `./deps.types` | `dist/deps.types.mjs`   | Shared TypeScript types only                         |
-| `bin: policy`  | `dist/bin/policy.mjs`   | Terminal CLI — `policy <command>`                    |
+| Export             | Dist file                  | Purpose                                                 |
+| ------------------ | -------------------------- | ------------------------------------------------------- |
+| `.`                | `dist/index.mjs`           | Policy data — `policy`, `toolchain`, `resolvePolicy`    |
+| `./cli`            | `dist/cli.mjs`             | Programmatic runners — `runUpdate`, etc.                |
+| `./policy`         | `dist/policy/index.mjs`    | Re-exports policy groups directly                       |
+| `./deps.types`     | `dist/deps.types.mjs`      | Shared TypeScript types only                            |
+| `bin: deps-policy` | `dist/bin/deps-policy.mjs` | Terminal CLI — `deps-policy <command>` (`policy` alias) |
 
 ### Policy types
 
@@ -265,22 +265,23 @@ This token is the same one used by `.npmrc` to install `@finografic/*` packages 
 **In this repo** (via `tsx` dev scripts):
 
 ```bash
-pnpm policy:outdated          # check — display only, no writes
-pnpm policy:audit             # vulnerability check via OSV database
-pnpm policy:update            # interactive update — patches source files
-pnpm policy:update --include-pinned  # also include pinned packages in the update list
-pnpm policy:update:release    # non-interactive update, build, commit, patch release
+pnpm deps-policy:outdated          # check — display only, no writes
+pnpm deps-policy:audit             # vulnerability check via OSV database
+pnpm deps-policy:update            # interactive update — patches source files
+pnpm deps-policy:update --include-pinned  # also include pinned packages in the update list
+pnpm deps-policy:update --release  # non-interactive update, build, commit, patch release
 ```
 
 **Globally installed** (after `pnpm link --global` or `npm install -g @finografic/deps-policy`):
 
 ```bash
-policy outdated
-policy update
-policy update --include-pinned
-policy audit
-policy --help
-policy --version
+deps-policy outdated
+deps-policy audit
+deps-policy update
+deps-policy update --include-pinned
+deps-policy update --release
+deps-policy --help
+deps-policy --version
 ```
 
 ### Programmatic usage
@@ -341,18 +342,18 @@ After all selections, the version strings are patched in-place in the source fil
 deps: bump typescript, vitest, lint-staged
 ```
 
-At the end of every `policy update` run, the CLI writes a **snapshot** — a JSON copy of the full policy (including `toolchain`) to the local XDG config file. Genx reads that file first when present, so local policy changes are picked up without publishing. This runs even when nothing is outdated or no packages were selected (e.g. after manual edits to policy sources).
+At the end of every `deps-policy update` run, the CLI writes a **snapshot** — a JSON copy of the full policy (including `toolchain`) to the local XDG config file. Genx reads that file first when present, so local policy changes are picked up without publishing. This runs even when nothing is outdated or no packages were selected (e.g. after manual edits to policy sources).
 
-After running `policy:update`:
+After running `deps-policy update`:
 
 1. Run `pnpm build && pnpm typecheck` to verify the patched versions compile cleanly.
 2. Commit with the suggested message.
 3. Release the package (see below).
 4. Update genx: `pnpm update @finografic/deps-policy`.
 
-### `policy:update:release`
+### `deps-policy update --release`
 
-One-shot maintainer flow: non-interactive update (`--yes`), then `pnpm build`, commit (`deps: update deps-policy versions`), and `release:github:patch`. Does not publish to GitHub Packages — run `pnpm release:publish` after if needed.
+One-shot maintainer flow from any directory (global install): non-interactive update, then build, commit (`deps: update deps-policy versions`), `release:check`, patch version bump, and `git push --follow-tags`. Does not publish to GitHub Packages — run `pnpm release:publish` after if needed.
 
 ---
 

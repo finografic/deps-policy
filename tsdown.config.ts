@@ -14,7 +14,7 @@ export default defineConfig([
     clean: true,
   },
   {
-    entry: { 'bin/policy': 'src/deps-cli/cli.ts' },
+    entry: { 'bin/deps-policy': 'src/deps-cli/cli.ts' },
     format: ['esm'],
     dts: false,
     clean: false,
