@@ -31,11 +31,11 @@ importers:
         specifier: ^21.0.2
         version: 21.0.2
       '@finografic/md-lint':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^0.12.0
+        version: 0.12.0
       '@finografic/oxc-config':
-        specifier: ^2.6.3
-        version: 2.6.3(oxfmt@0.52.0)(oxlint@1.67.0(oxlint-tsgolint@0.23.0))
+        specifier: ^2.6.4
+        version: 2.6.4(oxfmt@0.52.0)(oxlint@1.67.0(oxlint-tsgolint@0.23.0))
       '@finografic/project-scripts':
         specifier: ^1.3.3
         version: 1.3.3(@types/node@24.12.2)(tsx@4.21.0)
@@ -532,12 +532,12 @@ packages:
   '@finografic/core@0.13.0':
     resolution: {integrity: sha512-8qUCdnWrshs6pFtJCJYanuvePnyUcaJWpyo/NkOW47QZHndH8JnSvOy0x7m5sgSrSPad9BE3uxRETAduLCmOfg==, tarball: https://npm.pkg.github.com/download/@finografic/core/0.13.0/80dc9a38375e45423e37ffe5f9c9baeeebb5c4ae}
 
-  '@finografic/md-lint@0.10.1':
-    resolution: {integrity: sha512-x7172NmlPsV2+fi0Ofdq9rAfen/xVLBUtgulT/IX4mgOnVlnqDDO/jXhWee6VDdHnyA+wGe28i22Of1pX/OByA==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.10.1/0cd45779a52dc55cc228751ece58b05be97f8199}
+  '@finografic/md-lint@0.12.0':
+    resolution: {integrity: sha512-1LBxuazVVa2aH8oqDGoIYHZtU1ZjyllsopiRhwyb0IHaU5NR/DEIXomL+vqQmWeCp7S7d52MXXwo1rxmP843ww==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.12.0/d7132558b270e0c9ec57bd01afb09a383018017f}
     hasBin: true
 
-  '@finografic/oxc-config@2.6.3':
-    resolution: {integrity: sha512-KgVFu4Soexc7kUpXtqlSaBlrRv6z1xitMk+kH6/WhJHzImz3Jt0Ym8q0Ep5UionJwXKPvyY1AcAOcqqpB3CP/Q==, tarball: https://npm.pkg.github.com/download/@finografic/oxc-config/2.6.3/66347800d8ff852e6a019661c3405f7e4aa33fe1}
+  '@finografic/oxc-config@2.6.4':
+    resolution: {integrity: sha512-xFIDvk5/c4BHnr11pxcdax7WO85IfnviqFk7GVWYk0QUc7khsBZGVYtjtgkwn4Gwa8EMtmpC8v8mLJ68kd8smw==, tarball: https://npm.pkg.github.com/download/@finografic/oxc-config/2.6.4/d7efd290e6615529ddb3d89c45b6c82db86ae511}
     engines: {node: '>=24.3.0'}
     peerDependencies:
       oxfmt: '>=0.41.0'
@@ -2829,7 +2829,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@finografic/md-lint@0.10.1':
+  '@finografic/md-lint@0.12.0':
     dependencies:
       globby: 16.2.0
       ignore: 7.0.5
@@ -2841,7 +2841,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@finografic/oxc-config@2.6.3(oxfmt@0.52.0)(oxlint@1.67.0(oxlint-tsgolint@0.23.0))':
+  '@finografic/oxc-config@2.6.4(oxfmt@0.52.0)(oxlint@1.67.0(oxlint-tsgolint@0.23.0))':
     dependencies:
       execa: 9.6.1
       oxfmt: 0.52.0
