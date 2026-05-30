@@ -31,8 +31,8 @@ importers:
         specifier: ^21.0.2
         version: 21.0.2
       '@finografic/md-lint':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.15.1
+        version: 0.15.1
       '@finografic/oxc-config':
         specifier: ^2.6.4
         version: 2.6.4(oxfmt@0.52.0)(oxlint@1.67.0(oxlint-tsgolint@0.23.0))
@@ -46,8 +46,8 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       lint-staged:
-        specifier: ^17.0.5
-        version: 17.0.5
+        specifier: ^17.0.6
+        version: 17.0.6
       oxfmt:
         specifier: ^0.52.0
         version: 0.52.0
@@ -532,8 +532,8 @@ packages:
   '@finografic/core@0.13.0':
     resolution: {integrity: sha512-8qUCdnWrshs6pFtJCJYanuvePnyUcaJWpyo/NkOW47QZHndH8JnSvOy0x7m5sgSrSPad9BE3uxRETAduLCmOfg==, tarball: https://npm.pkg.github.com/download/@finografic/core/0.13.0/80dc9a38375e45423e37ffe5f9c9baeeebb5c4ae}
 
-  '@finografic/md-lint@0.12.0':
-    resolution: {integrity: sha512-1LBxuazVVa2aH8oqDGoIYHZtU1ZjyllsopiRhwyb0IHaU5NR/DEIXomL+vqQmWeCp7S7d52MXXwo1rxmP843ww==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.12.0/d7132558b270e0c9ec57bd01afb09a383018017f}
+  '@finografic/md-lint@0.15.1':
+    resolution: {integrity: sha512-UjFRojBiSEKGlCMCHWwoFVAH8ZYCG08xOy5mE2Be60cxu8M8SPha/2ATomp6xH55qqHuryKUejASOCQlBgQhYg==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.15.1/9269110f66ccd523aa44fd8b8a5d61a2648224bc}
     hasBin: true
 
   '@finografic/oxc-config@2.6.4':
@@ -1834,8 +1834,8 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  lint-staged@17.0.5:
-    resolution: {integrity: sha512-d12yC+/e8RhBjZtaxZn71FyrgU/P5e+uAPifhCLwdosQZP/zamSdKRWDC30ocVIbzDKiFG1McHc/LUgB92GIPw==}
+  lint-staged@17.0.6:
+    resolution: {integrity: sha512-xTowloQX5tfs9TC6SUHnKuBSx/TUx+9w39zRTbVrB70DxUJZh3OZWnOa0LbejxVX9adYuioGJoP4dpQ04QHehg==}
     engines: {node: '>=22.22.1'}
     hasBin: true
 
@@ -2829,7 +2829,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@finografic/md-lint@0.12.0':
+  '@finografic/md-lint@0.15.1':
     dependencies:
       globby: 16.2.0
       ignore: 7.0.5
@@ -3866,7 +3866,7 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  lint-staged@17.0.5:
+  lint-staged@17.0.6:
     dependencies:
       listr2: 10.2.1
       picomatch: 4.0.4
