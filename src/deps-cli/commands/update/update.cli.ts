@@ -11,6 +11,7 @@ import { resolveLatestVersions } from 'resolve-latest.js';
 import type { PatchInput } from './update.logic.js';
 
 import { toProjectRelativePath } from 'utils/path.utils.js';
+import { resolvePackageRoot } from 'utils/policy-dir.utils.js';
 
 import { writePolicySnapshot } from '../snapshot/snapshot.cli.js';
 import { help } from './update.help.js';
@@ -21,7 +22,7 @@ import { runReleasePipeline } from './update.release.js';
 async function finishUpdate(release: boolean): Promise<void> {
   await writePolicySnapshot();
   if (release) {
-    await runReleasePipeline(process.cwd());
+    await runReleasePipeline(resolvePackageRoot());
   }
 }
 
@@ -82,7 +83,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
       );
     }
 
-    const packageJsonPath = resolve(process.cwd(), 'package.json');
+    const packageJsonPath = resolve(resolvePackageRoot(), 'package.json');
     const pkgApplicable = await getApplicablePatchesForPackageJson(packageJsonPath, patches);
 
     if (pkgApplicable.length > 0) {
@@ -138,7 +139,7 @@ export async function runUpdate(argv: string[] = []): Promise<void> {
           }
 
           if (runInstall) {
-            const code = await runPnpmInstall(process.cwd());
+            const code = await runPnpmInstall(resolvePackageRoot());
             if (code !== 0) {
               clack.log.error(`pnpm install exited with code ${code ?? 'unknown'}`);
               process.exit(code ?? 1);
