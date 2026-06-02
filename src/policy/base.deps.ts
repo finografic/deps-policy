@@ -7,7 +7,7 @@ const build: Record<string, string> = {
 };
 
 const testing: Record<string, string> = {
-  vitest: '^4.1.7',
+  vitest: '^4.1.8',
 };
 
 // DEPRECATED: will be removed in the next major release
@@ -15,7 +15,7 @@ const _eslint: Record<string, string> = {
   'eslint': '9.39.2',
   '@eslint/js': '9.39.2',
   '@finografic/eslint-config': '^9.18.4',
-  '@finografic/md-lint': '^0.16.0',
+  '@finografic/md-lint': '^0.16.4',
   '@stylistic/eslint-plugin': '^5.10.0',
   '@typescript-eslint/eslint-plugin': '^8.58.2',
   '@typescript-eslint/parser': '^8.58.2',
@@ -24,16 +24,16 @@ const _eslint: Record<string, string> = {
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
 export const lintingAndFormatting: Record<string, string> = {
-  'oxlint': '^1.67.0',
+  'oxlint': '^1.68.0',
   'oxlint-tsgolint': '^0.23.0',
-  '@finografic/md-lint': '^0.16.0',
-  '@finografic/oxc-config': '^2.6.4',
-  'oxfmt': '^0.52.0',
+  '@finografic/md-lint': '^0.16.4',
+  '@finografic/oxc-config': '^2.6.6',
+  'oxfmt': '^0.53.0',
 };
 
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
-  'lint-staged': '^17.0.6',
+  'lint-staged': '^17.0.7',
   '@commitlint/cli': '^21.0.2',
   '@commitlint/config-conventional': '^21.0.2',
 };
