@@ -2,7 +2,7 @@ import type { DependencyGroup } from 'deps.types';
 
 const build: Record<string, string> = {
   'typescript': '7.0.2',
-  'tsdown': '^0.22.3',
+  'tsdown': '^0.22.14',
   '@types/node': '24.12.0',
 };
 
@@ -24,17 +24,17 @@ const _eslint: Record<string, string> = {
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
 export const lintingAndFormatting: Record<string, string> = {
-  'oxlint': '^1.73.0',
-  'oxlint-tsgolint': '^0.24.0',
+  'oxlint': '^1.75.0',
+  'oxlint-tsgolint': '^7.0.2001',
   '@finografic/md-lint': '^0.16.6',
   '@finografic/oxc-config': '^2.8.2',
-  'oxfmt': '^0.58.0',
+  'oxfmt': '^0.60.0',
 };
 
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
-  'lint-staged': '^17.0.8',
-  '@commitlint/cli': '^21.2.0',
+  'lint-staged': '^17.2.0',
+  '@commitlint/cli': '^21.2.1',
   '@commitlint/config-conventional': '^21.2.0',
 };
 
