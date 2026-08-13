@@ -24,16 +24,16 @@ const _eslint: Record<string, string> = {
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
 export const lintingAndFormatting: Record<string, string> = {
-  'oxlint': '^1.75.0',
+  'oxlint': '^1.78.0',
   'oxlint-tsgolint': '^7.0.2001',
   '@finografic/md-lint': '^0.16.6',
   '@finografic/oxc-config': '^2.8.2',
-  'oxfmt': '^0.60.0',
+  'oxfmt': '^0.63.0',
 };
 
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
-  'lint-staged': '^17.2.0',
+  'lint-staged': '^17.3.0',
   '@commitlint/cli': '^21.2.1',
   '@commitlint/config-conventional': '^21.2.0',
 };
