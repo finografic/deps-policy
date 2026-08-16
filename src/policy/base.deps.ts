@@ -34,12 +34,12 @@ export const lintingAndFormatting: Record<string, string> = {
 const hooks: Record<string, string> = {
   'husky': '^9.1.7',
   'lint-staged': '^17.3.0',
-  '@commitlint/cli': '^21.2.1',
-  '@commitlint/config-conventional': '^21.2.0',
+  '@commitlint/cli': '^21.2.2',
+  '@commitlint/config-conventional': '^21.2.2',
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^1.5.4',
+  '@finografic/project-scripts': '^1.6.1',
 };
 
 /**
