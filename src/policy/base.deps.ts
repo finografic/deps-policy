@@ -27,7 +27,7 @@ export const lintingAndFormatting: Record<string, string> = {
   'oxlint': '^1.78.0',
   'oxlint-tsgolint': '^7.0.2001',
   '@finografic/md-lint': '^0.16.6',
-  '@finografic/oxc-config': '^2.8.2',
+  '@finografic/oxc-config': '^2.9.0',
   'oxfmt': '^0.63.0',
 };
 
@@ -39,7 +39,7 @@ const hooks: Record<string, string> = {
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^1.6.1',
+  '@finografic/project-scripts': '^1.6.2',
 };
 
 /**
