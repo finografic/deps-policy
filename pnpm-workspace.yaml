@@ -3,4 +3,4 @@ allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
   - '@finografic/project-scripts@1.6.0 || 1.6.2'
-  - '@finografic/oxc-config@2.9.0'
+  - '@finografic/oxc-config@2.9.0 || 2.9.1'
