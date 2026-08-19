@@ -37,8 +37,8 @@ importers:
         specifier: ^2.9.1
         version: 2.9.1(oxfmt@0.64.0)(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
       '@finografic/project-scripts':
-        specifier: ^1.7.0
-        version: 1.7.0(tsx@4.23.12)
+        specifier: ^2.0.0
+        version: 2.0.0(tsx@4.23.12)
       '@types/node':
         specifier: ^24.12.0
         version: 24.13.3
@@ -353,9 +353,9 @@ packages:
       oxfmt: '>=0.41.0'
       oxlint: '>=1.69.0'
 
-  '@finografic/project-scripts@1.7.0':
-    resolution: {integrity: sha512-2mhT+fWLHZhL26zGNyPP171dmCxoFjUdlnHn0wHlfohEooXCtBiiCPQ39iONPW/WLAsRIgyCCfDwGXA0E7JjDA==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/1.7.0/aed8a91a8cae5a7fbec63c18c133eeaf7c20743f}
-    engines: {node: '>=24.16.0'}
+  '@finografic/project-scripts@2.0.0':
+    resolution: {integrity: sha512-DruJaM5kHMJWWam4xe3Hv7nlhyXRLbcfgbBn3/A8swu6g57aj0x4eVuWJWNL9VDjjOOgjU7QpkKIze9OXqYtMw==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/2.0.0/9afcbc0035148d7288f1f04ceb970cb4ae731fef}
+    engines: {node: '>=24.19.0'}
     hasBin: true
     peerDependencies:
       tsx: ^4.0.0
@@ -2321,7 +2321,7 @@ snapshots:
       picocolors: 1.1.1
       type-fest: 5.8.0
 
-  '@finografic/project-scripts@1.7.0(tsx@4.23.12)':
+  '@finografic/project-scripts@2.0.0(tsx@4.23.12)':
     dependencies:
       '@clack/prompts': 1.7.0
       del: 8.0.1
