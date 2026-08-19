@@ -7,7 +7,7 @@ const build: Record<string, string> = {
 };
 
 const testing: Record<string, string> = {
-  vitest: '^4.1.10',
+  vitest: '^4.1.11',
 };
 
 // DEPRECATED: will be removed in the next major release
@@ -24,11 +24,11 @@ const _eslint: Record<string, string> = {
 
 /** Oxlint / markdown / OXC tooling plus `oxfmt` (config lives in `@finografic/oxc-config`). */
 export const lintingAndFormatting: Record<string, string> = {
-  'oxlint': '^1.78.0',
+  'oxlint': '^1.79.0',
   'oxlint-tsgolint': '^7.0.2001',
   '@finografic/md-lint': '^0.16.6',
   '@finografic/oxc-config': '^2.9.1',
-  'oxfmt': '^0.63.0',
+  'oxfmt': '^0.64.0',
 };
 
 const hooks: Record<string, string> = {
@@ -39,7 +39,7 @@ const hooks: Record<string, string> = {
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^1.6.2',
+  '@finografic/project-scripts': '^1.7.0',
 };
 
 /**
