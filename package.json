@@ -124,9 +124,9 @@
     "typescript": "7.0.2",
     "vitest": "^4.1.11"
   },
-  "packageManager": "pnpm@11.14.0",
+  "packageManager": "pnpm@11.21.0",
   "engines": {
-    "node": ">=24.16.0"
+    "node": ">=24.19.0"
   },
   "LOCAL_DEP_EXAMPLE": {
     "@finografic/cli-kit": "^1.4.1",
