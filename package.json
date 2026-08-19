@@ -92,7 +92,7 @@
     "update:oxc-config": "pnpm update @finografic/oxc-config --latest && pnpm update oxfmt --latest && pnpm update oxlint --latest",
     "update:md-lint": "pnpm update @finografic/md-lint --latest",
     "update:project-scripts": "pnpm update @finografic/project-scripts --latest",
-    "update:finografic:all": "pnpm update:cli-kit && pnpm update:oxfmt-config && pnpm update:md-lint && pnpm update:project-scripts",
+    "update:finografic:all": "pnpm update:cli-kit && pnpm update:oxc-config && pnpm update:md-lint && pnpm update:project-scripts",
     "update:deps:all": "pnpm update --latest",
     "·········· UTILS": "·····················································",
     "clean": "rimraf dist",
