@@ -39,7 +39,7 @@ const hooks: Record<string, string> = {
 };
 
 const ecosystem: Record<string, string> = {
-  '@finografic/project-scripts': '^2.0.0',
+  '@finografic/project-scripts': '^2.0.1',
 };
 
 /**
