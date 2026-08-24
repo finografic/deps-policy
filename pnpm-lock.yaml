@@ -31,11 +31,11 @@ importers:
         specifier: ^21.2.2
         version: 21.2.2
       '@finografic/md-lint':
-        specifier: ^0.16.6
-        version: 0.16.6
+        specifier: ^0.16.9
+        version: 0.16.9
       '@finografic/oxc-config':
-        specifier: ^2.9.1
-        version: 2.9.1(oxfmt@0.64.0)(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
+        specifier: ^2.9.3
+        version: 2.9.3(oxfmt@0.64.0)(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))
       '@finografic/project-scripts':
         specifier: ^2.0.1
         version: 2.0.1(tsx@4.23.12)
@@ -343,13 +343,14 @@ packages:
     resolution: {integrity: sha512-Mv3uY+fF6Qx73DvoVRh6XNNgjr+ZzZ1qENcQWP8PDB+1iK/qg3y3yJ4+HuhJPk9tHxWTzLkMYIO5Duz655Z/sQ==, tarball: https://npm.pkg.github.com/download/@finografic/core/0.16.1/c2e1971b0f8b0a70f009826b6e153258b990b041}
     engines: {node: '>=24.19.0'}
 
-  '@finografic/md-lint@0.16.6':
-    resolution: {integrity: sha512-5GA8M3HV75wGEXfAc8lwmBYlQSY8KtIdA9IReePNspBPR0dWxg6AjYHKC9qzw0USzrj8uM/easqvB8BrxmOihQ==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.16.6/11d3bc70cfddd72ef6b21fe398a4ea407ef60e2c}
+  '@finografic/md-lint@0.16.9':
+    resolution: {integrity: sha512-Y4akzcHi/ZMKMujEDO6UKupBZCOOEteLa0iY6xR+3FzzyHad+XO1R9UO0JRxwCCgjvKEXzmbYKZM9wweqjETiA==, tarball: https://npm.pkg.github.com/download/@finografic/md-lint/0.16.9/8f2c3a749a637e48d23d68cea9b4088fd9da364e}
+    engines: {node: '>=24.19.0'}
     hasBin: true
 
-  '@finografic/oxc-config@2.9.1':
-    resolution: {integrity: sha512-CUVgMkp+qz2/qyvJ7JjghSB/FzryrayNSZkexUnNbv6DXDG7+hdgsSSX3vzRu/SxDqqr6TiDJnuE0ni+LhhYpg==, tarball: https://npm.pkg.github.com/download/@finografic/oxc-config/2.9.1/44571b8d989c2f5529d46326d569f5b99d98390d}
-    engines: {node: '>=24.16.0'}
+  '@finografic/oxc-config@2.9.3':
+    resolution: {integrity: sha512-swXZuKmY8nI0gU98cTHRJ3CwnyqfzNeMNblC29l2MAEdHb/NynBfujn4/a0a4nQxWH6v2EfNjf9PH8OaPU+5lA==, tarball: https://npm.pkg.github.com/download/@finografic/oxc-config/2.9.3/f186a8e25ed5a124848c21cb170c5f721a47fc8e}
+    engines: {node: '>=24.19.0'}
     peerDependencies:
       oxfmt: '>=0.41.0'
       oxlint: '>=1.69.0'
@@ -2303,7 +2304,7 @@ snapshots:
       lodash: 4.17.21
       type-fest: 5.8.0
 
-  '@finografic/md-lint@0.16.6':
+  '@finografic/md-lint@0.16.9':
     dependencies:
       globby: 16.2.3
       ignore: 7.0.6
@@ -2315,7 +2316,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@finografic/oxc-config@2.9.1(oxfmt@0.64.0)(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))':
+  '@finografic/oxc-config@2.9.3(oxfmt@0.64.0)(oxlint@1.79.0(oxlint-tsgolint@7.0.2001))':
     dependencies:
       execa: 9.6.1
       oxfmt: 0.64.0
