@@ -433,19 +433,21 @@ These two could be `cli-kit/paths` entries once a second repo needs them.
 
 ---
 
-## Module: `xdg` (planned)
+## Module: `xdg` (shipped — now owned by `@finografic/core`)
 
 For CLIs that persist configuration or cache between runs. Wraps `XDG_CONFIG_HOME` / `XDG_CACHE_HOME` with JSONC read/write support.
 
+Historically shipped as `@finografic/cli-kit/xdg`. **Migrated to `@finografic/core/xdg` (2026-08-24)**; the CLI Kit subpath was removed. Import from Core:
+
 ```ts
-// @finografic/cli-kit/xdg
-export function getConfigPath(appName: string): string
-export function getCachePath(appName: string): string
+// @finografic/core/xdg  (Node-only subpath)
+export function createXdgPaths(org?: string | null): XdgPaths
+export function getConfigPath(appName: string): string // deprecated
+export function getCachePath(appName: string): string // deprecated
+export function parseJsoncObject(raw: string): Record<string, unknown>
 export async function readJsonc<T>(filePath: string): Promise<T | null>
 export async function writeJsonc(filePath: string, data: unknown): Promise<void>
 ```
-
-Depends on the JSONC utility already in `@finografic-genx/src/utils/jsonc.utils.ts`.
 
 ---
 

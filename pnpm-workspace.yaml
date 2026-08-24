@@ -53,3 +53,4 @@ minimumReleaseAgeExclude:
   - oxfmt@0.64.0
   - oxlint@1.79.0
   - vitest@4.1.11
+  - '@finografic/core@0.16.0'

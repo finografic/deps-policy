@@ -1,4 +1,4 @@
-import { createXdgPaths, writeJsonc } from '@finografic/cli-kit/xdg';
+import { createXdgPaths, writeJsonc } from '@finografic/core/xdg';
 import * as clack from '@clack/prompts';
 import pc from 'picocolors';
 import { base, lintingAndFormatting } from 'policy/base.deps.js';
