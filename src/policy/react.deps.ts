@@ -23,6 +23,6 @@ export const react: DependencyGroup = {
     // Listed because it is a direct import of generated app code, not only a transitive dep of
     // `@finografic/icons` — and it had already reached three different versions across two repos
     // before it was pinned here.
-    'lucide-react': '^1.35.0',
+    'lucide-react': '^1.37.0',
   },
 };
