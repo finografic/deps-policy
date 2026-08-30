@@ -2,16 +2,18 @@ import { base } from 'policy/base.deps.js';
 import { cli } from 'policy/cli.deps.js';
 import { config } from 'policy/config.deps.js';
 import { library } from 'policy/library.deps.js';
+import { react } from 'policy/react.deps.js';
 import type { DependencyGroup, DependencyPolicy, PackageType } from 'deps.types';
 
 export type { DependencyGroup, DependencyPolicy, PackageType, ToolchainPolicy } from 'deps.types';
-export { base, cli, config, library, lintingAndFormatting, toolchain } from 'policy/index.js';
+export { base, cli, config, library, lintingAndFormatting, react, toolchain } from 'policy/index.js';
 
 export const policy: DependencyPolicy = {
   base,
   cli,
   library,
   config,
+  react,
 };
 
 /**

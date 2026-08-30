@@ -6,7 +6,13 @@ import { resolvePolicyDir } from 'utils/policy-dir.utils.js';
 
 import type { DepEntry } from 'types/dep-metadata.types.js';
 
-const POLICY_FILES = ['base.deps.ts', 'cli.deps.ts', 'library.deps.ts', 'config.deps.ts'] as const;
+const POLICY_FILES = [
+  'base.deps.ts',
+  'cli.deps.ts',
+  'library.deps.ts',
+  'config.deps.ts',
+  'react.deps.ts',
+] as const;
 
 function parsePrefix(version: string): string {
   if (version.startsWith('^')) return '^';

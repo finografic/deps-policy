@@ -5,6 +5,7 @@ import { base, lintingAndFormatting } from 'policy/base.deps.js';
 import { cli } from 'policy/cli.deps.js';
 import { config } from 'policy/config.deps.js';
 import { library } from 'policy/library.deps.js';
+import { react } from 'policy/react.deps.js';
 import { toolchain } from 'policy/toolchain.js';
 
 import { readPackageVersion } from 'utils/policy-dir.utils.js';
@@ -26,6 +27,7 @@ export async function writePolicySnapshot(): Promise<void> {
     cli,
     library,
     config,
+    react,
     lintingAndFormatting,
     toolchain,
   };

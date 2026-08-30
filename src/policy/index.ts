@@ -1,5 +1,6 @@
 export { base, lintingAndFormatting } from './base.deps.js';
 export { cli } from './cli.deps.js';
 export { config } from './config.deps.js';
+export { react } from './react.deps.js';
 export { library } from './library.deps.js';
 export { toolchain } from './toolchain.js';

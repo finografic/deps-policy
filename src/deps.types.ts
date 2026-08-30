@@ -9,13 +9,14 @@ export type DependencyKind = keyof DependencyGroup;
 /**
  * The package types recognised by the @finografic ecosystem.
  */
-export type PackageType = 'cli' | 'library' | 'config';
+export type PackageType = 'cli' | 'library' | 'config' | 'react';
 
 export interface DependencyPolicy {
   base: DependencyGroup;
   cli: DependencyGroup;
   library: DependencyGroup;
   config: DependencyGroup;
+  react: DependencyGroup;
 }
 
 export interface ToolchainPolicy {
