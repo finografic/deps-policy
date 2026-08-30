@@ -101,7 +101,7 @@
   },
   "dependencies": {
     "@finografic/cli-kit": "^2.0.0",
-    "@finografic/core": "^0.16.1",
+    "@finografic/core": "^0.18.0",
     "strip-ansi": "^7.2.0"
   },
   "devDependencies": {
@@ -114,9 +114,9 @@
     "@finografic/project-scripts": "^2.0.1",
     "@types/node": "^24.12.0",
     "husky": "^9.1.7",
-    "lint-staged": "^17.3.0",
-    "oxfmt": "^0.64.0",
-    "oxlint": "^1.79.0",
+    "lint-staged": "^17.4.1",
+    "oxfmt": "^0.65.0",
+    "oxlint": "^1.80.0",
     "oxlint-tsgolint": "^7.0.2001",
     "picocolors": "^1.1.1",
     "tsdown": "^0.22.14",
