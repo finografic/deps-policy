@@ -32,6 +32,12 @@ const effective = resolvePolicy('cli');
 | `cli`     | Additional deps for `genx:type:cli`        |
 | `library` | Additional deps for `genx:type:library`    |
 | `config`  | Additional deps for `genx:type:config`     |
+| `react`   | Additional deps for `genx:type:react`      |
+
+`react` was added in 0.27. Before it, genx mapped its `react` package type onto `library` because
+there was nothing else to map it to — which is why React-side versions lived in genx's `reactVite`
+feature rather than here. It is kept separate from `library` deliberately: `library` also governs
+packages such as `@finografic/core`, which must never take on a React dependency.
 
 ## Policy structure
 
@@ -40,11 +46,12 @@ src/
   types.ts           # DependencyGroup, DependencyPolicy, PackageType
   index.ts           # exports: policy, resolvePolicy()
   policy/
-    index.ts         # re-exports base, cli, library, config
+    index.ts         # re-exports base, cli, library, config, react
     base.deps.ts     # devDeps shared by every @finografic package
     cli.deps.ts      # additional deps for genx:type:cli packages
     library.deps.ts  # additional deps for genx:type:library packages
     config.deps.ts   # additional deps for genx:type:config packages
+    react.deps.ts    # additional deps for genx:type:react packages
 ```
 
 ## Policy management CLI
